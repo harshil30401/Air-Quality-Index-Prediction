@@ -1,10 +1,8 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.express as px
-import plotly.graph_objects as go
+import dash_bootstrap_components as dbc
 import dash
 import plotly.graph_objects as go
-import plotly.express as px
 
 from dash import dcc, html, Input, Output
 
@@ -12,7 +10,19 @@ city = pd.read_csv("Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
 
-app = dash.Dash()  
+app = dash.Dash(
+    external_stylesheets=[dbc.themes.BOOTSTRAP]
+)  
+
+def cardLayout(figure):
+    return  html.Div([
+        dbc.Card(
+            dbc.CardBody([
+                figure
+            ])
+        ),  
+    ])
+
 
 app.layout = html.Div(id = 'parent', children = [
 
@@ -32,15 +42,31 @@ app.layout = html.Div(id = 'parent', children = [
                     {"label": "O3", "value": "O3"},
                     {"label": "AQI", "value": "AQI"}
 
-                    ],
+                    ],   
                 multi = False,
                 value = "PM2.5",
                 style = {'width': "40%"}
+                # 'backgroundColor': "#ffffff",
+                # 'width':'20vH',
+                # 'height':'40px'}   
                 ),
     html.Div(children=[
-        html.Div(dcc.Graph(id = 'gasesLinedGraph', figure = {})),
-        html.Div(dcc.Graph(id = 'gasesBoxPlot', figure = {})),
-        html.Div(dcc.Graph(id = 'gasesMonthlyPlot', figure = {}))
+
+        dbc.Card(
+            dbc.CardBody([
+                dbc.Row([
+                    cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', figure = {})))
+                ], style={'padding':'5px', 'color':'blue'}),
+                dbc.Row([
+                    dbc.Col([
+                        cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', figure = {})))
+                    ], width=7),
+                    dbc.Col([
+                        cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', figure = {})))
+                    ], width=5)
+                ])
+            ])
+        )
     ])
 ])
 
@@ -67,17 +93,20 @@ def dropdownGraphs(slct_gas):
     fig.update_layout(
         xaxis_title="Date",
     )
+    fig.layout.template = 'ggplot2'
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
     monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas)
-    
+    fig1.layout.template = 'ggplot2'
+
     fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True)
+    fig2.layout.template = 'ggplot2'
+
     
     return fig, fig1, fig2
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)

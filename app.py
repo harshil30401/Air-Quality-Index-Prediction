@@ -1,43 +1,93 @@
-from gettext import install
-
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
 import dash
-
-# import dash_html_components as html
-# import dash_core_components as dcc
-from dash import dcc
-from dash import html
 import plotly.graph_objects as go
 import plotly.express as px
 
-app = dash.Dash()   #initialising dash app
-df = px.data.stocks() #reading stock price dataset 
-    
-def stock_prices():
-    # Function for creating line chart showing Google stock prices over time 
-    fig = go.Figure([go.Scatter(x = df['date'], y = df['GOOG'],\
-                     line = dict(color = 'firebrick', width = 4), name = 'Google')
-                     ])
-    fig.update_layout(title = 'Prices',
-                      xaxis_title = 'Dates',
-                      yaxis_title = 'Prices'
-                      )
-    return fig  
+from dash import dcc, html, Input, Output
+
+city = pd.read_csv("Delhi.csv")
+
+city['Date'] = pd.to_datetime(city['Date'])
+city.set_index('Date', inplace=True)
+city = city.resample(rule='MS').mean()
+
+app = dash.Dash()  
 
 app.layout = html.Div(id = 'parent', children = [
-    html.H1(id = 'H1', children =               'Styling using html components', style = {'textAlign':'center',\
-                                            'marginTop':40,'marginBottom':40}),
 
-        
-        dcc.Graph(id = 'line_plot', figure = stock_prices()),
+    html.H1(id = 'cityName', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40}),
 
-        html.H1(id = 'H2', children = 'All the other outputs', style = {'textAlign':'center',\
-                                            'marginTop':40,'marginBottom':40}),
-        
-        
-        html.H1(id = 'H3', children = 'Would be here', style = {'textAlign':'center',\
-                                            'marginTop':40,'marginBottom':40})
+        dcc.Dropdown(id="slct_gas",
+                 options=[
+                     
+                    {"label": "PM2.5", "value": "PM2.5"},
+                    {"label": "PM10", "value": "PM10"},
+                    {"label": "NO", "value": "NO"},
+                    {"label": "NO2", "value": "NO2"},
+                    {"label": "NOx", "value": "NOx"},
+                    {"label": "NH3", "value": "NH3"},
+                    {"label": "CO", "value": "CO"},
+                    {"label": "SO2", "value": "SO2"},
+                    {"label": "O3", "value": "O3"},
+                    {"label": "AQI", "value": "AQI"}
+
+                    ],
+                multi = False,
+                value = "PM2.5",
+                style = {'width': "40%"}
+                ),
+
+    html.Div(children=[
+        html.Div(dcc.Graph(id = 'gasesLinedGraph', figure = {})),
+        html.Div(dcc.Graph(id = 'gasesMonthlyPlot', figure = {}))
+        # html.P(id = 'test', children = 'The second container would be placed here'),
+    ], style={'display': 'inline-block', 'vertical-align': 'top', 'margin-left': '3vw', 'margin-top': '3vw'})
+
 
     ]
-                     )
+)
 
-app.run_server(debug=True, port=1000)
+@app.callback(
+    [Output(component_id='gasesLinedGraph', component_property='figure'),
+    Output(component_id='gasesMonthlyPlot', component_property='figure')],
+    Input(component_id='slct_gas', component_property='value')
+)
+
+def output_gas(slct_gas):
+    fig = px.line(city, x=city.Date, y = slct_gas)
+    fig.update_xaxes(
+        rangeslider_visible= True,
+        rangeselector=dict(
+                            buttons = list([
+                            dict(count = 17, label = 'The Lockdown Period',step='month',stepmode = "backward"),
+                            dict(step = 'all', label = slct_gas)
+                                ])        
+                            )
+                    )
+    fig.update_layout(
+        xaxis_title="Date",
+    )
+    return fig
+
+def trend_plot(city, slct_gas):
+    
+    city['year'] = [d.year for d in city.Date]
+    city['month'] = [d.strftime('%b') for d in city.Date]
+    years = city['year'].unique()
+
+    fig, axes = plt.subplots(1, 2, figsize=(14,6), dpi= 80)
+    sns.boxplot(x='year', y = slct_gas, data=city, ax=axes[0])
+    sns.pointplot(x='month', y = slct_gas, data=city.loc[~city.year.isin([2015, 2020]), :])
+
+    axes[0].set_title('Year-wise Box Plot \n(The Trend)', fontsize=18); 
+    axes[1].set_title('Month-wise Plot \n(The Seasonality)', fontsize=18)
+    fig = plt.show()
+    return fig
+
+
+if __name__ == '__main__':
+    app.run_server(debug=True)

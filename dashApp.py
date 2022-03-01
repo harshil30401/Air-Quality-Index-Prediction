@@ -1,10 +1,14 @@
+from matplotlib.pyplot import margins
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import dash
 import plotly.graph_objects as go
-
 from dash import dcc, html, Input, Output
+
+# from delhiForecast import *
+
+fontStyle = "Calibri"
 
 city = pd.read_csv("Delhi.csv")
 
@@ -18,17 +22,24 @@ def cardLayout(figure):
     return  html.Div([
         dbc.Card(
             dbc.CardBody([
+                # html.Div([
+                #     html.H2(text),
+                # ], style={
+                #     'textAlign': 'center',
+                #     'font-style':fontStyle
+                #     }),
+                # html.Br(),
                 figure
             ])
         ),  
     ])
 
-
 app.layout = html.Div(id = 'parent', children = [
 
     html.H1(id = 'cityName', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40}),
 
-        dcc.Dropdown(id="slct_gas",
+    html.Div(id="dropdown", children=[
+         dcc.Dropdown(id="slct_gas",
                  options=[
                      
                     {"label": "PM2.5", "value": "PM2.5"},
@@ -45,11 +56,13 @@ app.layout = html.Div(id = 'parent', children = [
                     ],   
                 multi = False,
                 value = "PM2.5",
-                style = {'width': "40%"}
-                # 'backgroundColor': "#ffffff",
+                style = {'width': "60%", "margin":"5px", 'text-align':'center', 'margin-left':'auto','margin-right':'auto'}
+                # 'backgroundColor': "#ffffff","
                 # 'width':'20vH',
                 # 'height':'40px'}   
                 ),
+    ]),
+
     html.Div(children=[
 
         dbc.Card(
@@ -68,7 +81,7 @@ app.layout = html.Div(id = 'parent', children = [
             ])
         )
     ])
-])
+], style={'border':'none'})
 
 
 @app.callback(
@@ -80,7 +93,7 @@ app.layout = html.Div(id = 'parent', children = [
 )
 
 def dropdownGraphs(slct_gas):
-    fig = px.line(city, x=city.Date, y = slct_gas)
+    fig = px.line(city, x=city.Date, y = slct_gas, title="Emission of "+ slct_gas )
     fig.update_xaxes(
         rangeslider_visible= True,
         rangeselector=dict(
@@ -99,13 +112,12 @@ def dropdownGraphs(slct_gas):
     city['month'] = [d.strftime('%b') for d in city.Date]
     monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
 
-    fig1 = px.box(city, x='year', y=slct_gas)
+    fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
     fig1.layout.template = 'ggplot2'
 
-    fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True)
+    fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True, title="Monthly "+slct_gas+" Trend")
     fig2.layout.template = 'ggplot2'
 
-    
     return fig, fig1, fig2
 
 if __name__ == '__main__':

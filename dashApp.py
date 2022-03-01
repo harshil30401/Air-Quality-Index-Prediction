@@ -15,7 +15,9 @@ city = pd.read_csv("Delhi.csv")
 city['Date'] = pd.to_datetime(city['Date'])
 
 app = dash.Dash(
-    external_stylesheets=[dbc.themes.BOOTSTRAP]
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    assets_external_path=r"C:\Users\ansuj\OneDrive\Desktop\AQI\Air-Quality-Index-Prediction\assets\dashApp.css"
 )  
 
 def cardLayout(figure):

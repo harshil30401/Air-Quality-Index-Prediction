@@ -13,12 +13,11 @@ fontStyle = "Calibri"
 city = pd.read_csv("Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
-
+path = r"C:\Users\ansuj\OneDrive\Desktop\AQI\Air-Quality-Index-Prediction\assets\dashApp.css"
 app = dash.Dash(
     __name__,
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
-    assets_external_path=r"C:\Users\ansuj\OneDrive\Desktop\AQI\Air-Quality-Index-Prediction\assets\dashApp.css"
-)  
+    external_stylesheets=[dbc.themes.BOOTSTRAP, path]
+    )  
 
 def cardLayout(figure):
     return  html.Div([
@@ -36,9 +35,11 @@ def cardLayout(figure):
         ),  
     ])
 
+
+
 app.layout = html.Div(id = 'parent', children = [
 
-    html.H1(id = 'cityName', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40}),
+    html.H1(id = 'cityName', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40,}),
 
     html.Div(id="dropdown", children=[
          dcc.Dropdown(id="slct_gas",
@@ -81,8 +82,11 @@ app.layout = html.Div(id = 'parent', children = [
                     ], width=5)
                 ])
             ])
-        )
-    ])
+        ),
+    ]),
+    
+    html.Br()
+
 ], style={'border':'none'})
 
 

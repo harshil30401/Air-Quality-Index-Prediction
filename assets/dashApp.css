@@ -1,0 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.cardBody {
+    background-color: aqua;
+}

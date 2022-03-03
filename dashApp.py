@@ -69,15 +69,15 @@ app.layout = html.Div(id = 'parent', children = [
     html.Div(children=[
 
         dbc.Card(
-            dbc.CardBody([
-                dbc.Row([
+            dbc.CardBody(id= 'card', children=[
+                dbc.Row(className='cardBody', children=[
                     cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
-                dbc.Row([
-                    dbc.Col([
+                dbc.Row(children=[
+                    dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', figure = {})))
                     ], width=7),
-                    dbc.Col([
+                    dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', figure = {})))
                     ], width=5)
                 ])

@@ -71,24 +71,23 @@ app.layout = html.Div(id = 'parent', children = [
         dbc.Card(
             dbc.CardBody(id= 'card', children=[
                 dbc.Row(className='cardBody', children=[
-                    cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', figure = {})))
+                    cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', className='graphPlot', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
                 dbc.Row(children=[
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', className='graphPlot', figure = {})))
                     ], width=7),
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
                 ])
             ])
-        ),
+        ),    
     ]),
     
     html.Br()
 
 ], style={'border':'none'})
-
 
 @app.callback(
     [Output(component_id='gasesLinedGraph', component_property='figure'),
@@ -112,17 +111,17 @@ def dropdownGraphs(slct_gas):
     fig.update_layout(
         xaxis_title="Date",
     )
-    fig.layout.template = 'ggplot2'
+    fig.layout.template = 'plotly_dark'
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
     monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
-    fig1.layout.template = 'ggplot2'
+    fig1.layout.template = 'plotly_dark'
 
     fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True, title="Monthly "+slct_gas+" Trend")
-    fig2.layout.template = 'ggplot2'
+    fig2.layout.template = 'plotly_dark'
 
     return fig, fig1, fig2
 

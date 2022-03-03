@@ -3,5 +3,5 @@ html {
 }
 
 .cardBody {
-    background-color: aqua;
+    border-radius: 10%;
 }

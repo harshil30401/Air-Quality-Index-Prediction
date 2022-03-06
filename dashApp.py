@@ -13,7 +13,7 @@ fontStyle = "Calibri"
 city = pd.read_csv("Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
-path = r"C:\Users\ansuj\OneDrive\Desktop\AQI\Air-Quality-Index-Prediction\assets\dashApp.css"
+path = r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\assets\dashApp.css"
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
@@ -39,9 +39,13 @@ def cardLayout(figure):
 
 app.layout = html.Div(id = 'parent', children = [
 
-    html.H1(id = 'cityName', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40,}),
+    html.Header(id='header', children=[
+        html.H1(id = 'h1', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40,})
+    ]),
 
-    html.Div(id="dropdown", children=[
+    html.Div(id='mainBody', children=[
+
+        html.Div(id="dropdown", children=[
          dcc.Dropdown(id="slct_gas",
                  options=[
                      
@@ -66,7 +70,6 @@ app.layout = html.Div(id = 'parent', children = [
                 ),
     ]),
 
-    html.Div(children=[
 
         dbc.Card(
             dbc.CardBody(id= 'card', children=[
@@ -111,19 +114,19 @@ def dropdownGraphs(slct_gas):
     fig.update_layout(
         xaxis_title="Date",
     )
-    fig.layout.template = 'plotly_dark'
+    fig.layout.template = 'seaborn'
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
     monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
-    fig1.layout.template = 'plotly_dark'
+    fig1.layout.template = 'seaborn'
 
     fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True, title="Monthly "+slct_gas+" Trend")
-    fig2.layout.template = 'plotly_dark'
+    fig2.layout.template = 'seaborn'
 
     return fig, fig1, fig2
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True) 

@@ -6,7 +6,7 @@ import dash
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
-# from delhiForecast import *
+from delhiforecast import *
 
 fontStyle = "Calibri"
 

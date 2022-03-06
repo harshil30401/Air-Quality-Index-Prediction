@@ -1,3 +1,4 @@
+from matplotlib import image
 from matplotlib.pyplot import margins
 import pandas as pd
 import plotly.express as px
@@ -6,7 +7,7 @@ import dash
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
-from delhiforecast import *
+# from delhiforecast import output
 
 fontStyle = "Calibri"
 
@@ -40,8 +41,9 @@ def cardLayout(figure):
 app.layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.H1(id = 'h1', children ='DELHI', style = {'textAlign':'center','marginTop':40,'marginBottom':40,})
+        html.Img(src=app.get_asset_url("delhi.jpg"))
     ]),
+    
 
     html.Div(id='mainBody', children=[
 

@@ -1,4 +1,4 @@
-/* html {
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -60,4 +60,4 @@ header::before {
     font-weight: lighter;
     padding: 40px;
     color: grey;
-} */
+}

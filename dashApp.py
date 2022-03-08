@@ -7,7 +7,8 @@ import dash
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
-# from delhiforecast import output
+from delhiforecast import variable
+from delhiforecast import bestAlgorithmOutput
 
 fontStyle = "Calibri"
 
@@ -35,7 +36,6 @@ def cardLayout(figure):
             ])
         ),  
     ])
-
 
 
 app.layout = html.Div(id = 'parent', children = [
@@ -85,6 +85,11 @@ app.layout = html.Div(id = 'parent', children = [
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
+                ]),
+                dbc.Row(children=[
+                    dbc.Col(className='bestForecast', children=[
+                        cardLayout(html.Div(dcc.Graph(figure={bestAlgorithmOutput(variable)})))
+                    ])
                 ])
             ])
         ),    

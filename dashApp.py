@@ -7,15 +7,14 @@ import dash
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
-from delhiforecast import variable
-from delhiforecast import bestAlgorithmOutput
+import delhiforecast
 
 fontStyle = "Calibri"
 
 city = pd.read_csv("Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
-path = r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\assets\dashApp.css"
+path = "../assets/dashApp.css"
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
@@ -88,7 +87,7 @@ app.layout = html.Div(id = 'parent', children = [
                 ]),
                 dbc.Row(children=[
                     dbc.Col(className='bestForecast', children=[
-                        cardLayout(html.Div(dcc.Graph(figure={bestAlgorithmOutput(variable)})))
+                        cardLayout(html.Div(dcc.Graph(figure={delhiforecast.bestAlgorithmOutput(delhiforecast.variable)})))
                     ])
                 ])
             ])

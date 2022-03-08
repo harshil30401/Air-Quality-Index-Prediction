@@ -31,7 +31,6 @@ fig.update_xaxes(
 fig.update_layout(
     xaxis_title="Date",
 )
-fig.show()
 
 delhi=delhi.resample(rule='MS').mean()
 delhi
@@ -51,7 +50,7 @@ fig.update_layout(
     xaxis_title="Date",
     yaxis_title="AQI",
 )
-fig.show()
+ 
 
 # px.ylabel('AQI', fontsize=16)
 # for year in range(start_date.year,end_date.year):
@@ -145,7 +144,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_arima.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 def forecast_accuracy_parameters(residuals_arima, test_arima):
   mape = (round(np.mean(abs(residuals_arima/test_arima)),4))
@@ -208,7 +207,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_arima.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 arima_rolling_acc_parameters = forecast_accuracy_parameters(rolling_residuals_arima, test_arima)
 arima_rolling_acc_parameters
@@ -249,7 +248,7 @@ def output_arima(data, forecast):     #lim_delhi.index and pred1_arima.index
   fig = fig.add_trace(go.Scatter(x = forecast.index,
                                     y = forecast, 
                                     name = "Forecast"))
-  fig.show()
+   
 
 output_arima(lim_delhi, pred1_arima)
 
@@ -288,7 +287,7 @@ fig = fig.add_trace(go.Scatter(x = merged.index,
 fig = fig.add_trace(go.Scatter(x = pred2_arima.index,
                                    y = pred2_arima, 
                                    name = "Forecast"))
-fig.show()
+ 
 
 resi = pred2_arima - pred1_arima
 plt.figure(figsize=(25,8))
@@ -311,7 +310,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 """####PROPHET"""
 
@@ -352,7 +351,7 @@ delhi=delhi_ad
 #     fig = fig.add_trace(go.Scatter(x = forecast_prophet.index,
 #                                    y = dfs[i], 
 #                                    name = i))
-# fig.show()
+#  
 
 # m.plot(forecast_prophet, figsize=(25,8));
 
@@ -501,7 +500,7 @@ delhi=delhi_ad
 #     fig = fig.add_trace(go.Scatter(x = pred1_prophet[80:].index,
 #                                    y = dfs[i], 
 #                                    name = i))
-# fig.show()
+#  
 
 """###RNN (LSTM)"""
 
@@ -589,7 +588,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_lstm.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 residuals_lstm = test_lstm.Predictions -  test_lstm.y 
 # residuals = pd.DataFrame(residuals)
@@ -654,7 +653,7 @@ def output_lstm(data, forecast):
   fig = fig.add_trace(go.Scatter(x = forecast['Forecast'][:12].index,
                                     y = forecast['Forecast'], 
                                     name = "Forecast"))
-  fig.show()
+   
 
 output_lstm(delhi, true_preds)
 
@@ -703,7 +702,7 @@ fig = fig.add_trace(go.Scatter(x = delhi['y'].index,
 fig = fig.add_trace(go.Scatter(x = true_preds_nl['Forecast'][:12].index,
                                    y = true_preds_nl['Forecast'], 
                                    name = "Forecast"))
-fig.show()
+ 
 
 # dict for the dataframes and their names
 dfs = {"Considering the Lockdown" : true_preds.Forecast, "Not considering the Lockdown": true_preds_nl.Forecast}
@@ -719,7 +718,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = true_preds.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 """###Exponential Smoothing (ETS)"""
 
@@ -770,7 +769,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_ets.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 dfs = { "Data to be predicted":test_ets.AQI,  "Predicted Forecast": test_pred}
 
@@ -787,7 +786,7 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_ets.index,
                                    y = dfs[i], 
                                    name = i))
-fig.show()
+ 
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
@@ -818,7 +817,7 @@ def output_ets(data, forecast):
                                     y = forecast, 
                                     name = "Forecast"))
 
-  fig.show()
+   
 
 output_ets(delhi_es, pred1_ets)
 
@@ -850,7 +849,7 @@ fig = fig.add_trace(go.Scatter(x = pred2_ets.index,
                                    y = pred2_ets, 
                                    name = "Forecast"))
 
-fig.show()
+ 
 
 dfs = {"CONSIDERING THE LOCKDOWN" : pred1_ets, "IF LOCKDOWN DID NOT EXIST": pred2_ets}
 
@@ -865,7 +864,6 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = pred1_ets.index,
                                    y = dfs[i], 
                                    name = i))
-d = fig.show()
 
 arima_rolling_acc_parameters
 
@@ -886,7 +884,6 @@ acc_parameters = pd.DataFrame.from_dict(acc_parameters, orient ='index')
 
 fig = px.bar(acc_parameters, y=acc_parameters.rmse, x=acc_parameters.index, text_auto='.2s',
             title='Comparison')
-test = fig.show()
  
 dictionary = {'ARIMA':acc_parameters.rmse['ARIMA'], 'Prophet':acc_parameters.rmse['Prophet'],
               'LSTM':acc_parameters.rmse['LSTM'], 'ETS':acc_parameters.rmse['ETS']} 
@@ -912,7 +909,7 @@ def output(variable):
     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
                                       y = pred1_arima, 
                                       name = "Forecast"))
-    fig.show()
+     
 
 #   elif(variable == 'Prophet'):
 #     fig = go.Figure(
@@ -926,7 +923,7 @@ def output(variable):
 #     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
 #                                       y = pred1_arima, 
 #                                       name = "Forecast"))
-#     fig.show()
+#      
 
   elif(variable == 'LSTM'):
     fig = go.Figure(
@@ -940,7 +937,7 @@ def output(variable):
     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
                                       y = pred1_arima, 
                                       name = "Forecast"))
-    fig.show()
+     
 
   elif(variable == 'ETS'):
     fig = go.Figure(
@@ -954,7 +951,7 @@ def output(variable):
     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
                                       y = pred1_arima, 
                                       name = "Forecast"))
-    fig.show()
+     
 
 class ProphetIsTheBestException(Exception):
     pass

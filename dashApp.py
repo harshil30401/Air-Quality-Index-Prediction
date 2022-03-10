@@ -1,18 +1,15 @@
-from turtle import width
-from matplotlib import image
 from matplotlib.pyplot import margins
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import dash
-import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
 from delhiBackEnd import delhiMainElements
 
 fontStyle = "Calibri"
 
-city = pd.read_csv("../Delhi.csv")
+city = pd.read_csv("Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"
@@ -36,11 +33,6 @@ def cardLayout(figure):
             ])
         ),  
     ])
-
-filename = r'C:\Users\ansuj\OneDrive\Desktop\Dash\Air-Quality-Index-Prediction\images\delhi.html'
-
-# file = open(filename, 'r', encoding='utf-8')
-# figure = file.read()
 
 
 app.title = "Analysis and Prediction of Air Quality in India"
@@ -98,7 +90,7 @@ app.layout = html.Div(id = 'parent', children = [
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements[0], style={
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements.comparativeAnalysis(), style={
                             'height':'500px',
                             'width':'1450px',
                         })
@@ -106,14 +98,14 @@ app.layout = html.Div(id = 'parent', children = [
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements[2], style={
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements.html_arima(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements[1], style={
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements.comparingScenarios(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))

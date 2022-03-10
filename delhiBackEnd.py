@@ -1,14 +1,9 @@
-from asyncio.windows_events import NULL
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-from pandas.plotting import register_matplotlib_converters
-from sklearn.tree import export_graphviz, export_text
-register_matplotlib_converters()
 from time import time
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.offline import iplot
 
 file = "Delhi.csv"
 delhi = pd.read_csv(file, parse_dates=True)
@@ -16,7 +11,6 @@ delhi = delhi[delhi['Date']>='2015-01-01']
 delhi['Date'] = pd.to_datetime(delhi['Date'])
 delhi.set_index('Date', inplace=True)
 
-# delhi['AQI'].plot(figsize=(20,8))
 fig = px.line(delhi, x=delhi.index, y='AQI')
 fig.update_xaxes(
     rangeslider_visible= True,
@@ -46,13 +40,8 @@ fig.update_layout(
     xaxis_title="Date",
     yaxis_title="AQI",
 )
- 
 
-# px.ylabel('AQI', fontsize=16)
-# for year in range(start_date.year,end_date.year):
-#     px.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--', alpha=0.2)
-#     px.axvline(pd.to_datetime('2021-01-01'), color='k', linestyle='--', alpha=0.03)
-"""####ARIMA"""
+#ARIMA
 
 from pmdarima import auto_arima
 
@@ -83,7 +72,6 @@ predNL_arima = predictions_arima
 predNL_arima = predNL_arima.rename('AQI')
 
 merged = trainNL_arima.append(predNL_arima)
-merged   
 
 dfs = { "Data to be predicted":test_arima,  "Predicted Forecast": predictions_arima}
 
@@ -99,7 +87,8 @@ for i in dfs:
     fig = fig.add_trace(go.Scatter(x = test_arima.index,
                                    y = dfs[i], 
                                    name = i))
- 
+
+accuracyARIMA = fig.to_html(full_html=False, include_plotlyjs='cdn')
 
 def forecast_accuracy_parameters(residuals_arima, test_arima):
   mape = (round(np.mean(abs(residuals_arima/test_arima)),4))
@@ -248,6 +237,20 @@ comparativeAnalysis = px.bar(acc_parameters, y=acc_parameters.rmse, x=acc_parame
 
 comparativeAnalysis = comparativeAnalysis.to_html(full_html=False, include_plotlyjs='cdn')    
 
-delhiMainElements = [comparativeAnalysis, comparingScenarios, html_arima]
+# delhiMainElements = [accuracyARIMA, comparativeAnalysis, comparingScenarios, html_arima]
+
+class delhiMainElements():
+
+    def accuracyArima():
+        return accuracyARIMA
+    
+    def comparativeAnalysis():
+        return comparativeAnalysis
+    
+    def comparingScenarios():
+        return comparingScenarios
+    
+    def html_arima():
+        return html_arima
     
     

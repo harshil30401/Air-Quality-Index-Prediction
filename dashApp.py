@@ -1,3 +1,4 @@
+from turtle import width
 from matplotlib import image
 from matplotlib.pyplot import margins
 import pandas as pd
@@ -7,15 +8,15 @@ import dash
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 
-import delhiforecast
+from delhiBackEnd import delhiMainElements
 
 fontStyle = "Calibri"
 
-city = pd.read_csv("Delhi.csv")
+city = pd.read_csv("../Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"
-app = dash.Dash(
+app = dash.Dash(  
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
     )  
@@ -36,11 +37,17 @@ def cardLayout(figure):
         ),  
     ])
 
+filename = r'C:\Users\ansuj\OneDrive\Desktop\Dash\Air-Quality-Index-Prediction\images\delhi.html'
 
+# file = open(filename, 'r', encoding='utf-8')
+# figure = file.read()
+
+
+app.title = "Analysis and Prediction of Air Quality in India"
 app.layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url("delhi.jpg"))
+        html.Img(src=app.get_asset_url(r"C:\Users\ansuj\OneDrive\Desktop\Dash\Air-Quality-Index-Prediction\images\delhi.jpg"))
     ]),
     
 
@@ -74,28 +81,47 @@ app.layout = html.Div(id = 'parent', children = [
 
         dbc.Card(
             dbc.CardBody(id= 'card', children=[
+
                 dbc.Row(className='cardBody', children=[
                     cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', className='graphPlot', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
+
                 dbc.Row(children=[
+
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', className='graphPlot', figure = {})))
                     ], width=7),
+
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
                 ]),
+
                 dbc.Row(children=[
-                    dbc.Col(className='bestForecast', children=[
-                        cardLayout(html.Div(dcc.Graph(figure={delhiforecast.bestAlgorithmOutput(delhiforecast.variable)})))
-                    ])
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements[0], style={
+                            'height':'500px',
+                            'width':'1450px',
+                        })
+                    )
+                ]),
+
+                dbc.Row(children=[
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements[2], style={
+                        'height':'500px',
+                        'width':'1450px',
+                    }))
+                ]),
+
+                dbc.Row(children=[
+                    cardLayout(html.Iframe(srcDoc=delhiMainElements[1], style={
+                        'height':'500px',
+                        'width':'1450px',
+                    }))
                 ])
             ])
         ),    
     ]),
     
-    html.Br()
-
 ], style={'border':'none'})
 
 @app.callback(

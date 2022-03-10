@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from pandas.plotting import register_matplotlib_converters
+from sklearn.tree import export_graphviz, export_text
 register_matplotlib_converters()
 from time import time
 import plotly.express as px
@@ -92,10 +93,10 @@ model = SARIMAX(train_arima, order=my_order, seasonal_order=my_seasonal_order)
 start = time()
 model_fit = model.fit()
 end = time()
-print('Model Fitting Time:', end - start)
+#print('Model Fitting Time:', end - start)
 
 #summary of the model
-print(model_fit.summary())
+#print(model_fit.summary())
 
 #get the predictions and residuals
 predictions_arima = model_fit.forecast(len(test_arima))
@@ -237,17 +238,25 @@ for year in range(start_date.year,end_date.year):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--', alpha=0.2)
 
 def output_arima(data, forecast):     #lim_delhi.index and pred1_arima.index
-  fig = go.Figure(
-      layout=go.Layout(
-          title=go.layout.Title(text="Forecast")
-      )
-  )
-  fig = fig.add_trace(go.Scatter(x = data.index,
+    fig = go.Figure(
+        layout=go.Layout(
+           title=go.layout.Title(text="Forecast")
+        )
+    )
+    fig = fig.add_trace(go.Scatter(x = data.index,
                                     y = data, 
                                     name = "Actual Data"))
-  fig = fig.add_trace(go.Scatter(x = forecast.index,
+    fig = fig.add_trace(go.Scatter(x = forecast.index,
                                     y = forecast, 
                                     name = "Forecast"))
+
+    html_arima = fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+    return html_arima
+
+
+
+
    
 
 output_arima(lim_delhi, pred1_arima)
@@ -321,186 +330,188 @@ delhi_ad = d[['Date', 'AQI']]
 delhi_ad.columns = ['ds', 'y']
 delhi=delhi_ad
 
-# from fbprophet import Prophet
+from fbprophet import Prophet
 
-# train_prophet = delhi[:63]
-# test_prophet=delhi[63:]
+train_prophet = delhi[:63]
+test_prophet=delhi[63:]
 
-# m = Prophet(seasonality_mode='multiplicative')
-# m.fit(train_prophet)
+m = Prophet(seasonality_mode='multiplicative')
+m.fit(train_prophet)
 
-# future = m.make_future_dataframe(periods=17,freq = 'MS')
-# forecast_prophet = m.predict(future)
+future = m.make_future_dataframe(periods=17,freq = 'MS')
+forecast_prophet = m.predict(future)
 
-# forecast_prophet
+forecast_prophet
 
-# plt.figure(figsize=(25,8))
-# plt.plot(forecast_prophet.yhat)
-# plt.plot(delhi.y)
+plt.figure(figsize=(25,8))
+plt.plot(forecast_prophet.yhat)
+plt.plot(delhi.y)
 
-# dfs = {"Accuracy of the Model" : forecast_prophet.yhat, "Actual Data": delhi.y}
+dfs = {"Accuracy of the Model" : forecast_prophet.yhat, "Actual Data": delhi.y}
 
-# # plot the data
-# fig = go.Figure(
-#   layout=go.Layout(
-#         title=go.layout.Title(text="Testing the Accuracy of the Model")
-#     )
-# )
+# plot the data
+fig = go.Figure(
+  layout=go.Layout(
+        title=go.layout.Title(text="Testing the Accuracy of the Model")
+    )
+)
 
-# for i in dfs:
-#     fig = fig.add_trace(go.Scatter(x = forecast_prophet.index,
-#                                    y = dfs[i], 
-#                                    name = i))
-#  
+for i in dfs:
+    fig = fig.add_trace(go.Scatter(x = forecast_prophet.index,
+                                   y = dfs[i], 
+                                   name = i))
+ 
 
-# m.plot(forecast_prophet, figsize=(25,8));
+m.plot(forecast_prophet, figsize=(25,8));
 
-# from fbprophet.plot import plot_plotly
-# fig = plot_plotly(m, forecast_prophet, trend=True, changepoints=True)  
-# annotations = []
-# annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
-#                               xanchor='left', yanchor='bottom',
-#                               text='Forecast on current Data',
-#                               font=dict(family='Arial',
-#                                         size=25,
-#                                         color='rgb(37,37,37)'),
-#                               showarrow=False))
+from fbprophet.plot import plot_plotly
+fig = plot_plotly(m, forecast_prophet, trend=True, changepoints=True)  
+annotations = []
+annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
+                              xanchor='left', yanchor='bottom',
+                              text='Forecast on current Data',
+                              font=dict(family='Arial',
+                                        size=25,
+                                        color='rgb(37,37,37)'),
+                              showarrow=False))
                    
-# fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
-# fig
+fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
+fig
 
-# from sklearn.metrics import mean_squared_error
-# RMSE_prophet=np.sqrt(mean_squared_error(forecast_prophet['yhat'][-17:],test_prophet['y']))
-# print('RMSE = ',RMSE_prophet)
-# print('Mean AQI',test_prophet['y'].mean())
+from sklearn.metrics import mean_squared_error
+RMSE_prophet=np.sqrt(mean_squared_error(forecast_prophet['yhat'][-17:],test_prophet['y']))
+#print('RMSE = ',RMSE_prophet)
+#print('Mean AQI',test_prophet['y'].mean())
 
-# residuals_prophet = test_prophet['y'] - forecast_prophet['yhat'][-17:]
-# residuals_prophet
+residuals_prophet = test_prophet['y'] - forecast_prophet['yhat'][-17:]
+residuals_prophet
 
-# prophet_acc_parameters = forecast_accuracy_parameters(residuals_prophet, test_prophet['y'])
-# prophet_acc_parameters
+prophet_acc_parameters = forecast_accuracy_parameters(residuals_prophet, test_prophet['y'])
+prophet_acc_parameters
 
-# m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
-# m.fit(delhi)
-# future = m.make_future_dataframe(periods=12,freq = 'MS')
-# forecast_prophet = m.predict(future)
-# m.plot(forecast_prophet, figsize=(25,8));
+m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
+m.fit(delhi)
+future = m.make_future_dataframe(periods=12,freq = 'MS')
+forecast_prophet = m.predict(future)
+m.plot(forecast_prophet, figsize=(25,8));
 
-# from fbprophet.plot import plot_plotly
+from fbprophet.plot import plot_plotly
 
-# def output_prophet(model, forecast):
-#   fig = plot_plotly(model, forecast, trend=True, changepoints=True)  
-#   annotations = []
-#   annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
-#                                 xanchor='left', yanchor='bottom',
-#                                 text='Forecast of the year 2022 (Considering the Lockdown)',
-#                                 font=dict(family='Arial',
-#                                           size=30,
-#                                           color='rgb(37,37,37)'),
-#                                 showarrow=False))
+def output_prophet(model, forecast):
+  fig = plot_plotly(model, forecast, trend=True, changepoints=True)  
+  annotations = []
+  annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
+                                xanchor='left', yanchor='bottom',
+                                text='Forecast of the year 2022 (Considering the Lockdown)',
+                                font=dict(family='Arial',
+                                          size=30,
+                                          color='rgb(37,37,37)'),
+                                showarrow=False))
                     
-#   fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
-#   fig
+  fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
+  html_prophet = fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-# output_prophet(m, forecast_prophet)
+  return html_prophet
 
-# pred1_prophet = forecast_prophet
+output_prophet(m, forecast_prophet)
 
-# pred1_prophet['yhat'][-17:]
+pred1_prophet = forecast_prophet
 
-# test_prophet['y']
+pred1_prophet['yhat'][-17:]
 
-# pred1_prophet[-29:-12]
+test_prophet['y']
 
-# from sklearn.metrics import mean_squared_error
-# from sklearn.metrics import mean_squared_error
-# RMSE_prophet =np.sqrt(mean_squared_error(pred1_prophet['yhat'][-29:-12],test_prophet['y']))
-# print('RMSE = ',RMSE_prophet )
-# print('Mean AQI',test_prophet['y'].mean())
+pred1_prophet[-29:-12]
 
-# m.plot_components(forecast_prophet);
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error
+RMSE_prophet =np.sqrt(mean_squared_error(pred1_prophet['yhat'][-29:-12],test_prophet['y']))
+#print('RMSE = ',RMSE_prophet )
+#print('Mean AQI',test_prophet['y'].mean())
 
-# from fbprophet.diagnostics import cross_validation
-# delhi_cv = cross_validation(m, initial='730 days', period='180 days', horizon = '365 days')
-# delhi_cv.head()
+m.plot_components(forecast_prophet);
 
-# delhi_cv.tail()
+from fbprophet.diagnostics import cross_validation
+delhi_cv = cross_validation(m, initial='730 days', period='180 days', horizon = '365 days')
+delhi_cv.head()
 
-# from fbprophet.diagnostics import performance_metrics
-# df_p = performance_metrics(delhi_cv)
-# df_p.describe()
+delhi_cv.tail()
 
-# from fbprophet.plot import plot_cross_validation_metric
-# fig = plot_cross_validation_metric(delhi_cv, metric='rmse',figsize=(25,8))
+from fbprophet.diagnostics import performance_metrics
+df_p = performance_metrics(delhi_cv)
+df_p.describe()
 
-# m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
-# m.fit(train_prophet)
-# # future = m.make_future_dataframe(periods=5,freq = 'MS')
-# forecast_prophet_nl = m.predict(test_prophet)
-# m.plot(forecast_prophet_nl, figsize=(25,8));
+from fbprophet.plot import plot_cross_validation_metric
+fig = plot_cross_validation_metric(delhi_cv, metric='rmse',figsize=(25,8))
 
-# from fbprophet.plot import plot_plotly
-# fig = plot_plotly(m, forecast_prophet_nl, trend=True, changepoints=True)  
-# annotations = []
-# annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
-#                               xanchor='left', yanchor='bottom',
-#                               text='Train data and Predictions',
-#                               font=dict(family='Arial',
-#                                         size=25,
-#                                         color='rgb(37,37,37)'),
-#                               showarrow=False))
+m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
+m.fit(train_prophet)
+# future = m.make_future_dataframe(periods=5,freq = 'MS')
+forecast_prophet_nl = m.predict(test_prophet)
+m.plot(forecast_prophet_nl, figsize=(25,8));
+
+from fbprophet.plot import plot_plotly
+fig = plot_plotly(m, forecast_prophet_nl, trend=True, changepoints=True)  
+annotations = []
+annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
+                              xanchor='left', yanchor='bottom',
+                              text='Train data and Predictions',
+                              font=dict(family='Arial',
+                                        size=25,
+                                        color='rgb(37,37,37)'),
+                              showarrow=False))
                    
-# fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
-# fig
+fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
+fig
 
-# part2 = forecast_prophet_nl[['ds', 'yhat']]
-# part2.rename(columns={'yhat':'y'}, inplace=True)
+part2 = forecast_prophet_nl[['ds', 'yhat']]
+part2.rename(columns={'yhat':'y'}, inplace=True)
 
-# delhi_nl = pd.concat([train_prophet, part2], axis=0)
-# delhi_nl.reset_index(inplace=True)
-# delhi_nl.drop('index', inplace=True, axis=1)
+delhi_nl = pd.concat([train_prophet, part2], axis=0)
+delhi_nl.reset_index(inplace=True)
+delhi_nl.drop('index', inplace=True, axis=1)
 
-# m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
-# m.fit(delhi_nl)
-# future = m.make_future_dataframe(periods=12,freq = 'MS')
-# forecast_prophet_nl = m.predict(future)
-# m.plot(forecast_prophet_nl, figsize=(25,8));
-# pred2_prophet = forecast_prophet_nl
+m = Prophet(seasonality_mode='multiplicative',weekly_seasonality=False,daily_seasonality=False)
+m.fit(delhi_nl)
+future = m.make_future_dataframe(periods=12,freq = 'MS')
+forecast_prophet_nl = m.predict(future)
+m.plot(forecast_prophet_nl, figsize=(25,8));
+pred2_prophet = forecast_prophet_nl
 
-# from fbprophet.plot import plot_plotly
-# fig = plot_plotly(m, forecast_prophet_nl, trend=True, changepoints=True)  
-# annotations = []
-# annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
-#                               xanchor='left', yanchor='bottom',
-#                               text='Forecast of the year 2022 (If Lockdown did not exist)',
-#                               font=dict(family='Arial',
-#                                         size=25,
-#                                         color='rgb(37,37,37)'),
-#                               showarrow=False))
+from fbprophet.plot import plot_plotly
+fig = plot_plotly(m, forecast_prophet_nl, trend=True, changepoints=True)  
+annotations = []
+annotations.append(dict(xref='paper', yref='paper', x=0.0, y= 1.1,
+                              xanchor='left', yanchor='bottom',
+                              text='Forecast of the year 2022 (If Lockdown did not exist)',
+                              font=dict(family='Arial',
+                                        size=25,
+                                        color='rgb(37,37,37)'),
+                              showarrow=False))
                    
-# fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
-# fig
+fig.update_layout(annotations=annotations, xaxis_title = 'Date', yaxis_title = 'AQI')
+fig
 
-# pred1_prophet.set_index('ds', inplace=True)
-# pred2_prophet.set_index('ds', inplace=True)
+pred1_prophet.set_index('ds', inplace=True)
+pred2_prophet.set_index('ds', inplace=True)
 
-# import plotly.graph_objects as go
+import plotly.graph_objects as go
 
 
-# dfs = {"CONSIDERING THE LOCKDOWN" : pred1_prophet.yhat[80:], "IF LOCKDOWN DID NOT EXIST": pred2_prophet.yhat[80:]}
+dfs = {"CONSIDERING THE LOCKDOWN" : pred1_prophet.yhat[80:], "IF LOCKDOWN DID NOT EXIST": pred2_prophet.yhat[80:]}
 
-# # plot the data
-# fig = go.Figure(
-#   layout=go.Layout(
-#         title=go.layout.Title(text="COMPARING SCENARIOS")
-#     )
-# )
+# plot the data
+fig = go.Figure(
+  layout=go.Layout(
+        title=go.layout.Title(text="COMPARING SCENARIOS")
+    )
+)
 
-# for i in dfs:
-#     fig = fig.add_trace(go.Scatter(x = pred1_prophet[80:].index,
-#                                    y = dfs[i], 
-#                                    name = i))
-#  
+for i in dfs:
+    fig = fig.add_trace(go.Scatter(x = pred1_prophet[80:].index,
+                                   y = dfs[i], 
+                                   name = i))
+ 
 
 """###RNN (LSTM)"""
 
@@ -530,8 +541,8 @@ generator = TimeseriesGenerator(scaled_train, scaled_train, length=n_input, batc
 X,y = generator[0]
 
 # We can see that the x array gives the list of values that we are going to predict y of:
-print(f'Given the Array: \n{X.flatten()}')
-print(f'Predict this y: \n {y}')
+#print(f'Given the Array: \n{X.flatten()}')
+#print(f'Predict this y: \n {y}')
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -608,8 +619,8 @@ plt.ylabel('Error', fontsize=16)
 
 from sklearn.metrics import mean_squared_error
 RMSE_lstm=np.sqrt(mean_squared_error(test_lstm['y'],test_lstm['Predictions']))
-print('RMSE =',RMSE_lstm)
-print('delhi=', delhi['y'].mean())
+#print('RMSE =',RMSE_lstm)
+#print('delhi=', delhi['y'].mean())
 
 scaler.fit(delhi)
 scaled_delhi=scaler.transform(delhi)
@@ -653,6 +664,10 @@ def output_lstm(data, forecast):
   fig = fig.add_trace(go.Scatter(x = forecast['Forecast'][:12].index,
                                     y = forecast['Forecast'], 
                                     name = "Forecast"))
+
+  html_lstm = fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+  return html_lstm
    
 
 output_lstm(delhi, true_preds)
@@ -817,6 +832,9 @@ def output_ets(data, forecast):
                                     y = forecast, 
                                     name = "Forecast"))
 
+  html_ets = fig.to_html(full_html=False, include_plotlyjs='cdn')
+  return html_ets
+
    
 
 output_ets(delhi_es, pred1_ets)
@@ -867,12 +885,7 @@ for i in dfs:
 
 arima_rolling_acc_parameters
 
-prophet_acc_parameters = {'mae': 41.69193476852795,
- 'mape': 0.2467,
- 'me': 1.261357203846724,
- 'mpe': -0.06800267230846918,
- 'mse': 3176.3696999993804,
- 'rmse': 56.359291159483014}
+prophet_acc_parameters
 
 lstm_acc_parameters
 
@@ -911,19 +924,19 @@ def output(variable):
                                       name = "Forecast"))
      
 
-#   elif(variable == 'Prophet'):
-#     fig = go.Figure(
-#     layout=go.Layout(
-#         title=go.layout.Title(text="Forecast PROPHET")
-#     )
-#     )
-#     fig = fig.add_trace(go.Scatter(x = lim_delhi.index,
-#                                       y = lim_delhi, 
-#                                       name = "Actual Data"))
-#     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
-#                                       y = pred1_arima, 
-#                                       name = "Forecast"))
-#      
+  elif(variable == 'Prophet'):
+    fig = go.Figure(
+    layout=go.Layout(
+        title=go.layout.Title(text="Forecast PROPHET")
+    )
+    )
+    fig = fig.add_trace(go.Scatter(x = lim_delhi.index,
+                                      y = lim_delhi, 
+                                      name = "Actual Data"))
+    fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
+                                      y = pred1_arima, 
+                                      name = "Forecast"))
+     
 
   elif(variable == 'LSTM'):
     fig = go.Figure(
@@ -936,8 +949,7 @@ def output(variable):
                                       name = "Actual Data"))
     fig = fig.add_trace(go.Scatter(x = pred1_arima.index,
                                       y = pred1_arima, 
-                                      name = "Forecast"))
-     
+                                      name = "Forecast"))     
 
   elif(variable == 'ETS'):
     fig = go.Figure(
@@ -953,41 +965,31 @@ def output(variable):
                                       name = "Forecast"))
      
 
-class ProphetIsTheBestException(Exception):
-    pass
-
-def IfProphetIsTheMostAccurate():
-    if(variable == 'ARIMA'):
-        output_arima(lim_delhi, pred1_arima)
-        print('ARIMA')
-    elif(variable == 'LSTM'):
-        output_lstm(delhi, true_preds)
-        print('LSTM')
-
-    elif(variable == 'ETS'):
-        output_ets(delhi_es, pred1_ets)
-        print('ETS')
 
 def bestAlgorithmOutput(variable):
-    try:
+    
         
-        if(variable == 'ARIMA'):
-            output_arima(lim_delhi, pred1_arima)
-            print('ARIMA')
+    if(variable == 'ARIMA'):
+        output = output_arima(lim_delhi, pred1_arima)
 
-        elif(variable == 'Prophet'):
-            raise ProphetIsTheBestException()
+        #print('ARIMA')
 
-        elif(variable == 'LSTM'):
-            output_lstm(delhi, true_preds)
-            print('LSTM')
+    elif(variable == 'Prophet'):
+        output = output_prophet(m, forecast_prophet)
 
-        elif(variable == 'ETS'):
-            output_ets(delhi_es, pred1_ets)
-            print('ETS')
+        ##print('PROPHET')
 
-    except ProphetIsTheBestException():
-       IfProphetIsTheMostAccurate()
+    elif(variable == 'LSTM'):
+        output = output_lstm(delhi, true_preds)
+        ##print('LSTM')
 
-bestAlgorithmOutput(variable)
+    elif(variable == 'ETS'):
+        output = output_ets(delhi_es, pred1_ets)
+        ##print('ETS')
+    
+    return output
+
+
+html_data = bestAlgorithmOutput(variable)
+
 

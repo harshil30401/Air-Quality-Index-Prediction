@@ -9,7 +9,7 @@ from delhiBackEnd import delhiMainElements
 
 fontStyle = "Calibri"
 
-city = pd.read_csv("Delhi.csv")
+city = pd.read_csv(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction-main\datasets\Delhi.csv")
 
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"

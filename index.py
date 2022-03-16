@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from pydoc import classname
 from dash import dcc, html
 # import dash_core_components as dcc
@@ -6,7 +5,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import delhi
+from cities import delhi, jaipur, thiruvananthapuram, kanpur
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -31,11 +30,14 @@ prev_dump = html.Div(id="flip-container", children=[
         ])
     ])
 
-
 app.layout = html.Div(className='cards', children=[
 
     html.Div(className="row", children=[
-        dcc.Link("Delhi", href='/cities/delhi')
+        dcc.Link("Amritsar", href='/cities/amritsar'),
+        dcc.Link("Delhi", href='/cities/delhi'),
+        dcc.Link("Jaipur", href='/cities/jaipur'),
+        dcc.Link("Kanpur", href='/cities/kanpur'),
+        dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram')
     ]),
 
     dcc.Location(id='url', refresh=False),
@@ -47,13 +49,25 @@ app.layout = html.Div(className='cards', children=[
             [Input(component_id='url', component_property='pathname')])
 
 def display_page(pathname):
-    if pathname == '/cities/delhi':
-        return delhi.layout
     
-    elif pathname == '/':
+    if pathname == '/':
         pass
-    # if pathname == '/cities/mumbai':
-    #     return cities.layout
+
+    elif pathname == '/cities/amritsar':
+        return kanpur.layout
+
+    elif pathname == '/cities/delhi':
+        return delhi.layout
+
+    elif pathname == '/cities/jaipur':
+        return jaipur.layout
+
+    elif pathname == '/cities/kanpur':
+        return kanpur.layout
+    
+    elif pathname == '/cities/thiruvananthapuram':
+        return thiruvananthapuram.layout
+
     else:
         return "404 Page Error! Please choose a link"
 

@@ -4,11 +4,11 @@ import dash_bootstrap_components as dbc
 import dash
 from dash import dcc, html, Input, Output
 from app import app
-from backend.kolkataBackend import KolkataMainElements
+from backend.hyderabadBackend import HyderabadMainElements
 
 fontStyle = "Calibri"
 
-cityName = "Kolkata"
+cityName = "Hyderabad"
 file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
@@ -43,7 +43,7 @@ def cardLayout(figure):
 layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\photos\kolkata.jpg"))
+        html.Img(src=app.get_asset_url(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\photos\hyderabad.jpg"))
     ]),
     
 
@@ -78,22 +78,22 @@ layout = html.Div(id = 'parent', children = [
             dbc.CardBody(id= 'card', children=[
 
                 dbc.Row(className='cardBody', children=[
-                    cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesLinedGraph', className='graphPlot', figure = {})))
+                    cardLayout(html.Div(dcc.Graph(id = 'hyderabadGasesLinedGraph', className='graphPlot', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesBoxPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'hyderabadGasesBoxPlot', className='graphPlot', figure = {})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesMonthlyPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'hyderabadGasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.comparativeAnalysis(), style={
+                    cardLayout(html.Iframe(srcDoc=HyderabadMainElements.comparativeAnalysis(), style={
                             'height':'500px',
                             'width':'1450px',
                         })
@@ -101,14 +101,14 @@ layout = html.Div(id = 'parent', children = [
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.html_arima(), style={
+                    cardLayout(html.Iframe(srcDoc=HyderabadMainElements.html_arima(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.comparingScenarios(), style={
+                    cardLayout(html.Iframe(srcDoc=HyderabadMainElements.comparingScenarios(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))
@@ -120,9 +120,9 @@ layout = html.Div(id = 'parent', children = [
 ], style={'border':'none'})
 
 @app.callback(
-    [Output(component_id='kolkataGasesLinedGraph', component_property='figure'),
-    Output(component_id='kolkataGasesBoxPlot', component_property='figure'),
-    Output(component_id='kolkataGasesMonthlyPlot', component_property='figure')
+    [Output(component_id='hyderabadGasesLinedGraph', component_property='figure'),
+    Output(component_id='hyderabadGasesBoxPlot', component_property='figure'),
+    Output(component_id='hyderabadGasesMonthlyPlot', component_property='figure')
     ],
     Input(component_id='slct_gas', component_property='value')
 )

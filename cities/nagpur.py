@@ -8,7 +8,9 @@ from backend.nagpurBackend import NagpurMainElements
 
 fontStyle = "Calibri"
 
-city = pd.read_csv(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\datasets\nagpur.csv")
+cityName = "Nagpur"
+file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
+city = pd.read_csv(file, parse_dates=True)
 
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"

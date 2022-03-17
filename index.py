@@ -5,7 +5,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur
+from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -34,12 +34,15 @@ app.layout = html.Div(className='cards', children=[
 
     html.Div(className="row", children=[
         dcc.Link("Amritsar", href='/cities/amritsar'),
+        dcc.Link("Chennai", href='/cities/chennai'),
         dcc.Link("Delhi", href='/cities/delhi'),
+        dcc.Link("Hyderabad", href='/cities/hyderabad'),
         dcc.Link("Jaipur", href='/cities/jaipur'),
         dcc.Link("Kanpur", href='/cities/kanpur'),
         dcc.Link("Kolkata", href='/cities/kolkata'),
         dcc.Link("Nagpur", href='/cities/nagpur'),
-        dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram')
+        dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram'),
+        dcc.Link("Visakhapatnam", href='/cities/visakhapatnam')
     ]),
 
     dcc.Location(id='url', refresh=False),
@@ -58,8 +61,14 @@ def display_page(pathname):
     elif pathname == '/cities/amritsar':
         return kanpur.layout
 
+    elif pathname == '/cities/chennai':
+        return chennai.layout
+
     elif pathname == '/cities/delhi':
         return delhi.layout
+    
+    elif pathname == '/cities/hyderabad':
+        return hyderabad.layout
 
     elif pathname == '/cities/jaipur':
         return jaipur.layout
@@ -75,6 +84,9 @@ def display_page(pathname):
     
     elif pathname == '/cities/thiruvananthapuram':
         return thiruvananthapuram.layout
+
+    elif pathname == '/cities/visakhapatnam':
+        return visakhapatnam.layout
 
     else:
         return "404 Page Error! Please choose a link"

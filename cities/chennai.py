@@ -1,19 +1,20 @@
+
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-import dash
 from dash import dcc, html, Input, Output
 from app import app
-from backend.kolkataBackend import KolkataMainElements
+from backend.chennaiBackend import ChennaiMainElements
 
 fontStyle = "Calibri"
 
-cityName = "Kolkata"
+cityName = "Chennai"
+
 file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
-
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"
+
 # app = dash.Dash(  
 #     __name__,
 #     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
@@ -43,7 +44,7 @@ def cardLayout(figure):
 layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\photos\kolkata.jpg"))
+        html.Img(src=app.get_asset_url(r"C:\Users\ansuj\OneDrive\Desktop\Dash\Air-Quality-Index-Prediction\images\delhi.jpg"))
     ]),
     
 
@@ -78,22 +79,22 @@ layout = html.Div(id = 'parent', children = [
             dbc.CardBody(id= 'card', children=[
 
                 dbc.Row(className='cardBody', children=[
-                    cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesLinedGraph', className='graphPlot', figure = {})))
+                    cardLayout(html.Div(dcc.Graph(id = 'chennaiGasesLinedGraph', className='graphPlot', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesBoxPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'chennaiGasesBoxPlot', className='graphPlot', figure = {})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'kolkataGasesMonthlyPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'chennaiGasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.comparativeAnalysis(), style={
+                    cardLayout(html.Iframe(srcDoc=ChennaiMainElements.comparativeAnalysis(), style={
                             'height':'500px',
                             'width':'1450px',
                         })
@@ -101,14 +102,14 @@ layout = html.Div(id = 'parent', children = [
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.html_arima(), style={
+                    cardLayout(html.Iframe(srcDoc=ChennaiMainElements.html_arima(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=KolkataMainElements.comparingScenarios(), style={
+                    cardLayout(html.Iframe(srcDoc=ChennaiMainElements.comparingScenarios(), style={
                         'height':'500px',
                         'width':'1450px',
                     }))
@@ -120,9 +121,9 @@ layout = html.Div(id = 'parent', children = [
 ], style={'border':'none'})
 
 @app.callback(
-    [Output(component_id='kolkataGasesLinedGraph', component_property='figure'),
-    Output(component_id='kolkataGasesBoxPlot', component_property='figure'),
-    Output(component_id='kolkataGasesMonthlyPlot', component_property='figure')
+    [Output(component_id='chennaiGasesLinedGraph', component_property='figure'),
+    Output(component_id='chennaiGasesBoxPlot', component_property='figure'),
+    Output(component_id='chennaiGasesMonthlyPlot', component_property='figure')
     ],
     Input(component_id='slct_gas', component_property='value')
 )
@@ -145,7 +146,7 @@ def dropdownGraphs(slct_gas):
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
-    monthlyData = city.groupby("month", sort=False)['PM2.5','NO2','NO','NOx','CO','SO2','O3','AQI'].mean().reset_index()
+    monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
     fig1.layout.template = 'seaborn'
@@ -154,3 +155,4 @@ def dropdownGraphs(slct_gas):
     fig2.layout.template = 'seaborn'
 
     return fig, fig1, fig2
+    

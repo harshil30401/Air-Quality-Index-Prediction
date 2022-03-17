@@ -5,7 +5,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import delhi, jaipur, thiruvananthapuram, kanpur
+from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -37,6 +37,8 @@ app.layout = html.Div(className='cards', children=[
         dcc.Link("Delhi", href='/cities/delhi'),
         dcc.Link("Jaipur", href='/cities/jaipur'),
         dcc.Link("Kanpur", href='/cities/kanpur'),
+        dcc.Link("Kolkata", href='/cities/kolkata'),
+        dcc.Link("Nagpur", href='/cities/nagpur'),
         dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram')
     ]),
 
@@ -64,6 +66,12 @@ def display_page(pathname):
 
     elif pathname == '/cities/kanpur':
         return kanpur.layout
+
+    elif pathname == '/cities/kolkata':
+        return kolkata.layout
+    
+    elif pathname == '/cities/nagpur':
+        return nagpur.layout
     
     elif pathname == '/cities/thiruvananthapuram':
         return thiruvananthapuram.layout

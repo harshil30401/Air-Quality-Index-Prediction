@@ -227,16 +227,16 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
 
 class CityMainElements():
 
-    def accuracyArima():
+    def accuracyArima(self):
         return theBluePrint.accuracyARIMA
         
-    def comparativeAnalysis():
+    def comparativeAnalysis(self):
         return theBluePrint.comparativeAnalysis
         
-    def comparingScenarios():
+    def comparingScenarios(self):
         return theBluePrint.comparingScenarios
         
-    def html_arima():
+    def html_arima(self):
         return theBluePrint.html_arima
         
     

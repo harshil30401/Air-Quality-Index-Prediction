@@ -156,4 +156,5 @@ def dropdownGraphs(slct_gas):
     fig2.layout.template = 'seaborn'
 
     return fig, fig1, fig2
+
     

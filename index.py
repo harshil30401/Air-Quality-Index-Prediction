@@ -95,7 +95,7 @@ def display_page(pathname):
         return visakhapatnam.layout
 
     else:
-        return "404 Page Error! Please choose a link"
+        return "404 Page Error! Please choose a valid city"
 
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -1,15 +1,15 @@
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-import dash
 from dash import dcc, html, Input, Output
 from app import app
+from rootInformation import rootDirectory
 from backend.delhiBackend import delhiMainElements
 
 fontStyle = "Calibri"
 
 cityName = "Delhi"
-file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
+file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
 city['Date'] = pd.to_datetime(city['Date'])
@@ -40,10 +40,11 @@ def cardLayout(figure):
 
 # html.Div(id = 'parent', children = [layout])
 
-layout = html.Div(id = 'parent', children = [
+layout = html.Div(className = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url(r"..\Air-Quality-Index-Prediction\photos\delhi.jpg"))
+
+        html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
     ]),
     
 

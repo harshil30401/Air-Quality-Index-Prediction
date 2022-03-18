@@ -4,12 +4,13 @@ import dash_bootstrap_components as dbc
 import dash
 from dash import dcc, html, Input, Output
 from app import app
+from rootInformation import rootDirectory
 from backend.visakhapatnamBackend import VisakhapatnamMainElements
 
 fontStyle = "Calibri"
 
 cityName = "Visakhapatnam"
-file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
+file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
 city['Date'] = pd.to_datetime(city['Date'])
@@ -43,7 +44,7 @@ def cardLayout(figure):
 layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\photos\visakhapatnam.jpg"))
+        html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/visakhapatnam.jpg"))
     ]),
     
 

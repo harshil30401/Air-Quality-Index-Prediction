@@ -1,10 +1,13 @@
+from turtle import onclick
+from click import style
 from dash import dcc, html
 # import dash_core_components as dcc
 # import dash_html_components as html
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
+from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
+# from cities import amritsar, chennai
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -31,7 +34,7 @@ prev_dump = html.Div(id="flip-container", children=[
 
 app.layout = html.Div(className='cards', children=[
 
-    html.Div(className="row", children=[
+    html.Div(className="elements", children=[
         dcc.Link("Amritsar", href='/cities/amritsar'),
         dcc.Link("Chennai", href='/cities/chennai'),
         dcc.Link("Delhi", href='/cities/delhi'),
@@ -59,7 +62,7 @@ def display_page(pathname):
         pass
 
     elif pathname == '/cities/amritsar':
-        return kanpur.layout
+        return amritsar.layout
 
     elif pathname == '/cities/chennai':
         return chennai.layout
@@ -96,6 +99,3 @@ def display_page(pathname):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-

@@ -61,9 +61,7 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
 
     model = SARIMAX(train_arima, order=my_order, seasonal_order=my_seasonal_order)
 
-    start = time()
     model_fit = model.fit()
-    end = time()
 
     predictions_arima = model_fit.forecast(len(test_arima))
     predictions_arima = pd.Series(predictions_arima, index=test_arima.index)

@@ -1,11 +1,10 @@
-from pydoc import classname
 from dash import dcc, html
 # import dash_core_components as dcc
 # import dash_html_components as html
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai
+from cities import delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -40,6 +39,7 @@ app.layout = html.Div(className='cards', children=[
         dcc.Link("Jaipur", href='/cities/jaipur'),
         dcc.Link("Kanpur", href='/cities/kanpur'),
         dcc.Link("Kolkata", href='/cities/kolkata'),
+        dcc.Link("Mumbai", href='/cities/mumbai'),        
         dcc.Link("Nagpur", href='/cities/nagpur'),
         dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram'),
         dcc.Link("Visakhapatnam", href='/cities/visakhapatnam')
@@ -78,6 +78,9 @@ def display_page(pathname):
 
     elif pathname == '/cities/kolkata':
         return kolkata.layout
+
+    elif pathname == '/cities/mumbai':
+        return mumbai.layout
     
     elif pathname == '/cities/nagpur':
         return nagpur.layout

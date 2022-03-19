@@ -41,10 +41,22 @@ app.layout = html.Div(className='cards', children=[
 
 
     dbc.Collapse(
+        html.Div(id = 'row', className="d-grid gap-2 d-md-flex justify-content-md-end", children=[
+        dbc.Button(
+            id="amritsar",
+            className="mb-3",
+            color="primary",
+            children=[dcc.Link("Amritsar", href='/cities/amritsar', className="me-md-2"),
+        ]),
 
-        html.Div(id = 'row', className="row", children=[
-        dcc.Link("Amritsar", href='/cities/amritsar', className='city'),
-        dcc.Link("Chennai", href='/cities/chennai')
+        dbc.Button(
+            id="chennai",
+            className="mb-3",
+            color="primary",
+            children=[dcc.Link("Chennai", href='/cities/chennai', className="me-md-2"),
+        ])
+        # dcc.Link("Amritsar", href='/cities/amritsar', className='city'),
+        # dcc.Link("Chennai", href='/cities/chennai')
         # dcc.Link("Delhi", href='/cities/delhi'),
         # dcc.Link("Hyderabad", href='/cities/hyderabad'),
         # dcc.Link("Jaipur", href='/cities/jaipur'),
@@ -54,8 +66,7 @@ app.layout = html.Div(className='cards', children=[
         # dcc.Link("Nagpur", href='/cities/nagpur'),
         # dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram'),
         # dcc.Link("Visakhapatnam", href='/cities/visakhapatnam')
-     ]),
-    id="collapse-question-1", is_open=True,
+    ]),id = "collapse-1", is_open=True
     ),
 
     dcc.Location(id='url', refresh=False),
@@ -64,14 +75,19 @@ app.layout = html.Div(className='cards', children=[
 ])
 
 
-@app.callback(Output(component_id='page-content', component_property='children'),
-            [Input(component_id='url', component_property='pathname')],
-            Output("collapse-question-1", "is_open"),
-            [Input(Component = link, component_property="n_clicks")],
-            [State("collapse-question-1", "is_open")],
+@app.callback(
+    Output("collapse-1", "is_open"),
+    [Input(component_id='amritsar', component_property="n_clicks")],
+    [State("collapse-1", "is_open")]
 )
-def toggle_collapse(n, is_open):
-    if n:
+
+@app.callback(
+    Output(component_id='page-content', component_property='children'),
+    [Input(component_id='url', component_property='pathname')]
+)
+
+def toggle_collapse(n_clicks, is_open):
+    if n_clicks:
         return not is_open
     return 
 

@@ -1,4 +1,9 @@
 body {
+<<<<<<< HEAD
     background: aqua;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+=======
+    background: pink;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+>>>>>>> feature2
 }

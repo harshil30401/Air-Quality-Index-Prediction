@@ -1,13 +1,12 @@
-from turtle import onclick
-from click import style
 from dash import dcc, html
 # import dash_core_components as dcc
 # import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from app import app, server
 
-from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
-# from cities import amritsar, chennai
+#from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
+from cities import amritsar, chennai
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -34,18 +33,23 @@ prev_dump = html.Div(id="flip-container", children=[
 
 app.layout = html.Div(className='cards', children=[
 
-    html.Div(className="elements", children=[
-        dcc.Link("Amritsar", href='/cities/amritsar'),
-        dcc.Link("Chennai", href='/cities/chennai'),
-        dcc.Link("Delhi", href='/cities/delhi'),
-        dcc.Link("Hyderabad", href='/cities/hyderabad'),
-        dcc.Link("Jaipur", href='/cities/jaipur'),
-        dcc.Link("Kanpur", href='/cities/kanpur'),
-        dcc.Link("Kolkata", href='/cities/kolkata'),
-        dcc.Link("Mumbai", href='/cities/mumbai'),        
-        dcc.Link("Nagpur", href='/cities/nagpur'),
-        dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram'),
-        dcc.Link("Visakhapatnam", href='/cities/visakhapatnam')
+    dbc.Row(className="elements", children=[
+        dbc.Button(id='amritsar', children=[
+            dcc.Link("Amritsar", href='/cities/amritsar')
+        ]),
+
+        dbc.Button(id='chennai', children=[
+            dcc.Link("Chennai", href='/cities/chennai')
+        ]),
+        # dcc.Link("Delhi", href='/cities/delhi'),
+        # dcc.Link("Hyderabad", href='/cities/hyderabad'),
+        # dcc.Link("Jaipur", href='/cities/jaipur'),
+        # dcc.Link("Kanpur", href='/cities/kanpur'),
+        # dcc.Link("Kolkata", href='/cities/kolkata'),
+        # dcc.Link("Mumbai", href='/cities/mumbai'),        
+        # dcc.Link("Nagpur", href='/cities/nagpur'),
+        # dcc.Link("Thiruvananthapuram", href='/cities/thiruvananthapuram'),
+        # dcc.Link("Visakhapatnam", href='/cities/visakhapatnam')
     ]),
 
     dcc.Location(id='url', refresh=False),
@@ -67,32 +71,32 @@ def display_page(pathname):
     elif pathname == '/cities/chennai':
         return chennai.layout
 
-    elif pathname == '/cities/delhi':
-        return delhi.layout
+    # elif pathname == '/cities/delhi':
+    #     return delhi.layout
     
-    elif pathname == '/cities/hyderabad':
-        return hyderabad.layout
+    # elif pathname == '/cities/hyderabad':
+    #     return hyderabad.layout
 
-    elif pathname == '/cities/jaipur':
-        return jaipur.layout
+    # elif pathname == '/cities/jaipur':
+    #     return jaipur.layout
 
-    elif pathname == '/cities/kanpur':
-        return kanpur.layout
+    # elif pathname == '/cities/kanpur':
+    #     return kanpur.layout
 
-    elif pathname == '/cities/kolkata':
-        return kolkata.layout
+    # elif pathname == '/cities/kolkata':
+    #     return kolkata.layout
 
-    elif pathname == '/cities/mumbai':
-        return mumbai.layout
+    # elif pathname == '/cities/mumbai':
+    #     return mumbai.layout
     
-    elif pathname == '/cities/nagpur':
-        return nagpur.layout
+    # elif pathname == '/cities/nagpur':
+    #     return nagpur.layout
     
-    elif pathname == '/cities/thiruvananthapuram':
-        return thiruvananthapuram.layout
+    # elif pathname == '/cities/thiruvananthapuram':
+    #     return thiruvananthapuram.layout
 
-    elif pathname == '/cities/visakhapatnam':
-        return visakhapatnam.layout
+    # elif pathname == '/cities/visakhapatnam':
+    #     return visakhapatnam.layout
 
     else:
         return "404 Page Error! Please choose a valid city"

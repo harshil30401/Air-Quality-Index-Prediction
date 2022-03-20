@@ -3,7 +3,7 @@ from dash import dcc, html
 # import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
-from app import app, server
+from app import app
 from assets import errorpage
 #from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
 from cities import amritsar, chennai, delhi

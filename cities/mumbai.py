@@ -97,7 +97,7 @@ layout = html.Div(id = 'parent', children = [
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=MumbaiMainElements.comparativeAnalysis(), style={
                             'height':'500px',
-                            'width':'1450px',
+                            'width':'1200px',
                         })
                     )
                 ]),
@@ -105,14 +105,14 @@ layout = html.Div(id = 'parent', children = [
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=MumbaiMainElements.html_arima(), style={
                         'height':'500px',
-                        'width':'1450px',
+                        'width':'1200px',
                     }))
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=MumbaiMainElements.comparingScenarios(), style={
                         'height':'500px',
-                        'width':'1450px',
+                        'width':'1200px',
                     }))
                 ])
             ])

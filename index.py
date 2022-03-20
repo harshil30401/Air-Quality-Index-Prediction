@@ -55,6 +55,7 @@ app.layout = html.Div(className='cards', children=[
             color="primary",
             children=[dcc.Link("Chennai", href='/cities/chennai', className="me-md-2"),
         ])
+
         # dcc.Link("Amritsar", href='/cities/amritsar', className='city'),
         # dcc.Link("Chennai", href='/cities/chennai')
         # dcc.Link("Delhi", href='/cities/delhi'),

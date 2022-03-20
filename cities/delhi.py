@@ -96,7 +96,7 @@ layout = html.Div(className = 'parent', children = [
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparativeAnalysis(), style={
                             'height':'800px',
-                            'width':'1150px',
+                            'width':'1450px',
                         })
                     )
                 ]),
@@ -104,14 +104,14 @@ layout = html.Div(className = 'parent', children = [
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=delhiMainElements.html_arima(), style={
                         'height':'800px',
-                        'width':'1150px',
+                        'width':'1450px',
                     }))
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparingScenarios(), style={
                         'height':'800px',
-                        'width':'1150px',
+                        'width':'1450px',
                     }))
                 ])
             ])
@@ -264,7 +264,7 @@ def dropdownGraphs(slct_gas):
 #                 dbc.Row(children=[
 #                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparativeAnalysis(), style={
 #                             'height':'800px',
-#                             'width':'1150px',
+#                             'width':'1450px',
 #                         })
 #                     )
 #                 ]),
@@ -272,14 +272,14 @@ def dropdownGraphs(slct_gas):
 #                 dbc.Row(children=[
 #                     cardLayout(html.Iframe(srcDoc=delhiMainElements.html_arima(), style={
 #                         'height':'800px',
-#                         'width':'1150px',
+#                         'width':'1450px',
 #                     }))
 #                 ]),
 
 #                 dbc.Row(children=[
 #                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparingScenarios(), style={
 #                         'height':'800px',
-#                         'width':'1150px',
+#                         'width':'1450px',
 #                     }))
 #                 ])
 #             ])

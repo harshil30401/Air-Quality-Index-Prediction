@@ -1,25 +1,52 @@
-from dash import Dash
-import dash_bootstrap_components as dbc
-from dash import html, dcc
+import dash
+import dash_html_components as html
+import dash_core_components as dcc
 from dash.dependencies import Input, Output
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__)
 
-app = Dash(__name__, external_stylesheets=external_stylesheets)
-
-app.layout = html.Div(id = "main-div", children=[
-    html.Div(id="headerDiv", children=[
-        html.H1(id="homeHeader", children=["Analysis and Prediction of Air Quality in India"])
-    ]),
-
-    html.Div(id="cardDiv", children=[
-        # dbc.Button("Amritsar", id="amritsar", href="#", style={"color":"white"}),
-        # dbc.Button("Chennai", id="chennai", href="#", style={"color":"white"}),
-        # dbc.Button("Delhi", id="delhi", href="#", style={"color":"white"})
-        dbc.Button("Amritsar", id="amritsar", href="cities/amritsar")
-    ])
+app.layout = html.Div(children=[
+    #html.H1(children="Welcome to the dash Polling app!"),
+    dcc.Location(id="url",refresh=False),
+    # dcc.Link('Home',href="/"),
+    # html.Br(),
+    # dcc.Link('Polls',href="/polls"),
+    # html.Br(),
+    # dcc.Link('Poll Results',href="/poll-results"),
+    html.Div(id="output-div")
 ])
 
-if __name__ == '__main__':
+home_layout = html.Div(children=[
+    html.H1(children="Welcome to the dash Polling app!"),
+    dcc.Link('Home',href="/"),
+    html.Br(),
+    dcc.Link('Polls',href="/polls"),
+    html.Br(),
+    dcc.Link('Poll Results',href="/poll-results")
+])
+
+polls_layout = html.Div(children=[
+    html.H1(children="This is Polls page"),
+    dcc.Link('Home',href="/")
+])
+
+polls_results_layout = html.Div(children=[
+    html.H1(children="This is Poll Results page"),
+    dcc.Link('Home',href="/")
+])
+
+@app.callback(Output(component_id="output-div",component_property="children"),Input(component_id="url",component_property="pathname"))
+def update_output_div(pathname):
+    if pathname == "/polls":
+        return  polls_layout
+    elif pathname == "/poll-results":
+        return polls_results_layout
+    else:
+        return home_layout
+    #output_val = "Output: {}".format(pathname)
+    #return output_val
+
+
+if __name__ == "__main__":
     app.run_server(debug=True)

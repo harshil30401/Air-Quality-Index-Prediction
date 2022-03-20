@@ -45,7 +45,8 @@ def cardLayout(figure):
 layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
+        html.H1("Amritsar")
+        # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
     ]),
     
 
@@ -147,7 +148,7 @@ def dropdownGraphs(slct_gas):
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
-    monthlyData = city.groupby("month", sort=False)['PM2.5','NO2','NO','NOx','CO','SO2','O3','AQI'].mean().reset_index()
+    monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','CO','SO2','O3','AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
     fig1.layout.template = 'seaborn'

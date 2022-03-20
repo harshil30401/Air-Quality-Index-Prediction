@@ -43,8 +43,9 @@ def cardLayout(figure):
 layout = html.Div(className = 'parent', children = [
 
     html.Header(id='header', children=[
+        html.H1("Delhi")
 
-        html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
+        # html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
     ]),
     
 

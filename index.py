@@ -45,14 +45,16 @@ app.layout = html.Div(className='cards', children=[
         dbc.Button(
             id="amritsar",
             className="mb-3",
-            color="primary",
+            n_clicks=0,
+            color="aqua",
             children=[dcc.Link("Amritsar", href='/cities/amritsar', className="me-md-2"),
         ]),
 
         dbc.Button(
             id="chennai",
             className="mb-3",
-            color="primary",
+            n_clicks=0,
+            color="aqua",
             children=[dcc.Link("Chennai", href='/cities/chennai', className="me-md-2"),
         ])
         # dcc.Link("Amritsar", href='/cities/amritsar', className='city'),
@@ -79,11 +81,6 @@ app.layout = html.Div(className='cards', children=[
     Output("collapse-1", "is_open"),
     [Input(component_id='amritsar', component_property="n_clicks")],
     [State("collapse-1", "is_open")]
-)
-
-@app.callback(
-    Output(component_id='page-content', component_property='children'),
-    [Input(component_id='url', component_property='pathname')]
 )
 
 def toggle_collapse(n_clicks, is_open):

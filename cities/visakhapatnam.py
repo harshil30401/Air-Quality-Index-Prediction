@@ -95,23 +95,23 @@ layout = html.Div(id = 'parent', children = [
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=VisakhapatnamMainElements.comparativeAnalysis(), style={
-                            'height':'500px',
-                            'width':'1200px',
+                            'height':'800px',
+                            'width':'1150px',
                         })
                     )
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=VisakhapatnamMainElements.html_arima(), style={
-                        'height':'500px',
-                        'width':'1200px',
+                        'height':'800px',
+                        'width':'1150px',
                     }))
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=VisakhapatnamMainElements.comparingScenarios(), style={
-                        'height':'500px',
-                        'width':'1200px',
+                        'height':'800px',
+                        'width':'1150px',
                     }))
                 ])
             ])

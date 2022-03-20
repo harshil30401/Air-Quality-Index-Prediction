@@ -4,10 +4,11 @@ from datetime import datetime, timedelta
 from time import time
 import plotly.express as px
 import plotly.graph_objects as go
+from rootInformation import rootDirectory
 
 cityName = "Jaipur"
 
-file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
+file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 jaipur = pd.read_csv(file, parse_dates=True)
 jaipur['Date'] = pd.to_datetime(jaipur['Date'])
 jaipur.set_index('Date', inplace=True)

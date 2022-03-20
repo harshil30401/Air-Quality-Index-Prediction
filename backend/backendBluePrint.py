@@ -5,10 +5,11 @@ from datetime import datetime, timedelta
 from time import time
 import plotly.express as px
 import plotly.graph_objects as go
+from rootInformation import rootDirectory
 
 def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, startMonth, prophet_acc_parameters, lstm_acc_parameters, ets_acc_parameters):
 
-    file = f"C:/Users/DELL/Desktop/Text Editors & Softwares/Python/Dash/Air-Quality-Index-Prediction/datasets/{cityNameCsv}.csv"
+    file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityNameCsv}.csv"
     city = pd.read_csv(file, parse_dates=True)
     city = city[city['Date']>=trimData]   #This line 
     city['Date'] = pd.to_datetime(city['Date'])

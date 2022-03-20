@@ -95,23 +95,23 @@ layout = html.Div(id = 'parent', children = [
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=KanpurMainElements.comparativeAnalysis(), style={
-                            'height':'500px',
-                            'width':'1200px',
+                            'height':'800px',
+                            'width':'1150px',
                         })
                     )
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=KanpurMainElements.html_arima(), style={
-                        'height':'500px',
-                        'width':'1200px',
+                        'height':'800px',
+                        'width':'1150px',
                     }))
                 ]),
 
                 dbc.Row(children=[
                     cardLayout(html.Iframe(srcDoc=KanpurMainElements.comparingScenarios(), style={
-                        'height':'500px',
-                        'width':'1200px',
+                        'height':'800px',
+                        'width':'1150px',
                     }))
                 ])
             ])

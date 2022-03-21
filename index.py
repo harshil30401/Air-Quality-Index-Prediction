@@ -34,6 +34,8 @@ prev_dump = html.Div(id="flip-container", children=[
         ])
     ])
 
+def fetchAQI(city):
+    pass
 
 
 app.layout = html.Div(id='mainDiv', className='cards', children=[
@@ -47,10 +49,15 @@ home_layout =  html.Div(id="home-page", children=[
         html.H1(id="homeHeader", children=["Analysis and Prediction of Air Quality in India"])
     ]),
 
-    html.Div(id="cardDiv", children=[
-        dbc.Button(city.capitalize(), id=city, href=f'/cities/{city}', style={'color':'white'}) for city in cities
+    html.Div(className="container", children=[
+        html.Div(className="card", children=[
+            html.Div(className="content", children=[
+                html.H2(id="cardCity", children=[city.capitalize()]),
+                html.P(id="cardAQI", children=["Average AQI: "]),
+                dbc.Button("Open Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
+            ])
+        ])for city in cities
     ])
-
 ])
 
 

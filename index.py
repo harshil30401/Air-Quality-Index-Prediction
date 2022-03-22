@@ -1,15 +1,21 @@
 from dash import dcc, html
+import pandas as pd
 # import dash_core_components as dcc
 # import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from app import app
+from rootInformation import rootDirectory
 from assets import errorpage
 #from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
 from cities import amritsar, chennai, delhi
 
 cities = ["amritsar","chennai",  "delhi"]
 #, "jaipur", "thiruvananthapuram", "kanpur", "kolkata", "nagpur", "hyderabad", "visakhapatnam", "mumbai"
+
+citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
+
+cityAQI = dict(zip(citiesMean.City, citiesMean.AQI))
 
 prev_dump = html.Div(id="flip-container", children=[
         html.Div(className="flip-inner-container", children=[
@@ -34,10 +40,6 @@ prev_dump = html.Div(id="flip-container", children=[
         ])
     ])
 
-def fetchAQI(city):
-    pass
-
-
 app.layout = html.Div(id='mainDiv', className='cards', children=[
     dcc.Location(id='url', refresh=True),
     html.Div(id='page-content', children=[])
@@ -53,7 +55,7 @@ home_layout =  html.Div(id="home-page", children=[
         html.Div(className="card", children=[
             html.Div(className="content", children=[
                 html.H2(id="cardCity", children=[city.capitalize()]),
-                html.P(id="cardAQI", children=["Average AQI: "]),
+                html.P(id="cardAQI", children=[f"Average AQI: {cityAQI[city.capitalize()]}"]),
                 dbc.Button("Open Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
             ])
         ])for city in cities

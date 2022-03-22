@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-body
+#page-content
 {
     display: flex;
     justify-content: center;
@@ -30,8 +30,9 @@ body
 }
 .container .card
 {
+    margin: auto;
     position: relative;
-    width: 230px;
+    width: 250px;
     height: 300px;
     background: #fff;
     display: flex;
@@ -67,7 +68,7 @@ body
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 60%;
     height: 100%;
     transition: 0.5s;
     background: rgba(255,255,255,.1);

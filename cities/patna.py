@@ -8,11 +8,11 @@ import dash
 from dash import dcc, html, Input, Output, State
 from app import app
 from rootInformation import rootDirectory
-from backend.amritsarBackend import AmritsarMainElements
+from backend.patnaBackend import PatnaMainElements
 
 fontStyle = "Calibri"
 
-cityName = "Amritsar"
+cityName = "Patna"
 file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
@@ -47,8 +47,8 @@ def cardLayout(figure):
 layout = html.Div(id = 'parent', children = [
 
     html.Header(id='header', children=[
-        html.H1("Amritsar")
-        # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
+        html.H1("Patna")
+        # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/patna.jpg"))
     ]),
     
 
@@ -56,7 +56,8 @@ layout = html.Div(id = 'parent', children = [
 
         html.Div(id="dropdown", children=[
          dcc.Dropdown(id="slct_gas",
-                 options=[  
+                 options=[
+                     
                     {"label": "PM2.5", "value": "PM2.5"},
                     {"label": "PM10", "value": "PM10"},
                     {"label": "NO", "value": "NO"},
@@ -67,8 +68,8 @@ layout = html.Div(id = 'parent', children = [
                     {"label": "SO2", "value": "SO2"},
                     {"label": "O3", "value": "O3"},
                     {"label": "AQI", "value": "AQI"}
-                ],  
-                searchable = False, 
+
+                    ],   
                 multi = False,
                 value = "PM2.5",
                 style = {'width': "60%", "margin":"5px", 'text-align':'center', 'margin-left':'auto','margin-right':'auto'}
@@ -82,37 +83,26 @@ layout = html.Div(id = 'parent', children = [
             dbc.CardBody(id= 'card', children=[
 
                 dbc.Row(className='cardBody', children=[
-                    cardLayout(html.Div(dcc.Graph(id = 'amritsarGasesLinedGraph', className='graphPlot', figure = {})))
+                    cardLayout(html.Div(dcc.Graph(id = 'patnaGasesLinedGraph', className='graphPlot', figure = {})))
                 ], style={'padding':'5px', 'color':'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'amritsarGasesBoxPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'patnaGasesBoxPlot', className='graphPlot', figure = {})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'amritsarGasesMonthlyPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(dcc.Graph(id = 'patnaGasesMonthlyPlot', className='graphPlot', figure = {})))
                     ], width=5)
                 ]),
-                html.P(
-                    'The emission of the gases and particulate matters in Amritsar has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Amritsar during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
-                    ),
-                html.Br(),html.Br(),
-
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.html_arima(), style={
+                    cardLayout(html.Iframe(srcDoc=PatnaMainElements.html_arima(), style={
                         'height':'500px',
                         'width':'1450px',
-                    })),
-                    html.Br(),
-                    html.P(
-                        'Data of variable pollution concentrations have been taken from the official website of central pollution control board. The filtered format of the data has been used for the AQI calculation. From the above graph it can be observed that the AQI concentration since the year 2017 follows a seasonal format and has a constant trend. The graph is the result of ARIMA timeseries algorithm which has provided the best outcome. It shows that in the year 2022, the AQI of Amritsar would follow the same trend as before with an increase during Diwali and gradual decrease during the rainy season with a slight increase during the summer season.'
-                    ),
-                    html.Br(),html.Br(),
+                    }))
                 ]),
-                
 
                 dbc.Button(
                         "Comparitive Analysis of Algorithms",
@@ -136,7 +126,6 @@ layout = html.Div(id = 'parent', children = [
                                 {"label": "Root Mean Square Error", "value": "rmse"}
 
                                 ],   
-                            searchable = False,
                             multi = False,
                             value = "rmse",
                             style = {'width': "60%", "margin":"5px", 'text-align':'center', 'margin-left':'auto','margin-right':'auto'}
@@ -147,25 +136,16 @@ layout = html.Div(id = 'parent', children = [
                             'height':'500px',
                             'width':'1450px',
                             })
-                        ),
-                        html.Br(),
-                        html.P(
-                            'After comparing four timeseries algorithms viz. ARIMA, Facebook Prophet, LSTM RNN, Exponential Smoothing, it can be observed that, ARIMAs Rolling Forecast gives the least amount of error. ETS and FB Probhet give compatible outputs whereas ast LSTM RNN has the least accuracy as Machine Learning algorithms require large series of data.'
-                            ),
-                        html.Br(),html.Br(),
+                        )
+                        
                     ])
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.comparingScenarios(), style={
+                    cardLayout(html.Iframe(srcDoc=PatnaMainElements.comparingScenarios(), style={
                         'height':'500px',
                         'width':'1450px',
-                    })),
-                    html.Br(),
-                    html.P(
-                        'Due to the lockdown, there was a sudden decrease in the industrial and vehicular gas emissions which resulted a decrease in the AQI level In case the lockdown didnt exist, the emission wouldnt had tappered in the year 2020 and 2021. If the emmision of gas was not affected by anything, the AQI concentration would have followed the seasonal trend and there would be a slight increase in the AQI as compared to the current scenario'
-                        ),
-                    html.Br(),html.Br(),
+                    }))
                 ])
             ])
         ),    
@@ -180,17 +160,17 @@ layout = html.Div(id = 'parent', children = [
 
 def comparitiveAnalysis(value):
         if value == "rmse":
-            srcDoc = AmritsarMainElements.comparativeAnalysisRMSE()
+            srcDoc = PatnaMainElements.comparativeAnalysisRMSE()
         elif value == "mape":
-            srcDoc = AmritsarMainElements.comparativeAnalysisMAPE()
+            srcDoc = PatnaMainElements.comparativeAnalysisMAPE()
         elif value == "mae":
-            srcDoc = AmritsarMainElements.comparativeAnalysisMAE()
+            srcDoc = PatnaMainElements.comparativeAnalysisMAE()
         elif value == "me":
-            srcDoc = AmritsarMainElements.comparativeAnalysisME()
+            srcDoc = PatnaMainElements.comparativeAnalysisME()
         elif value == "mse":
-            srcDoc = AmritsarMainElements.comparativeAnalysisMSE()
+            srcDoc = PatnaMainElements.comparativeAnalysisMSE()
         elif value == "mpe":
-            srcDoc = AmritsarMainElements.comparativeAnalysisMPE()
+            srcDoc = PatnaMainElements.comparativeAnalysisMPE()
         else:
             srcDoc = None
 
@@ -199,9 +179,9 @@ def comparitiveAnalysis(value):
         
 
 @app.callback(
-    [Output(component_id='amritsarGasesLinedGraph', component_property='figure'),
-    Output(component_id='amritsarGasesBoxPlot', component_property='figure'),
-    Output(component_id='amritsarGasesMonthlyPlot', component_property='figure')
+    [Output(component_id='patnaGasesLinedGraph', component_property='figure'),
+    Output(component_id='patnaGasesBoxPlot', component_property='figure'),
+    Output(component_id='patnaGasesMonthlyPlot', component_property='figure')
     ],
     Input(component_id='slct_gas', component_property='value')
 )

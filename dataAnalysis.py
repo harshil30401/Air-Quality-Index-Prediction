@@ -15,3 +15,4 @@ cities['Date']=pd.to_datetime(cities['Date'])
 cities['PM'] = cities['PM2.5'] + cities['PM10']
 
 
+# Refer to the Top 10 cities graph

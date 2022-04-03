@@ -1,7 +1,4 @@
-function hideDiv() {
-
-    let div = document.getElementById("elements");
-    div.style.display = "none";
-    
-}
+// $(".rotate").click(function () {
+//     $(this).toggleClass("down");
+// })
 

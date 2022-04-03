@@ -7,6 +7,7 @@ import dash_bootstrap_components as dbc
 import dash
 from dash import dcc, html, Input, Output, State
 from app import app
+from dash_bootstrap_components import icons
 from rootInformation import rootDirectory
 from backend.amritsarBackend import AmritsarMainElements
 
@@ -115,14 +116,19 @@ layout = html.Div(id = 'parent', children = [
                 ]),
                 
 
-                dbc.Button(
-                        "Comparitive Analysis of Algorithms",
+                html.Div(id='buttonDiv', children=[
+                    dbc.Button(
+                        ["Comparitive Analysis of Algorithms  ",
+                        html.Div(className='rotate', children=[
+                            html.I(className="bi bi-chevron-down")
+                        ])],
                         id="collapse-button",
                         className="mb-3",
                         color="primary",
                         n_clicks=0, 
-                        style={"width":"100%", "padding":"15px", "background":"#355863"}
-                ),
+                        style={"padding":"15px", "background":"#355863", 'text-align':'center'},
+                )
+                ],style={"padding-left":"40%"}),
 
                 dbc.Row(children=[
                     dbc.Collapse(id='collapse', is_open=False, children=[

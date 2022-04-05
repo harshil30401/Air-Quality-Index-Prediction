@@ -44,8 +44,7 @@ app.layout = html.Div(id='mainDiv', className='cards', children=[
     dcc.Location(id='url', refresh=True),
     html.Div(id='page-content', children=[])
     ])
-
-
+ 
 home_layout =  html.Div(id="home-page", children=[
     html.Div(id="headerDiv", children=[
         html.H1(id="homeHeader", children=["Analysis and Prediction of Air Quality in India"])
@@ -62,7 +61,6 @@ home_layout =  html.Div(id="home-page", children=[
     ])
 ])
 
-
 @app.callback(Output(component_id='page-content', component_property='children'),
             [Input(component_id='url', component_property='pathname')])
 def display_page(pathname):
@@ -78,6 +76,7 @@ def display_page(pathname):
 
     elif pathname == '/cities/delhi':
         return delhi.layout
+
     # elif pathname == '/cities/hyderabad':
     #     return hyderabad.layout
 

@@ -17,14 +17,16 @@ from folium.plugins import MarkerCluster
 from matplotlib.patches import Circle, Wedge, Rectangle
 from IPython.lib.display import IFrame
 import altair as alt
-from app import app
 
 cities = pd.read_excel(
-    f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/allCities.xlsx"
+    f"{rootDirectory}/datasets/allCities.xlsx"
 )
 cities["Date"] = pd.to_datetime(cities["Date"])
 
+
 cities["PM"] = cities["PM2.5"] + cities["PM10"]
+
+cities = cities[cities["Date"] >= "2018-10-01"]
 
 #Box plots & lined graph of every gas (Yearly and monthly trend)
 df = cities.copy()
@@ -487,7 +489,7 @@ after_lockdown = cities[ (cities['Date'] >= '2020-03-01') & ('2021-08-15' >= cit
 before_lockdown_aqi = before_lockdown.groupby('City')['AQI'].mean().to_frame().reset_index()
 after_lockdown_aqi = after_lockdown.groupby('City')['AQI'].mean().to_frame().reset_index()
 
-cities_db = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/IndianCitiesDatabase.csv")
+cities_db = pd.read_csv(f"{rootDirectory}/datasets/IndianCitiesDatabase.csv")
 before_lockdown_aqi = pd.merge(before_lockdown_aqi, cities_db, on = 'City')
 before_lockdown_aqi['AQI'] = before_lockdown_aqi['AQI'].round(0)
 after_lockdown_aqi = pd.merge(after_lockdown_aqi, cities_db, on = 'City')
@@ -597,7 +599,7 @@ aqiAfter = dict(data=[trace, trace1], layout=layout)
 
 #Choropleth Maps
 
-data = pd.read_csv(f'{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv')
+data = pd.read_csv(f'{rootDirectory}/datasets/citiesMean.csv')
 data.rename(columns={"PM2.5":"PM25"}, inplace=True)
 data['PM10'].fillna("-", inplace=True)
 data['NH3'].fillna("-", inplace=True)
@@ -749,7 +751,7 @@ map = folium.Map(
 
 folium.TileLayer(tiles='Stamen Terrain', min_zoom=0, max_zoom=18, show=True, opacity=1, attr="toner-bcg").add_to(map)
 
-fg.add_child(folium.Choropleth(geo_data=(open(f'{rootDirectory}/Air-Quality-Index-Prediction/india_states.json', 'r', encoding='utf-8-sig').read()), line_color='#665C67', fill_color='#9D7DA2'))
+fg.add_child(folium.Choropleth(geo_data=(open(f'{rootDirectory}/india_states.json', 'r', encoding='utf-8-sig').read()), line_color='#665C67', fill_color='#9D7DA2'))
 map.add_child(fg)
 
 

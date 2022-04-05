@@ -1,3 +1,4 @@
+from matplotlib.pyplot import title
 import dataAnalysisBackend
 from plotly.offline import init_notebook_mode, plot, iplot
 import plotly.graph_objects as go
@@ -5,37 +6,54 @@ import plotly.express as px
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State
-from app import app
+from rootInformation import rootDirectory
+# from app import app
+
+indexPath = rootDirectory + '/assets/index.css'
+
 
 test = dash.Dash()
 
-def cardLayout(text, figure):
-    return  html.Div([
+def cardLayout(classname, text, figure):
+    return  html.Div([ 
         dbc.Card(
             dbc.CardBody([
                 html.Div([
                     html.H2(text),
                 ], style={
                     'textAlign': 'center',
-                    'font-style': 'Calibri'
+                    'font-style': 'Calibri',
+                    'margin':'10px'
                     }),
                 html.Br(),
                 figure
             ])
         ),  
-    ])
+    ], className=classname)
 
 test.layout = html.Div(id='dataAnalysisDiv', children=[
     html.H1(id='daTitle', children=["Data Analysis"]),
-    dbc.Row(
+    dbc.Row(id = '00', children=[
         dcc.RadioItems(dataAnalysisBackend.gases, 'PM2.5', inline=True, id='gasRadioItems'),
-        dbc.Col(
-            cardLayout(id='yearlyBoxPlot', text='Yearly Box Plot', figure={})
-        ),
-        dbc.Col(
-            cardLayout(id='monthlyLineGraph', text='Monthly Line Graph', figure={})
-        )
-    )
+        dbc.Col(children=[
+            cardLayout(classname='template', text="Yearly Box Plot", figure=
+            
+            dcc.Graph(id='yearlyBoxPlot', 
+            # text='Yearly Box Plot', 
+            figure={})
+            
+            )
+        ]),
+        dbc.Col(children=[
+            cardLayout(classname='template', text="Monthly Lined Graph", figure=
+            
+            dcc.Graph(id='monthlyLineGraph', 
+            # text='Monthly Line Graph', 
+            figure={})
+            
+            )
+        ])
+    ])
     
 ])
 

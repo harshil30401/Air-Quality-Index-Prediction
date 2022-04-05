@@ -116,17 +116,6 @@
     background: #2196F3;
 }
 
-/* .bi bi-chevron-down:hover{
-    transform:rotate(180deg);
-} */
-
-/* .rotate {
-    -moz-transition: all .5s linear;
-    -webkit-transition: all .5s linear;
-    transition: all .5s linear;
+.template {    
+    background-color: #355863;
 }
-.rotate.down {
-    -moz-transform:rotate(90deg);
-    -webkit-transform:rotate(90deg);
-    transform:rotate(90deg);
-} */

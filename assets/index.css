@@ -7,14 +7,23 @@
     font-family: 'Poppins', sans-serif;
 }
 
-#page-content
+/* #page-content
 {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+} */
+
+#home-page
+{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     background: linear-gradient(0deg,rgb(128, 158, 156) 50%, #355863);
 }
+
 .container
 {
     max-width: 1000px;

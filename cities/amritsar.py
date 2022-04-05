@@ -1,13 +1,8 @@
-from enum import auto
-from logging import root
-from turtle import width
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-import dash
 from dash import dcc, html, Input, Output, State
 from app import app
-from dash_bootstrap_components import icons
 from rootInformation import rootDirectory
 from backend.amritsarBackend import AmritsarMainElements
 
@@ -28,13 +23,6 @@ def cardLayout(figure):
     return  html.Div([
         dbc.Card(
             dbc.CardBody([
-                # html.Div([
-                #     html.H2(text),
-                # ], style={
-                #     'textAlign': 'center',
-                #     'font-style':fontStyle
-                #     }),
-                # html.Br(),
                 figure
             ])
         ),  

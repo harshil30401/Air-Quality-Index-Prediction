@@ -199,6 +199,17 @@ cono2so2.update_yaxes(title_text="ug / m3", row=1, col=1)
 cono2so2.update_yaxes(title_text="ug / m3", row=1, col=2)
 cono2so2.update_yaxes(title_text="ug / m3", row=1, col=3)
 
+# # AQI
+# x = (
+#     cities[["AQI", "City"]]
+#     .groupby(["City"])
+#     .mean()
+#     .sort_values(by="CO", ascending=False)
+#     .reset_index()
+# )
+
+
+
 # Effect of Lockdown on AQI
 
 locations = [

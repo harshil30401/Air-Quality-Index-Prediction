@@ -33,33 +33,40 @@ def cardLayout(classname, text, figure):
 
 test.layout = html.Div(id='dataAnalysisDiv', children=[
     html.H1(id='daTitle', children=["Data Analysis"]),
+    dcc.RadioItems(dataAnalysisBackend.gases, 'PM2.5', inline=True, id='gasRadioItems'),
     dbc.Row(id = '00', children=[
-        dcc.RadioItems(dataAnalysisBackend.gases, 'PM2.5', inline=True, id='gasRadioItems'),
         dbc.Col(children=[
             cardLayout(classname='template', text="Yearly Box Plot", figure=
             
             dcc.Graph(id='yearlyBoxPlot', 
-            # text='Yearly Box Plot', 
             figure={})
             
             )
-        ]),
+        ], width=7),
         dbc.Col(children=[
             cardLayout(classname='template', text="Monthly Lined Graph", figure=
             
             dcc.Graph(id='monthlyLineGraph', 
-            # text='Monthly Line Graph', 
             figure={})
             
             )
-        ])
+        ], width=5),
+    ]),
+    dbc.Row(children=[
+        cardLayout(classname='template', text='' ,figure=
+        
+        dcc.Graph(id='top10', 
+        figure={})
+        
+        )
     ])
     
 ])
 
 @test.callback(
     [Output(component_id='yearlyBoxPlot', component_property='figure'),
-    Output(component_id='monthlyLineGraph', component_property='figure')],
+    Output(component_id='monthlyLineGraph', component_property='figure'),
+    Output(component_id='top10', component_property='figure')],
     Input(component_id='gasRadioItems', component_property='value')
 )
 
@@ -74,7 +81,45 @@ def gasSelectorFun(value):
 
     monthly = px.line(df1, x='month', y=value, markers=True)
 
-    return yearly, monthly
+
+    x = dataAnalysisBackend.cities.groupby("City")[value].mean().sort_values(ascending=False).reset_index()
+    trace = go.Table(
+        domain=dict(x=[0, 0.52], y=[0, 1.0]),
+        header=dict(
+            values=["City", value],
+            fill=dict(color="red"),
+            font=dict(color="white", size=14),
+            align=["center"],
+            height=30,
+        ),
+        cells=dict(
+            values=[x["City"].head(10), x[value].head(10)],
+            fill=dict(color=["lightsalmon", "lightsalmon"]),
+            align=["center"],
+        ),
+    )
+
+    trace1 = go.Bar(
+        x=x["City"].head(10),
+        y=x[value].head(10),
+        xaxis="x1",
+        yaxis="y1",
+        marker=dict(color="red"),
+        opacity=0.60,
+    )
+    layout = dict(
+        width=1450,
+        height=500,
+        autosize=False,
+        title=f"TOP 10 Cities with Max {value}",
+        showlegend=False,
+        xaxis1=dict(**dict(domain=[0.58, 1], anchor="y1", showticklabels=True)),
+        yaxis1=dict(**dict(domain=[0, 1.0], anchor="x1", hoverformat=".2f")),
+    )
+
+    top10 = dict(data=[trace, trace1], layout=layout)
+
+    return yearly, monthly, top10
 
 
 if __name__ == "__main__":

@@ -46,9 +46,9 @@ app.layout = html.Div(id='mainDiv', className='cards', children=[
     ])
  
 home_layout =  html.Div(id="home-page", children=[
-    html.Div(id="headerDiv", children=[
-        html.H1(id="homeHeader", children=["Analysis and Prediction of Air Quality in India"])
-    ]),
+    # html.Div(id="headerDiv", children=[
+    #     html.H1(id="homeHeader", children=["Analysis and Prediction of Air Quality in India"])
+    # ]),
 
     html.Div(className="container", children=[
         html.Div(className="card", children=[

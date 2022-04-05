@@ -15,6 +15,7 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
     city['Date'] = pd.to_datetime(city['Date'])
     city.set_index('Date', inplace=True)
 
+
     fig = px.line(city, x=city.index, y='AQI')
     fig.update_xaxes(
         rangeslider_visible= True,
@@ -150,7 +151,6 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
 
     theBluePrint.html_arima = fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-
     model=SARIMAX(merged,order=myOrder,seasonal_order=mySeasonalOrder)
     results=model.fit()
     results.summary()
@@ -213,15 +213,37 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
     # 'mse': 2906.7908331410863,
     # 'rmse': 53.91466250604826}
 
+
     acc_parameters = {"ARIMA": arima_rolling_acc_parameters, "Prophet" : prophet_acc_parameters, 
     "LSTM" : lstm_acc_parameters, "ETS" : ets_acc_parameters}
 
     acc_parameters = pd.DataFrame.from_dict(acc_parameters, orient ='index')
 
-    comparativeAnalysis = px.bar(acc_parameters, y=acc_parameters.rmse, x=acc_parameters.index, text_auto='.2s',
-                title='Comparison')  
 
-    theBluePrint.comparativeAnalysis = comparativeAnalysis.to_html(full_html=False, include_plotlyjs='cdn')          
+
+    comparativeAnalysisMAE = px.bar(acc_parameters, y=acc_parameters.mae, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisMAE = comparativeAnalysisMAE.to_html(full_html=False, include_plotlyjs='cdn')
+
+    comparativeAnalysisMAPE = px.bar(acc_parameters, y=acc_parameters.mape, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisMAPE = comparativeAnalysisMAPE.to_html(full_html=False, include_plotlyjs='cdn')
+
+    comparativeAnalysisME = px.bar(acc_parameters, y=acc_parameters.me, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisME = comparativeAnalysisME.to_html(full_html=False, include_plotlyjs='cdn')
+
+    comparativeAnalysisMPE = px.bar(acc_parameters, y=acc_parameters.mpe, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisMPE = comparativeAnalysisMPE.to_html(full_html=False, include_plotlyjs='cdn')
+
+    comparativeAnalysisMSE = px.bar(acc_parameters, y=acc_parameters.mse, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisMSE = comparativeAnalysisMSE.to_html(full_html=False, include_plotlyjs='cdn')
+
+    comparativeAnalysisRMSE = px.bar(acc_parameters, y=acc_parameters.rmse, x=acc_parameters.index, text_auto='.2s',
+                title='Comparison')  
+    theBluePrint.comparativeAnalysisRMSE = comparativeAnalysisRMSE.to_html(full_html=False, include_plotlyjs='cdn')          
 
     # return accuracyARIMA, comparativeAnalysis, comparingScenarios, html_arima
 
@@ -229,9 +251,26 @@ class CityMainElements():
 
     def accuracyArima(self):
         return theBluePrint.accuracyARIMA
+
+
+    def comparativeAnalysisMAE(self):
+        return theBluePrint.comparativeAnalysisMAE
+
+    def comparativeAnalysisMAPE(self):
+        return theBluePrint.comparativeAnalysisMAPE
+
+    def comparativeAnalysisME(self):
+        return theBluePrint.comparativeAnalysisME
+
+    def comparativeAnalysisMPE(self):
+        return theBluePrint.comparativeAnalysisMPE
+
+    def comparativeAnalysisMSE(self):
+        return theBluePrint.comparativeAnalysisMSE
         
-    def comparativeAnalysis(self):
-        return theBluePrint.comparativeAnalysis
+    def comparativeAnalysisRMSE(self):
+        return theBluePrint.comparativeAnalysisRMSE
+
         
     def comparingScenarios(self):
         return theBluePrint.comparingScenarios

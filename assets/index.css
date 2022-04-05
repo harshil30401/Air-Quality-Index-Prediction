@@ -6,6 +6,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
 #page-content
 {
     display: flex;
@@ -114,3 +115,18 @@
 {
     background: #2196F3;
 }
+
+/* .bi bi-chevron-down:hover{
+    transform:rotate(180deg);
+} */
+
+/* .rotate {
+    -moz-transition: all .5s linear;
+    -webkit-transition: all .5s linear;
+    transition: all .5s linear;
+}
+.rotate.down {
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+} */

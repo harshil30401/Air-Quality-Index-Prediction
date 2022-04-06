@@ -1,3 +1,4 @@
+from turtle import position
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
@@ -5,6 +6,7 @@ from dash import dcc, html, Input, Output, State
 from app import app
 from rootInformation import rootDirectory
 from backend.amritsarBackend import AmritsarMainElements
+from cities.frontEndBluePrint import headerComponent
 
 fontStyle = "Calibri"
 
@@ -28,21 +30,49 @@ def cardLayout(figure):
         ),  
     ])
 
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(dbc.NavLink("Page 1", href="#")),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("More pages", header=True),
+                dbc.DropdownMenuItem("Page 2", href="#"),
+                dbc.DropdownMenuItem("Page 3", href="#"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand="NavbarSimple",
+    brand_href="#",
+    color="black",
+    dark=True,
+    style={
+        'position':'sticky',
+        'top':'0',
+        'z-index':'1'
+    }
+)
+
 
 # app.title = "Analysis and Prediction of Air Quality in India"
 
 # html.Div(id = 'parent', children = [layout])
 
-layout = html.Div(id = 'parent', children = [
 
-    html.Header(id='header', children=[
-        html.H1("Amritsar")
-        # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
-    ]),
-    
+
+layout = html.Div(id = 'amritsarParent', children = [
+
+    # html.Header(id='header', children=[
+    #     html.H1("Amritsar")
+    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
+    # ]),
+    headerComponent("Mumbai", "January 2018", 700),
 
     html.Div(id='mainBody', children=[
 
+        navbar,        
         html.Div(id="dropdown", children=[
          dcc.Dropdown(id="slct_gas",
                  options=[  

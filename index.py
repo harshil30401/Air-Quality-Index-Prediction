@@ -17,28 +17,7 @@ citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets
 
 cityAQI = dict(zip(citiesMean.City, citiesMean.AQI))
 
-prev_dump = html.Div(id="flip-container", children=[
-        html.Div(className="flip-inner-container", children=[
-           
-            html.Div(className="flip-front", children=[
-                html.Img(src="delhiCard.jpg")
-            ]),
 
-            html.Div(className="flip-back", children=[
-                html.Div(className="profile-image", children=[
-                    html.Img(src="delhi.jpg"),
-                    html.H2("Code Info"),
-                    html.P("Web Developer | Content Creator | Youtuber"),
-                    html.Ul(children=[
-                        html.I(className="fab fa-facebook-f"),
-                        html.I(className="fab fa-instagram"),
-                        html.I(className="fab fa-youtube")
-                    ])
-                ])
-            ])
-
-        ])
-    ])
 
 app.layout = html.Div(id='mainDiv', className='cards', children=[
     dcc.Location(id='url', refresh=True),

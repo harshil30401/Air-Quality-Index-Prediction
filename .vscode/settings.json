@@ -1,4 +1,4 @@
 {
     "python.defaultInterpreterPath": "C:\\Users\\DELL\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "autopep8"
 }

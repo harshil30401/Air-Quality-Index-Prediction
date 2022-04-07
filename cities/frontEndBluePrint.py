@@ -70,7 +70,11 @@ def headerComponent(city, startDate, aqi):
                 dbc.Col([
                     html.H1([aqi])
                 ], style={'text-align':'right', 'font-size':'30px', 'font-weight':'bold'})
-            ], style={'background-color':color, 'padding':"20px 50px 15px 50px", 'font-weight':'bold'})
+            ], style={
+                'background-color':color, 
+                'padding':"20px 50px 15px 50px", 
+                'font-weight':'bold'
+                })
 
             # navbar("black")
     

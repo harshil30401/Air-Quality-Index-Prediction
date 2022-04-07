@@ -5,13 +5,13 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State
 from app import app
 from rootInformation import rootDirectory
-from backend.amritsarBackend import AmritsarMainElements
+from backend.delhiBackend import DelhiMainElements
 from cities.frontEndBluePrint import headerComponent
 import math
 
 fontStyle = "Calibri"
 
-cityName = "Amritsar"
+cityName = "Delhi"
 file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
@@ -71,19 +71,19 @@ navbar = dbc.NavbarSimple(
 
 # html.Div(id = 'parent', children = [layout])
 
-layout = html.Div(id='amritsarParent', children=[
+layout = html.Div(id='delhiParent', children=[
 
     # html.Header(id='header', children=[
-    #     html.H1("Amritsar")
-    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
+    #     html.H1("Delhi")
+    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
     # ]),
-    headerComponent(cityName, "January 2018", math.floor(cityAQI[cityName])),
+    headerComponent(cityName, "January 2015", math.floor(cityAQI[cityName])),
 
     html.Div(id='mainBody', children=[
 
         navbar,
         html.Div(id="dropdown", children=[
-            dcc.Dropdown(id="slct_gas",
+            dcc.Dropdown(id=f"slct_gas{cityName}",
                  options=[
                     {"label": "PM2.5", "value": "PM2.5"},
                     {"label": "PM10", "value": "PM10"},
@@ -120,48 +120,48 @@ layout = html.Div(id='amritsarParent', children=[
 
                 dbc.Row(className='cardBody', children=[
                     cardLayout(html.Div(
-                        dcc.Graph(id='amritsarGasesLinedGraph', className='graphPlot', figure={})))
+                        dcc.Graph(id='delhiGasesLinedGraph', className='graphPlot', figure={})))
                 ], style={'padding': '5px', 'color': 'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(
-                            dcc.Graph(id='amritsarGasesBoxPlot', className='graphPlot', figure={})))
+                            dcc.Graph(id='delhiGasesBoxPlot', className='graphPlot', figure={})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(
-                            dcc.Graph(id='amritsarGasesMonthlyPlot', className='graphPlot', figure={})))
+                            dcc.Graph(id='delhiGasesMonthlyPlot', className='graphPlot', figure={})))
                     ], width=5)
                 ]),
                 html.Br(), html.Br(),
                 html.P(
-                    'The emission of the gases and particulate matters in Amritsar has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Amritsar during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
+                    'The emission of the gases and particulate matters in Delhi has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Delhi during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
                 ),
                 html.Br(), html.Br(),
 
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.html_arima(), style={
+                    cardLayout(html.Iframe(srcDoc=DelhiMainElements.html_arima(), style={
                         'height': '500px',
                         'width': '1450px',
                     })),
                     html.Br(), html.Br(),
                     html.P(
-                        'Data of variable pollution concentrations have been taken from the official website of central pollution control board. The filtered format of the data has been used for the AQI calculation. From the above graph it can be observed that the AQI concentration since the year 2017 follows a seasonal format and has a constant trend. The graph is the result of ARIMA timeseries algorithm which has provided the best outcome. It shows that in the year 2022, the AQI of Amritsar would follow the same trend as before with an increase during Diwali and gradual decrease during the rainy season with a slight increase during the summer season.'
+                        'Data of variable pollution concentrations have been taken from the official website of central pollution control board. The filtered format of the data has been used for the AQI calculation. From the above graph it can be observed that the AQI concentration since the year 2017 follows a seasonal format and has a constant trend. The graph is the result of ARIMA timeseries algorithm which has provided the best outcome. It shows that in the year 2022, the AQI of Delhi would follow the same trend as before with an increase during Diwali and gradual decrease during the rainy season with a slight increase during the summer season.'
                     ),
                     html.Br(), html.Br(),
                 ]),
 
 
-                html.Div(id='buttonDiv', children=[
+                html.Div(id=f'buttonDiv{cityName}', children=[
                     dbc.Button(
                         ["Comparitive Analysis of Algorithms  ",
                          html.Div(className='rotate', children=[
                             html.I(className="bi bi-chevron-down")
                          ])],
-                        id="collapse-button",
+                        id=f"collapse-button{cityName}",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
@@ -171,8 +171,8 @@ layout = html.Div(id='amritsarParent', children=[
                 ], style={"padding-left": "40%"}),
 
                 dbc.Row(children=[
-                    dbc.Collapse(id='collapse', is_open=False, children=[
-                        dcc.Dropdown(id="slct_metric",
+                    dbc.Collapse(id=f'collapse{cityName}', is_open=False, children=[
+                        dcc.Dropdown(id=f"slct_metric{cityName}",
                                      options=[
 
                                          {"label": "Mean Absolute Error",
@@ -196,7 +196,7 @@ layout = html.Div(id='amritsarParent', children=[
                                      ),
 
                         cardLayout(
-                            html.Iframe(id="comp_analysis", srcDoc="", style={
+                            html.Iframe(id=f"comp_analysis{cityName}", srcDoc="", style={
                                 'height': '500px',
                                 'width': '1450px',
                             })
@@ -210,7 +210,7 @@ layout = html.Div(id='amritsarParent', children=[
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.comparingScenarios(), style={
+                    cardLayout(html.Iframe(srcDoc=DelhiMainElements.comparingScenarios(), style={
                         'height': '500px',
                         'width': '1450px',
                     })),
@@ -228,22 +228,22 @@ layout = html.Div(id='amritsarParent', children=[
 
 
 @app.callback(
-    Output(component_id='comp_analysis', component_property='srcDoc'),
-    Input(component_id='slct_metric', component_property='value')
+    Output(component_id=f'comp_analysis{cityName}', component_property='srcDoc'),
+    Input(component_id=f'slct_metric{cityName}', component_property='value')
 )
 def comparitiveAnalysis(value):
     if value == "rmse":
-        srcDoc = AmritsarMainElements.comparativeAnalysisRMSE()
+        srcDoc = DelhiMainElements.comparativeAnalysisRMSE()
     elif value == "mape":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMAPE()
+        srcDoc = DelhiMainElements.comparativeAnalysisMAPE()
     elif value == "mae":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMAE()
+        srcDoc = DelhiMainElements.comparativeAnalysisMAE()
     elif value == "me":
-        srcDoc = AmritsarMainElements.comparativeAnalysisME()
+        srcDoc = DelhiMainElements.comparativeAnalysisME()
     elif value == "mse":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMSE()
+        srcDoc = DelhiMainElements.comparativeAnalysisMSE()
     elif value == "mpe":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMPE()
+        srcDoc = DelhiMainElements.comparativeAnalysisMPE()
     else:
         srcDoc = None
 
@@ -251,12 +251,12 @@ def comparitiveAnalysis(value):
 
 
 @app.callback(
-    [Output(component_id='amritsarGasesLinedGraph', component_property='figure'),
-     Output(component_id='amritsarGasesBoxPlot', component_property='figure'),
-     Output(component_id='amritsarGasesMonthlyPlot',
+    [Output(component_id='delhiGasesLinedGraph', component_property='figure'),
+     Output(component_id='delhiGasesBoxPlot', component_property='figure'),
+     Output(component_id='delhiGasesMonthlyPlot',
             component_property='figure')
      ],
-    Input(component_id='slct_gas', component_property='value')
+    Input(component_id=f'slct_gas{cityName}', component_property='value')
 )
 def dropdownGraphs(slct_gas):
     fig = px.line(city, x=city.Date, y=slct_gas,
@@ -294,9 +294,9 @@ def dropdownGraphs(slct_gas):
 
 
 @app.callback(
-    Output("collapse", "is_open"),
-    [Input("collapse-button", "n_clicks")],
-    [State("collapse", "is_open")],
+    Output(f"collapse{cityName}", "is_open"),
+    [Input(f"collapse-button{cityName}", "n_clicks")],
+    [State(f"collapse{cityName}", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:

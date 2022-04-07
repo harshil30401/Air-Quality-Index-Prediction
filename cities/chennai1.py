@@ -5,13 +5,13 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State
 from app import app
 from rootInformation import rootDirectory
-from backend.amritsarBackend import AmritsarMainElements
+from backend.chennaiBackend import ChennaiMainElements
 from cities.frontEndBluePrint import headerComponent
 import math
 
 fontStyle = "Calibri"
 
-cityName = "Amritsar"
+cityName = "Chennai"
 file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
@@ -71,19 +71,19 @@ navbar = dbc.NavbarSimple(
 
 # html.Div(id = 'parent', children = [layout])
 
-layout = html.Div(id='amritsarParent', children=[
+layout = html.Div(id='chennaiParent', children=[
 
     # html.Header(id='header', children=[
     #     html.H1("Amritsar")
-    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
+    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/chennai.jpg"))
     # ]),
-    headerComponent(cityName, "January 2018", math.floor(cityAQI[cityName])),
+    headerComponent(cityName, "March 2015", math.floor(cityAQI[cityName])),
 
     html.Div(id='mainBody', children=[
 
         navbar,
         html.Div(id="dropdown", children=[
-            dcc.Dropdown(id="slct_gas",
+            dcc.Dropdown(id=f"slct_gas{cityName}",
                  options=[
                     {"label": "PM2.5", "value": "PM2.5"},
                     {"label": "PM10", "value": "PM10"},
@@ -120,19 +120,19 @@ layout = html.Div(id='amritsarParent', children=[
 
                 dbc.Row(className='cardBody', children=[
                     cardLayout(html.Div(
-                        dcc.Graph(id='amritsarGasesLinedGraph', className='graphPlot', figure={})))
+                        dcc.Graph(id='chennaiGasesLinedGraph', className='graphPlot', figure={})))
                 ], style={'padding': '5px', 'color': 'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(
-                            dcc.Graph(id='amritsarGasesBoxPlot', className='graphPlot', figure={})))
+                            dcc.Graph(id='chennaiGasesBoxPlot', className='graphPlot', figure={})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
                         cardLayout(html.Div(
-                            dcc.Graph(id='amritsarGasesMonthlyPlot', className='graphPlot', figure={})))
+                            dcc.Graph(id='chennaiGasesMonthlyPlot', className='graphPlot', figure={})))
                     ], width=5)
                 ]),
                 html.Br(), html.Br(),
@@ -143,7 +143,7 @@ layout = html.Div(id='amritsarParent', children=[
 
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.html_arima(), style={
+                    cardLayout(html.Iframe(srcDoc=ChennaiMainElements.html_arima(), style={
                         'height': '500px',
                         'width': '1450px',
                     })),
@@ -155,13 +155,13 @@ layout = html.Div(id='amritsarParent', children=[
                 ]),
 
 
-                html.Div(id='buttonDiv', children=[
+                html.Div(id=f'buttonDiv{cityName}', children=[
                     dbc.Button(
                         ["Comparitive Analysis of Algorithms  ",
                          html.Div(className='rotate', children=[
                             html.I(className="bi bi-chevron-down")
                          ])],
-                        id="collapse-button",
+                        id=f"collapse-button{cityName}",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
@@ -171,8 +171,8 @@ layout = html.Div(id='amritsarParent', children=[
                 ], style={"padding-left": "40%"}),
 
                 dbc.Row(children=[
-                    dbc.Collapse(id='collapse', is_open=False, children=[
-                        dcc.Dropdown(id="slct_metric",
+                    dbc.Collapse(id=f'collapse{cityName}', is_open=False, children=[
+                        dcc.Dropdown(id=f"slct_metric{cityName}",
                                      options=[
 
                                          {"label": "Mean Absolute Error",
@@ -196,7 +196,7 @@ layout = html.Div(id='amritsarParent', children=[
                                      ),
 
                         cardLayout(
-                            html.Iframe(id="comp_analysis", srcDoc="", style={
+                            html.Iframe(id=f"comp_analysis{cityName}", srcDoc="", style={
                                 'height': '500px',
                                 'width': '1450px',
                             })
@@ -210,7 +210,7 @@ layout = html.Div(id='amritsarParent', children=[
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=AmritsarMainElements.comparingScenarios(), style={
+                    cardLayout(html.Iframe(srcDoc=ChennaiMainElements.comparingScenarios(), style={
                         'height': '500px',
                         'width': '1450px',
                     })),
@@ -228,22 +228,22 @@ layout = html.Div(id='amritsarParent', children=[
 
 
 @app.callback(
-    Output(component_id='comp_analysis', component_property='srcDoc'),
-    Input(component_id='slct_metric', component_property='value')
+    Output(component_id=f'comp_analysis{cityName}', component_property='srcDoc'),
+    Input(component_id=f'slct_metric{cityName}', component_property='value')
 )
 def comparitiveAnalysis(value):
     if value == "rmse":
-        srcDoc = AmritsarMainElements.comparativeAnalysisRMSE()
+        srcDoc = ChennaiMainElements.comparativeAnalysisRMSE()
     elif value == "mape":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMAPE()
+        srcDoc = ChennaiMainElements.comparativeAnalysisMAPE()
     elif value == "mae":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMAE()
+        srcDoc = ChennaiMainElements.comparativeAnalysisMAE()
     elif value == "me":
-        srcDoc = AmritsarMainElements.comparativeAnalysisME()
+        srcDoc = ChennaiMainElements.comparativeAnalysisME()
     elif value == "mse":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMSE()
+        srcDoc = ChennaiMainElements.comparativeAnalysisMSE()
     elif value == "mpe":
-        srcDoc = AmritsarMainElements.comparativeAnalysisMPE()
+        srcDoc = ChennaiMainElements.comparativeAnalysisMPE()
     else:
         srcDoc = None
 
@@ -251,12 +251,12 @@ def comparitiveAnalysis(value):
 
 
 @app.callback(
-    [Output(component_id='amritsarGasesLinedGraph', component_property='figure'),
-     Output(component_id='amritsarGasesBoxPlot', component_property='figure'),
-     Output(component_id='amritsarGasesMonthlyPlot',
+    [Output(component_id='chennaiGasesLinedGraph', component_property='figure'),
+     Output(component_id='chennaiGasesBoxPlot', component_property='figure'),
+     Output(component_id='chennaiGasesMonthlyPlot',
             component_property='figure')
      ],
-    Input(component_id='slct_gas', component_property='value')
+    Input(component_id=f'slct_gas{cityName}', component_property='value')
 )
 def dropdownGraphs(slct_gas):
     fig = px.line(city, x=city.Date, y=slct_gas,
@@ -294,9 +294,9 @@ def dropdownGraphs(slct_gas):
 
 
 @app.callback(
-    Output("collapse", "is_open"),
-    [Input("collapse-button", "n_clicks")],
-    [State("collapse", "is_open")],
+    Output(f"collapse{cityName}", "is_open"),
+    [Input(f"collapse-button{cityName}", "n_clicks")],
+    [State(f"collapse{cityName}", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:

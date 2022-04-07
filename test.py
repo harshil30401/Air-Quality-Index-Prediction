@@ -2,6 +2,7 @@ from tokenize import Triple
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from cities.frontEndBluePrint import headerComponent
 
 testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/test.css"
 js = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
@@ -12,7 +13,12 @@ foo = dash.Dash(
     )
 
 foo.layout = html.Div(className='main',children=[
-    html.P("Hello World")
+    headerComponent("Mumbai", "January 2018", 45),
+    headerComponent("Mumbai", "January 2018", 95),
+    headerComponent("Mumbai", "January 2018", 145),
+    headerComponent("Mumbai", "January 2018", 245),
+    headerComponent("Mumbai", "January 2018", 345),
+    headerComponent("Mumbai", "January 2018", 445),
 ])
 
 if __name__ == "__main__":

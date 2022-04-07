@@ -124,6 +124,30 @@ layout = html.Div(id = 'parent', children = [
     
 ], style={'border':'none'})
 
+
+@app.callback(
+    Output(component_id='comp_analysis', component_property='srcDoc'),
+    Input(component_id='slct_metric', component_property='value')
+)
+def comparitiveAnalysis(value):
+    if value == "rmse":
+        srcDoc = ChennaiMainElements.comparativeAnalysisRMSE()
+    elif value == "mape":
+        srcDoc = ChennaiMainElements.comparativeAnalysisMAPE()
+    elif value == "mae":
+        srcDoc = ChennaiMainElements.comparativeAnalysisMAE()
+    elif value == "me":
+        srcDoc = ChennaiMainElements.comparativeAnalysisME()
+    elif value == "mse":
+        srcDoc = ChennaiMainElements.comparativeAnalysisMSE()
+    elif value == "mpe":
+        srcDoc = ChennaiMainElements.comparativeAnalysisMPE()
+    else:
+        srcDoc = None
+
+    return srcDoc
+
+
 @app.callback(
     [Output(component_id='chennaiGasesLinedGraph', component_property='figure'),
     Output(component_id='chennaiGasesBoxPlot', component_property='figure'),

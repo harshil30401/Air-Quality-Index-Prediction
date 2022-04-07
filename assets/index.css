@@ -21,7 +21,8 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(0deg,rgb(82, 87, 97) 50%, #00c1fc);
+    background: linear-gradient(45deg,rgb(73, 100, 154) 50%, #95cfe0);
+    background-color: #71e274;
 }
 
 .container

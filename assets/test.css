@@ -1,0 +1,30 @@
+body {
+    background: #000;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#navtest {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.box {
+    text-decoration: none;
+    color: #fff;
+    background: transparent;
+    padding: 15px, 40px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #fff;
+    margin: 0 10px;
+}
+
+.box:hover {
+    border: 0;
+    box-shadow: 0 0 3px #ffe205 0 0 7px #ffe205, 0 0 20px #edd205;
+}

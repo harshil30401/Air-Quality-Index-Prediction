@@ -1,4 +1,3 @@
-from turtle import position
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
@@ -8,8 +7,6 @@ from rootInformation import rootDirectory
 from backend.amritsarBackend import AmritsarMainElements
 from cities.frontEndBluePrint import headerComponent
 import math
-
-fontStyle = "Calibri"
 
 cityName = "Amritsar"
 file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
@@ -222,7 +219,6 @@ layout = html.Div(id='amritsarParent', children=[
     ]),
 
 ], style={'border': 'none'})
-
 
 @app.callback(
     Output(component_id='comp_analysis', component_property='srcDoc'),

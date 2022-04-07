@@ -3,8 +3,19 @@ import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
-testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/test.css"
+
+
+testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/test.css"
 js = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
+
+var = "test"
+navbar = html.Nav(id=f'nav{var}', children=[
+    html.A('Home', className='box'),
+    html.A('About', className='box'),
+    html.A('Contact', className='box'),
+    html.A('Map', className='box')
+])
+
 foo = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
@@ -12,7 +23,8 @@ foo = dash.Dash(
     )
 
 foo.layout = html.Div(className='main',children=[
-    html.P("Hello World")
+    navbar
+
 ])
 
 if __name__ == "__main__":

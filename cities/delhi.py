@@ -1,10 +1,13 @@
+from turtle import position
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-from dash import dcc, html, Input, Output
+from dash import dcc, html, Input, Output, State
 from app import app
 from rootInformation import rootDirectory
-from backend.delhiBackend import delhiMainElements
+from backend.delhiBackend import DelhiMainElements
+from cities.frontEndBluePrint import headerComponent
+import math
 
 fontStyle = "Calibri"
 
@@ -12,49 +15,76 @@ cityName = "Delhi"
 file = f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/{cityName}.csv"
 city = pd.read_csv(file, parse_dates=True)
 
+citiesMean = pd.read_csv(
+    f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
+cityAQI = dict(zip(citiesMean.City, citiesMean.AQI))
+
 city['Date'] = pd.to_datetime(city['Date'])
 path = "../assets/dashApp.css"
-# app = dash.Dash(  
+# app = dash.Dash(
 #     __name__,
 #     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
 #     )
 
+
 def cardLayout(figure):
-    return  html.Div([
+    return html.Div([
         dbc.Card(
             dbc.CardBody([
-                # html.Div([
-                #     html.H2(text),
-                # ], style={
-                #     'textAlign': 'center',
-                #     'font-style':fontStyle
-                #     }),
-                # html.Br(),
                 figure
             ])
-        ),  
+        ),
     ])
+
+
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(dbc.NavLink("Page 1", href="#")),
+        dbc.NavItem(dbc.NavLink("Cities", href="/")),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("More pages", header=True),
+                dbc.DropdownMenuItem("Page 2", href="#"),
+                dbc.DropdownMenuItem("Page 3", href="#"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand=cityName,
+    brand_href="#",
+    color="#1e2e32",
+    dark=True,
+    style={
+        'position': 'sticky',
+        'top': '0',
+        'box-shadow': '0 2px 2px -2px rgba(0,0,0,.2)',
+        'border-radius':'5px',
+        'z-index': '1',
+        'margin-bottom': '15px'
+    }
+)
 
 
 # app.title = "Analysis and Prediction of Air Quality in India"
 
 # html.Div(id = 'parent', children = [layout])
 
-layout = html.Div(className = 'parent', children = [
+layout = html.Div(id='delhiParent', children=[
 
-    html.Header(id='header', children=[
-        html.H1("Delhi")
-
-        # html.Img(src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
-    ]),
-    
+    # html.Header(id='header', children=[
+    #     html.H1("Delhi")
+    #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/delhi.jpg"))
+    # ]),
+    headerComponent(cityName, "January 2015", math.floor(cityAQI[cityName])),
 
     html.Div(id='mainBody', children=[
 
+        navbar,
         html.Div(id="dropdown", children=[
-         dcc.Dropdown(id="slct_gas",
+            dcc.Dropdown(id=f"slct_gas{cityName}",
                  options=[
-                     
                     {"label": "PM2.5", "value": "PM2.5"},
                     {"label": "PM10", "value": "PM10"},
                     {"label": "NO", "value": "NO"},
@@ -65,266 +95,210 @@ layout = html.Div(className = 'parent', children = [
                     {"label": "SO2", "value": "SO2"},
                     {"label": "O3", "value": "O3"},
                     {"label": "AQI", "value": "AQI"}
-
-                    ],   
-                multi = False,
-                value = "PM2.5",
-                style = {'width': "60%", "margin":"5px", 'text-align':'center', 'margin-left':'auto','margin-right':'auto'}
-                # 'backgroundColor': "#ffffff","
+                 ],
+            searchable=False,
+             multi=False,
+             value="PM2.5",
+             style={
+                     "width": "55%",
+                     "margin": "5px",
+                     'text-align': 'center',
+                     'margin-left': 'auto',
+                     'margin-right': 'auto',
+                     'border-color': '#355863',
+                     'box-shadow': '5px',
+                 }
+             # 'backgroundColor': "#ffffff","
                 # 'width':'20vH',
-                # 'height':'40px'}   
-                ),
-    ]),
+                # 'height':'40px'}
+             ),
+        ]),
+
 
         dbc.Card(
-            dbc.CardBody(id= 'card', children=[
+            dbc.CardBody(id='card', children=[
 
                 dbc.Row(className='cardBody', children=[
-                    cardLayout(html.Div(dcc.Graph(id = 'delhiGasesLinedGraph', className='graphPlot', figure = {})))
-                ], style={'padding':'5px', 'color':'blue'}),
+                    cardLayout(html.Div(
+                        dcc.Graph(id='delhiGasesLinedGraph', className='graphPlot', figure={})))
+                ], style={'padding': '5px', 'color': 'blue'}),
 
                 dbc.Row(children=[
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'delhiGasesBoxPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(
+                            dcc.Graph(id='delhiGasesBoxPlot', className='graphPlot', figure={})))
                     ], width=7),
 
                     dbc.Col(className='cardBody', children=[
-                        cardLayout(html.Div(dcc.Graph(id = 'delhiGasesMonthlyPlot', className='graphPlot', figure = {})))
+                        cardLayout(html.Div(
+                            dcc.Graph(id='delhiGasesMonthlyPlot', className='graphPlot', figure={})))
                     ], width=5)
                 ]),
+                html.Br(), html.Br(),
+                html.P(
+                    'The emission of the gases and particulate matters in Delhi has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Delhi during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
+                ),
+                html.Br(), html.Br(),
+
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements.comparativeAnalysis(), style={
-                            'height':'500px',
-                            'width':'1450px',
-                        })
+                    cardLayout(html.Iframe(srcDoc=DelhiMainElements.html_arima(), style={
+                        'height': '500px',
+                        'width': '1450px',
+                    })),
+                    html.Br(), html.Br(),
+                    html.P(
+                        'Data of variable pollution concentrations have been taken from the official website of central pollution control board. The filtered format of the data has been used for the AQI calculation. From the above graph it can be observed that the AQI concentration since the year 2017 follows a seasonal format and has a constant trend. The graph is the result of ARIMA timeseries algorithm which has provided the best outcome. It shows that in the year 2022, the AQI of Delhi would follow the same trend as before with an increase during Diwali and gradual decrease during the rainy season with a slight increase during the summer season.'
+                    ),
+                    html.Br(), html.Br(),
+                ]),
+
+
+                html.Div(id=f'buttonDiv{cityName}', children=[
+                    dbc.Button(
+                        ["Comparitive Analysis of Algorithms  ",
+                         html.Div(className='rotate', children=[
+                            html.I(className="bi bi-chevron-down")
+                         ])],
+                        id=f"collapse-button{cityName}",
+                        className="mb-3",
+                        color="primary",
+                        n_clicks=0,
+                        style={"padding": "15px", "background": "#355863",
+                               'text-align': 'center'},
                     )
+                ], style={"padding-left": "40%"}),
+
+                dbc.Row(children=[
+                    dbc.Collapse(id=f'collapse{cityName}', is_open=False, children=[
+                        dcc.Dropdown(id=f"slct_metric{cityName}",
+                                     options=[
+
+                                         {"label": "Mean Absolute Error",
+                                             "value": "mae"},
+                                         {"label": "Mean Absolute Percentage Error",
+                                          "value": "mape"},
+                                         {"label": "Mean Error", "value": "me"},
+                                         {"label": "Mean Percentage Error",
+                                             "value": "mpe"},
+                                         {"label": "Mean Square Error",
+                                             "value": "mse"},
+                                         {"label": "Root Mean Square Error",
+                                             "value": "rmse"}
+
+                                     ],
+                                     searchable=False,
+                                     multi=False,
+                                     value="rmse",
+                                     style={'width': "60%", "margin": "5px", 'text-align': 'center',
+                                            'margin-left': 'auto', 'margin-right': 'auto'}
+                                     ),
+
+                        cardLayout(
+                            html.Iframe(id=f"comp_analysis{cityName}", srcDoc="", style={
+                                'height': '500px',
+                                'width': '1450px',
+                            })
+                        ),
+                        html.Br(), html.Br(),
+                        html.P(
+                            'After comparing four timeseries algorithms viz. ARIMA, Facebook Prophet, LSTM RNN, Exponential Smoothing, it can be observed that, ARIMAs Rolling Forecast gives the least amount of error. ETS and FB Probhet give compatible outputs whereas ast LSTM RNN has the least accuracy as Machine Learning algorithms require large series of data.'
+                        ),
+                        html.Br(), html.Br(),
+                    ])
                 ]),
 
                 dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements.html_arima(), style={
-                        'height':'500px',
-                        'width':'1450px',
-                    }))
-                ]),
-
-                dbc.Row(children=[
-                    cardLayout(html.Iframe(srcDoc=delhiMainElements.comparingScenarios(), style={
-                        'height':'500px',
-                        'width':'1450px',
-                    }))
+                    cardLayout(html.Iframe(srcDoc=DelhiMainElements.comparingScenarios(), style={
+                        'height': '500px',
+                        'width': '1450px',
+                    })),
+                    html.Br(), html.Br(),
+                    html.P(
+                        'Due to the lockdown, there was a sudden decrease in the industrial and vehicular gas emissions which resulted a decrease in the AQI level In case the lockdown didnt exist, the emission wouldnt had tappered in the year 2020 and 2021. If the emmision of gas was not affected by anything, the AQI concentration would have followed the seasonal trend and there would be a slight increase in the AQI as compared to the current scenario'
+                    ),
+                    html.Br(), html.Br(),
                 ])
             ])
-        ),    
+        ),
     ]),
-    
-], style={'border':'none'})
+
+], style={'border': 'none'})
+
+
+@app.callback(
+    Output(component_id=f'comp_analysis{cityName}', component_property='srcDoc'),
+    Input(component_id=f'slct_metric{cityName}', component_property='value')
+)
+def comparitiveAnalysis(value):
+    if value == "rmse":
+        srcDoc = DelhiMainElements.comparativeAnalysisRMSE()
+    elif value == "mape":
+        srcDoc = DelhiMainElements.comparativeAnalysisMAPE()
+    elif value == "mae":
+        srcDoc = DelhiMainElements.comparativeAnalysisMAE()
+    elif value == "me":
+        srcDoc = DelhiMainElements.comparativeAnalysisME()
+    elif value == "mse":
+        srcDoc = DelhiMainElements.comparativeAnalysisMSE()
+    elif value == "mpe":
+        srcDoc = DelhiMainElements.comparativeAnalysisMPE()
+    else:
+        srcDoc = None
+
+    return srcDoc
+
 
 @app.callback(
     [Output(component_id='delhiGasesLinedGraph', component_property='figure'),
-    Output(component_id='delhiGasesBoxPlot', component_property='figure'),
-    Output(component_id='delhiGasesMonthlyPlot', component_property='figure')
-    ],
-    Input(component_id='slct_gas', component_property='value')
+     Output(component_id='delhiGasesBoxPlot', component_property='figure'),
+     Output(component_id='delhiGasesMonthlyPlot',
+            component_property='figure')
+     ],
+    Input(component_id=f'slct_gas{cityName}', component_property='value')
 )
-
 def dropdownGraphs(slct_gas):
-    fig = px.line(city, x=city.Date, y = slct_gas, title="Emission of "+ slct_gas )
+    fig = px.line(city, x=city.Date, y=slct_gas,
+                  title="Emission of " + slct_gas)
     fig.update_xaxes(
-        rangeslider_visible= True,
+        rangeslider_visible=True,
         rangeselector=dict(
-                            buttons = list([
-                            dict(count = 17, label = 'The Lockdown Period',step='month',stepmode = "backward"),
-                            dict(step = 'all', label = slct_gas)
-                                ])        
-                            )
-                    )
+            buttons=list([
+                dict(count=17, label='The Lockdown Period',
+                     step='month', stepmode="backward"),
+                dict(step='all', label=slct_gas)
+            ])
+        )
+    )
     fig.update_layout(
         xaxis_title="Date",
+        # paper_bgcolor='aqua',
+        # plot_bgcolor='aqua'
     )
     fig.layout.template = 'seaborn'
 
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
-    monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
+    monthlyData = city.groupby("month", sort=False)[
+        'PM2.5', 'PM10', 'NO2', 'NO', 'NOx', 'CO', 'SO2', 'O3', 'AQI'].mean().reset_index()
 
-    fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
+    fig1 = px.box(city, x='year', y=slct_gas, title="Yearly Box Plot")
     fig1.layout.template = 'seaborn'
 
-    fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True, title="Monthly "+slct_gas+" Trend")
+    fig2 = px.line(monthlyData, x='month', y=slct_gas,
+                   markers=True, title="Monthly "+slct_gas+" Trend")
     fig2.layout.template = 'seaborn'
 
     return fig, fig1, fig2
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import pandas as pd
-# import plotly.express as px
-# import dash_bootstrap_components as dbc
-# import dash
-# from dash import dcc, html, Input, Output
-
-# from cities.delhiBackEnd import delhiMainElements
-
-# fontStyle = "Calibri"
-
-# city = pd.read_csv(r"C:\Users\DELL\Desktop\Text Editors & Softwares\Python\Dash\Air-Quality-Index-Prediction\datasets\Delhi.csv")
-
-# city['Date'] = pd.to_datetime(city['Date'])
-# path = "../assets/dashApp.css"
-# app = dash.Dash(  
-#     __name__,
-#     external_stylesheets=[dbc.themes.BOOTSTRAP, path]
-#     )
-
-# def cardLayout(figure):
-#     return  html.Div([
-#         dbc.Card(
-#             dbc.CardBody([
-#                 # html.Div([
-#                 #     html.H2(text),
-#                 # ], style={
-#                 #     'textAlign': 'center',
-#                 #     'font-style':fontStyle
-#                 #     }),
-#                 # html.Br(),
-#                 figure
-#             ])
-#         ),  
-#     ])
-
-
-# app.title = "Analysis and Prediction of Air Quality in India"
-# app.layout = html.Div(id = 'parent', children = [
-
-#     html.Header(id='header', children=[
-#         html.Img(src=app.get_asset_url(r"C:\Users\ansuj\OneDrive\Desktop\Dash\Air-Quality-Index-Prediction\images\delhi.jpg"))
-#     ]),
-    
-
-#     html.Div(id='mainBody', children=[
-
-#         html.Div(id="dropdown", children=[
-#          dcc.Dropdown(id="slct_gas",
-#                  options=[
-                     
-#                     {"label": "PM2.5", "value": "PM2.5"},
-#                     {"label": "PM10", "value": "PM10"},
-#                     {"label": "NO", "value": "NO"},
-#                     {"label": "NO2", "value": "NO2"},
-#                     {"label": "NOx", "value": "NOx"},
-#                     {"label": "NH3", "value": "NH3"},
-#                     {"label": "CO", "value": "CO"},
-#                     {"label": "SO2", "value": "SO2"},
-#                     {"label": "O3", "value": "O3"},
-#                     {"label": "AQI", "value": "AQI"}
-
-#                     ],   
-#                 multi = False,
-#                 value = "PM2.5",
-#                 style = {'width': "60%", "margin":"5px", 'text-align':'center', 'margin-left':'auto','margin-right':'auto'}
-#                 # 'backgroundColor': "#ffffff","
-#                 # 'width':'20vH',
-#                 # 'height':'40px'}   
-#                 ),
-#     ]),
-
-
-#         dbc.Card(
-#             dbc.CardBody(id= 'card', children=[
-
-#                 dbc.Row(className='cardBody', children=[
-#                     cardLayout(html.Div(dcc.Graph(id = 'gasesLinedGraph', className='graphPlot', figure = {})))
-#                 ], style={'padding':'5px', 'color':'blue'}),
-
-#                 dbc.Row(children=[
-
-#                     dbc.Col(className='cardBody', children=[
-#                         cardLayout(html.Div(dcc.Graph(id = 'gasesBoxPlot', className='graphPlot', figure = {})))
-#                     ], width=7),
-
-#                     dbc.Col(className='cardBody', children=[
-#                         cardLayout(html.Div(dcc.Graph(id = 'gasesMonthlyPlot', className='graphPlot', figure = {})))
-#                     ], width=5)
-#                 ]),
-
-#                 dbc.Row(children=[
-#                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparativeAnalysis(), style={
-#                             'height':'500px',
-#                             'width':'1450px',
-#                         })
-#                     )
-#                 ]),
-
-#                 dbc.Row(children=[
-#                     cardLayout(html.Iframe(srcDoc=delhiMainElements.html_arima(), style={
-#                         'height':'500px',
-#                         'width':'1450px',
-#                     }))
-#                 ]),
-
-#                 dbc.Row(children=[
-#                     cardLayout(html.Iframe(srcDoc=delhiMainElements.comparingScenarios(), style={
-#                         'height':'500px',
-#                         'width':'1450px',
-#                     }))
-#                 ])
-#             ])
-#         ),    
-#     ]),
-    
-# ], style={'border':'none'})
-
-# @app.callback(
-#     [Output(component_id='gasesLinedGraph', component_property='figure'),
-#     Output(component_id='gasesBoxPlot', component_property='figure'),
-#     Output(component_id='gasesMonthlyPlot', component_property='figure')
-#     ],
-#     Input(component_id='slct_gas', component_property='value')
-# )
-
-# def dropdownGraphs(slct_gas):
-#     fig = px.line(city, x=city.Date, y = slct_gas, title="Emission of "+ slct_gas )
-#     fig.update_xaxes(
-#         rangeslider_visible= True,
-#         rangeselector=dict(
-#                             buttons = list([
-#                             dict(count = 17, label = 'The Lockdown Period',step='month',stepmode = "backward"),
-#                             dict(step = 'all', label = slct_gas)
-#                                 ])        
-#                             )
-#                     )
-#     fig.update_layout(
-#         xaxis_title="Date",
-#     )
-#     fig.layout.template = 'seaborn'
-
-#     city['year'] = [d.year for d in city.Date]
-#     city['month'] = [d.strftime('%b') for d in city.Date]
-#     monthlyData = city.groupby("month", sort=False)['PM2.5','PM10','NO2','NO','NOx','NH3','CO','SO2','O3','AQI'].mean().reset_index()
-
-#     fig1 = px.box(city, x='year', y=slct_gas, title= "Yearly Box Plot")
-#     fig1.layout.template = 'seaborn'
-
-#     fig2 = px.line(monthlyData, x='month', y=slct_gas, markers=True, title="Monthly "+slct_gas+" Trend")
-#     fig2.layout.template = 'seaborn'
-
-#     return fig, fig1, fig2
-
-# if __name__ == '__main__':
-
-#     app.run_server(debug=True) 
+@app.callback(
+    Output(f"collapse{cityName}", "is_open"),
+    [Input(f"collapse-button{cityName}", "n_clicks")],
+    [State(f"collapse{cityName}", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open

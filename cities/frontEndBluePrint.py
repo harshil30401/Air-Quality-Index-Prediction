@@ -10,22 +10,24 @@ import math
 def headerComponent(city, startDate, aqi):
     if aqi <= 50:
         aqiBucket = "Good"
-        color = "darkgreen"
+        color = '#71e274'
+        # color = "#74c990"
     elif aqi <= 100:
        aqiBucket =  "Satisfactory"
-       color = "lightgreen"
+       color = "#99f39c"
     elif aqi <= 200:
         aqiBucket = "Moderate"
-        color = "yellow"
+        color = "#c2e462"
     elif aqi <= 300:
         aqiBucket = "Poor"
-        color = "beige"
+        color = "#e4e474"
     elif aqi <= 400:
         aqiBucket = "Very Poor"
-        color = "orange"
+        color = "#e0b153"
     elif aqi > 400:
         aqiBucket = "Severe"
-        color = "red"
+        color='#c55151'
+        # color = "#e46464"
     else:
         aqiBucket = np.NaN
 

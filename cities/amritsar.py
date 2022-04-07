@@ -37,6 +37,7 @@ def cardLayout(figure):
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Page 1", href="#")),
+        dbc.NavItem(dbc.NavLink("Cities", href="/")),
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("More pages", header=True),
@@ -48,14 +49,17 @@ navbar = dbc.NavbarSimple(
             label="More",
         ),
     ],
-    brand="NavbarSimple",
+    brand=cityName,
     brand_href="#",
-    color="black",
+    color="#1e2e32",
     dark=True,
     style={
         'position': 'sticky',
         'top': '0',
-        'z-index': '1'
+        'box-shadow': '0 2px 2px -2px rgba(0,0,0,.2)',
+        'border-radius':'5px',
+        'z-index': '1',
+        'margin-bottom': '15px'
     }
 )
 
@@ -63,7 +67,6 @@ navbar = dbc.NavbarSimple(
 # app.title = "Analysis and Prediction of Air Quality in India"
 
 # html.Div(id = 'parent', children = [layout])
-
 
 layout = html.Div(id='amritsarParent', children=[
 

@@ -1,31 +1,29 @@
-from tokenize import Triple
 import dash
 from dash import dcc, html
-import dash_bootstrap_components as dbc
 
+foo = dash.Dash()
 
-
-testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/test.css"
-js = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
-
-var = "test"
-navbar = html.Nav(id=f'nav{var}', children=[
-    html.A('Home', className='box'),
-    html.A('About', className='box'),
-    html.A('Contact', className='box'),
-    html.A('Map', className='box')
+foo.layout = html.Div([
+    html.Div(className="container", children=[
+        html.Div(className="clouds", children=[
+            html.H1("Dxtcoder"),
+            #style="--i:1"
+            html.Img(src="C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/photos/cloud1.png"),
+            html.Img(src="C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/photos/cloud2.png"),
+            html.Img(src="C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/photos/cloud3.png"),
+            html.Img(src="C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/photos/cloud4.png"),
+            html.Img(src="C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/photos/cloud5.png")
+        ])
+    ]),
+    html.Section([
+        html.H2("3D Cloud Animation"),
+        html.P("The first thing well do is create the folder that will contain all of our files that make up the project. Create an empty folder on your desktop and name it “quote generator”. Open up Sublime Text and drag the file into sublime. Now we should have the folder accessible through the sidebar. Most web project consist of at least one HTML, JavaScript, and a CSS file. Lets create these files within the “quote generator” folder. In Sublime Text,right click the “quote generator” folder on the sidebar and click on create new file."),
+        html.Br(),html.Br(),
+        html.P("The first thing well do is create the folder that will contain all of our files that make up the project. Create an empty folder on your desktop and name it “quote generator”. Open up Sublime Text and drag the file into sublime. Now we should have the folder accessible through the sidebar. Most web project consist of at least one HTML, JavaScript, and a CSS file. Lets create these files within the “quote generator” folder. In Sublime Text,right click the “quote generator” folder on the sidebar and click on create new file."),
+        html.Br(),html.Br(),
+        html.P("The first thing well do is create the folder that will contain all of our files that make up the project. Create an empty folder on your desktop and name it “quote generator”. Open up Sublime Text and drag the file into sublime. Now we should have the folder accessible through the sidebar. Most web project consist of at least one HTML, JavaScript, and a CSS file. Lets create these files within the “quote generator” folder. In Sublime Text,right click the “quote generator” folder on the sidebar and click on create new file."),
+        html.Br(),html.Br()
+    ])
 ])
 
-foo = dash.Dash(
-    __name__,
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
-    external_scripts=[testPath, js]
-    )
-
-foo.layout = html.Div(className='main',children=[
-    navbar
-
-])
-
-if __name__ == "__main__":
-    foo.run_server(debug=True, port=1111)
+foo.run_server(debug=True)

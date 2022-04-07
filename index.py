@@ -8,9 +8,9 @@ from app import app
 from rootInformation import rootDirectory
 from assets import errorpage
 #from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
-from cities import amritsar
+from cities import amritsar, delhi1, chennai1
 
-cities = ["amritsar"]
+cities = ["amritsar", "delhi", "chennai"]
 #, "jaipur", "thiruvananthapuram", "kanpur", "kolkata", "nagpur", "hyderabad", "visakhapatnam", "mumbai"
 
 citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
@@ -50,11 +50,11 @@ def display_page(pathname):
     elif pathname == '/cities/amritsar':
         return amritsar.layout
 
-    # elif pathname == '/cities/chennai':
-    #     return chennai.layout
+    elif pathname == '/cities/chennai':
+        return chennai1.layout
 
-    # elif pathname == '/cities/delhi':
-    #     return delhi.layout
+    elif pathname == '/cities/delhi':
+        return delhi1.layout
     # elif pathname == '/cities/hyderabad':
     #     return hyderabad.layout
 

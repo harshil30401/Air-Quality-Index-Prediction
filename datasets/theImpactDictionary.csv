@@ -1,0 +1,7 @@
+AQI,Associated Health Impacts
+Good (0 to 50),Minimal impact
+Satisfactory (51 to 100),May cause minor breathing discomfort to sensitive people.
+Moderately polluted (101 to 200),"May cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults."
+Poor (201 to 300),"May cause breathing discomfort to people on prolonged exposure, and discomfort to people with heart disease."
+Very poor (301 to 400),May cause respiratory illness to the people on prolonged exposure. Effect may be more pronounced in people with lung and heart diseases.
+Severe (401 to 500),"May cause respiratory impact even on healthy people, and serious health impacts on people with lung/heart disease. The health impacts may be experienced even during light physical activity."

@@ -30,7 +30,7 @@ home_layout =  html.Div(id="home-page", children=[
             html.Div(className="content", children=[
                 html.H2(id="cardCity", children=[city.capitalize()]),
                 html.P(id="cardAQI", children=[f"Average AQI: {cityAQI[city.capitalize()]}"]),
-                dbc.Button("Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
+                dbc.Button("Open Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
             ])
         ], style={'margin':'20px 20px 20px 20px'})for city in cities
     ])

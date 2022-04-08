@@ -5,8 +5,8 @@ theBluePrint(
     "Hyderabad",
     "2015-03-01",
     datetime(2015,3,1),
-    (0,1,0),
-    (0,1,0,12),
+    (0,1,0), #  (1,0,0),
+    (0,1,0,12),   #(1,0,1,12),
     78,
 
     {'mae': 26.041836392529817,
@@ -35,8 +35,19 @@ class HyderabadMainElements():
     def accuracyArima():
         return theBluePrint.accuracyARIMA
     
-    def comparativeAnalysis():
-        return theBluePrint.comparativeAnalysis
+    def comparativeAnalysisMAE():
+        return theBluePrint.comparativeAnalysisMAE
+    def comparativeAnalysisMAPE():
+        return theBluePrint.comparativeAnalysisMAPE
+    def comparativeAnalysisME():
+        return theBluePrint.comparativeAnalysisME
+    def comparativeAnalysisMPE():
+        return theBluePrint.comparativeAnalysisMPE
+    def comparativeAnalysisMSE():
+        return theBluePrint.comparativeAnalysisMSE
+    def comparativeAnalysisRMSE():
+        return theBluePrint.comparativeAnalysisRMSE
+
     
     def comparingScenarios():
         return theBluePrint.comparingScenarios

@@ -35,8 +35,18 @@ class NagpurMainElements():
     def accuracyArima():
         return theBluePrint.accuracyARIMA
     
-    def comparativeAnalysis():
-        return theBluePrint.comparativeAnalysis
+    def comparativeAnalysisMAE():
+        return theBluePrint.comparativeAnalysisMAE
+    def comparativeAnalysisMAPE():
+        return theBluePrint.comparativeAnalysisMAPE
+    def comparativeAnalysisME():
+        return theBluePrint.comparativeAnalysisME
+    def comparativeAnalysisMPE():
+        return theBluePrint.comparativeAnalysisMPE
+    def comparativeAnalysisMSE():
+        return theBluePrint.comparativeAnalysisMSE
+    def comparativeAnalysisRMSE():
+        return theBluePrint.comparativeAnalysisRMSE
     
     def comparingScenarios():
         return theBluePrint.comparingScenarios

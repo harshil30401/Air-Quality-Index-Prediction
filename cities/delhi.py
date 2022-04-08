@@ -281,7 +281,7 @@ def dropdownGraphs(slct_gas):
     city['year'] = [d.year for d in city.Date]
     city['month'] = [d.strftime('%b') for d in city.Date]
     monthlyData = city.groupby("month", sort=False)[
-        'PM2.5', 'PM10', 'NO2', 'NO', 'NOx', 'CO', 'SO2', 'O3', 'AQI'].mean().reset_index()
+        'PM2.5', 'PM10', 'NO2', 'NO', 'NOx', 'NH3', 'CO', 'SO2', 'O3', 'AQI'].mean().reset_index()
 
     fig1 = px.box(city, x='year', y=slct_gas, title="Yearly Box Plot")
     fig1.layout.template = 'seaborn'

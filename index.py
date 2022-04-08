@@ -1,17 +1,13 @@
 from dash import dcc, html
 import pandas as pd
-# import dash_core_components as dcc
-# import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from app import app
 from rootInformation import rootDirectory
 from assets import errorpage
-#from cities import amritsar, delhi, jaipur, thiruvananthapuram, kanpur, kolkata, nagpur, hyderabad, visakhapatnam, chennai, mumbai
-from cities import amritsar, delhi1, chennai1
+from cities import amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
 
-cities = ["amritsar", "delhi", "chennai"]
-#, "jaipur", "thiruvananthapuram", "kanpur", "kolkata", "nagpur", "hyderabad", "visakhapatnam", "mumbai"
+cities = ["amritsar", "chennai", "delhi", "hyderabad", "jaipur", "kanpur", "kolkata", "mumbai", "nagpur", "patna",  "thiruvananthapuram", "visakhapatnam"]
 
 citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
 
@@ -36,7 +32,7 @@ home_layout =  html.Div(id="home-page", children=[
                 html.P(id="cardAQI", children=[f"Average AQI: {cityAQI[city.capitalize()]}"]),
                 dbc.Button("Open Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
             ])
-        ])for city in cities
+        ], style={'margin':'20px 20px 20px 20px'})for city in cities
     ])
 ])
 
@@ -51,49 +47,41 @@ def display_page(pathname):
         return amritsar.layout
 
     elif pathname == '/cities/chennai':
-        return chennai1.layout
+        return chennai.layout
 
     elif pathname == '/cities/delhi':
-        return delhi1.layout
-    # elif pathname == '/cities/hyderabad':
-    #     return hyderabad.layout
+        return delhi.layout
 
-    # elif pathname == '/cities/jaipur':
-    #     return jaipur.layout
+    elif pathname == '/cities/hyderabad':
+        return hyderabad.layout
 
-    # elif pathname == '/cities/kanpur':
-    #     return kanpur.layout
+    elif pathname == '/cities/jaipur':
+        return jaipur.layout
 
-    # elif pathname == '/cities/kolkata':
-    #     return kolkata.layout
+    elif pathname == '/cities/kanpur':
+        return kanpur.layout
 
-    # elif pathname == '/cities/mumbai':
-    #     return mumbai.layout
+    elif pathname == '/cities/kolkata':
+        return kolkata.layout
+
+    elif pathname == '/cities/mumbai':
+        return mumbai.layout
     
-    # elif pathname == '/cities/nagpur':
-    #     return nagpur.layout
-    
-    # elif pathname == '/cities/thiruvananthapuram':
-    #     return thiruvananthapuram.layout
+    elif pathname == '/cities/nagpur':
+        return nagpur.layout
 
-    # elif pathname == '/cities/visakhapatnam':
-    #     return visakhapatnam.layout
+    elif pathname == '/cities/patna':
+        return patna.layout
+    
+    elif pathname == '/cities/thiruvananthapuram':
+        return thiruvananthapuram.layout
+
+    elif pathname == '/cities/visakhapatnam':
+        return visakhapatnam.layout
 
     else:
         return errorpage.layout
 
-
-# @app.callback(
-#     Output(component_id='elements', component_property='hidden'),
-#     [Input(component_id= "amritsar" , component_property='n_clicks')],
-#     [Input(component_id='chennai', component_property='n_clicks')],
-#     [Input(component_id='delhi', component_property='n_clicks')]
-# )
-
-# def hideDiv(n1, n2, n3):
-#     if (n1 or n2 or n3) != None:
-#         return True 
-#     return False
 
 if __name__ == '__main__':
     app.run_server(debug=True)

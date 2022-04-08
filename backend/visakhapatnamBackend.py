@@ -5,7 +5,7 @@ theBluePrint(
     "Visakhapatnam",
     "2017-10-01",
     datetime(2017,10,1),
-    (0,0,1),
+    (0,0,1),   #(1,0,0),
     (1,0,1,12),
     47,
 
@@ -34,8 +34,20 @@ theBluePrint(
 class VisakhapatnamMainElements():
     def accuracyArima():
         return theBluePrint.accuracyARIMA
-    def comparativeAnalysis():
-        return theBluePrint.comparativeAnalysis
+    
+    def comparativeAnalysisMAE():
+        return theBluePrint.comparativeAnalysisMAE
+    def comparativeAnalysisMAPE():
+        return theBluePrint.comparativeAnalysisMAPE
+    def comparativeAnalysisME():
+        return theBluePrint.comparativeAnalysisME
+    def comparativeAnalysisMPE():
+        return theBluePrint.comparativeAnalysisMPE
+    def comparativeAnalysisMSE():
+        return theBluePrint.comparativeAnalysisMSE
+    def comparativeAnalysisRMSE():
+        return theBluePrint.comparativeAnalysisRMSE
+
     def comparingScenarios():
         return theBluePrint.comparingScenarios   
     def html_arima():

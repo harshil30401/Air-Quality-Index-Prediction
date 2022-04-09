@@ -45,168 +45,19 @@ monthly = px.line(df1, x='month', y="PM10", markers=True)
 gases = ["PM2.5", "PM10", "NO2", "NOx", "CO", "NH3", "O3", "SO2"]
 
 
-for g in gases:
-    x = cities.groupby("City")[g].mean().sort_values(ascending=False).reset_index()
-    trace = go.Table(
-        domain=dict(x=[0, 0.52], y=[0, 1.0]),
-        header=dict(
-            values=["City", g],
-            fill=dict(color="red"),
-            font=dict(color="white", size=14),
-            align=["center"],
-            height=30,
-        ),
-        cells=dict(
-            values=[x["City"].head(10), x[g].head(10)],
-            fill=dict(color=["lightsalmon", "lightsalmon"]),
-            align=["center"],
-        ),
-    )
-
-    trace1 = go.Bar(
-        x=x["City"].head(10),
-        y=x[g].head(10),
-        xaxis="x1",
-        yaxis="y1",
-        marker=dict(color="red"),
-        opacity=0.60,
-    )
-    layout = dict(
-        width=830,
-        height=490,
-        autosize=False,
-        title=f"TOP 10 Cities with Max {g}",
-        showlegend=False,
-        xaxis1=dict(**dict(domain=[0.58, 1], anchor="y1", showticklabels=True)),
-        yaxis1=dict(**dict(domain=[0, 1.0], anchor="x1", hoverformat=".2f")),
-    )
-
-    top10 = dict(data=[trace, trace1], layout=layout)
-    # iplot(top10), 
-
-    # top10 = iplot(top10)
 
 
-x2 = (
-    cities[["PM2.5", "City"]]
-    .groupby(["City"])
-    .median()
-    .sort_values(by="PM2.5", ascending=False)
-    .reset_index()
-)
-x3 = (
-    cities[["PM10", "City"]]
-    .groupby(["City"])
-    .median()
-    .sort_values(by="PM10", ascending=False)
-    .reset_index()
-)
-
-pm25pm10 = make_subplots(rows=1, cols=2, subplot_titles=("PM2.5", "PM10"))
-
-pm25pm10.add_trace(
-    go.Bar(
-        y=x2["PM2.5"],
-        x=x2["City"],
-        marker=dict(color=x2["PM2.5"], coloraxis="coloraxis"),
-    ),
-    1,
-    1,
-)
-
-pm25pm10.add_trace(
-    go.Bar(
-        y=x3["PM10"], x=x2["City"], marker=dict(color=x3["PM10"], coloraxis="coloraxis")
-    ),
-    1,
-    2,
-)
-pm25pm10.update_layout(
-    coloraxis=dict(colorscale="reds"), showlegend=False, plot_bgcolor="white"
-)
-pm25pm10.update_xaxes(
-    ticks="outside",
-    tickwidth=2,
-    tickangle=45,
-    tickcolor="crimson",
-    ticklen=10,
-    title_text="cities",
-)
-pm25pm10.update_yaxes(title_text="ug / m3", row=1, col=1)
-pm25pm10.update_yaxes(title_text="ug / m3", row=1, col=2)
-
-
-x4 = (
-    cities[["CO", "City"]]
-    .groupby(["City"])
-    .mean()
-    .sort_values(by="CO", ascending=False)
-    .reset_index()
-)
-x5 = (
-    cities[["NO2", "City"]]
-    .groupby(["City"])
-    .mean()
-    .sort_values(by="NO2", ascending=False)
-    .reset_index()
-)
-x6 = (
-    cities[["SO2", "City"]]
-    .groupby(["City"])
-    .mean()
-    .sort_values(by="SO2", ascending=False)
-    .reset_index()
-)
-
-cono2so2 = make_subplots(rows=1, cols=3, subplot_titles=("CO", "NO2", "SO2"))
-
-cono2so2.add_trace(
-    go.Bar(
-        y=x4["CO"], x=x4["City"], marker=dict(color=x4["CO"], coloraxis="coloraxis")
-    ),
-    1,
-    1,
-)
-
-
-cono2so2.add_trace(
-    go.Bar(
-        y=x5["NO2"], x=x5["City"], marker=dict(color=x5["NO2"], coloraxis="coloraxis")
-    ),
-    1,
-    2,
-)
-
-cono2so2.add_trace(
-    go.Bar(
-        y=x6["SO2"], x=x5["City"], marker=dict(color=x6["SO2"], coloraxis="coloraxis")
-    ),
-    1,
-    3,
-)
-cono2so2.update_layout(
-    coloraxis=dict(colorscale="reds"), showlegend=False, plot_bgcolor="white"
-)
-cono2so2.update_xaxes(
-    ticks="outside",
-    tickwidth=2,
-    tickangle=45,
-    tickcolor="crimson",
-    ticklen=10,
-    title_text="cities",
-)
-cono2so2.update_yaxes(title_text="ug / m3", row=1, col=1)
-cono2so2.update_yaxes(title_text="ug / m3", row=1, col=2)
-cono2so2.update_yaxes(title_text="ug / m3", row=1, col=3)
-
-# # AQI
-# x = (
-#     cities[["AQI", "City"]]
-#     .groupby(["City"])
-#     .mean()
-#     .sort_values(by="CO", ascending=False)
-#     .reset_index()
-# )
+# AQI level per city
+x = cities[['AQI','City']].groupby(["City"]).mean().sort_values(by='AQI',ascending=False).reset_index()
+aqiLevel = make_subplots(
+    rows=1, cols=1)
+aqiLevel.add_trace(go.Bar( y=x['AQI'], x=x["City"],  
+                     marker=dict(color=x['AQI'], coloraxis="coloraxis")),
+              1, 1)
+aqiLevel.update_layout(coloraxis=dict(colorscale='reds'), showlegend=False,plot_bgcolor='white')
+aqiLevel.update_xaxes(ticks="outside", tickwidth=2,tickangle=45, tickcolor='crimson', ticklen=10,title_text="cities")
+aqiLevel.update_yaxes(title_text="ug / m3")
+aqiLevel = aqiLevel.to_html(full_html=False, include_plotlyjs='cdn')
 
 
 
@@ -458,8 +309,8 @@ aqiBeforeAndAfter.update_layout(
 aqiBeforeAndAfter.update_layout(plot_bgcolor="white")
 
 aqiBeforeAndAfter.update_layout(
-    width=1000,
-    height=4000,
+    width=1350,
+    height=8000,
     shapes=[
         dict(
             type="line",
@@ -476,6 +327,8 @@ aqiBeforeAndAfter.update_layout(
 aqiBeforeAndAfter.update_xaxes(title_text="Date")
 
 aqiBeforeAndAfter.update_yaxes(title_text="AQI")
+
+aqiBeforeAndAfter = aqiBeforeAndAfter.to_html(full_html=False, include_plotlyjs='cdn')
 
 # Treemap
 
@@ -542,6 +395,7 @@ for lat, lon, value, name in zip(after_lockdown_aqi['Lat'], after_lockdown_aqi['
 
 
 folium.LayerControl(collapsed=False).add_to(m)
+m 
 
 #Top10 cities with Highest AQI Before and After Lockdown 
 
@@ -686,8 +540,8 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
             icon = 'dot-circle-o'
         ),
       tooltip = folium.Tooltip(
-          text=cty),
-      popup = folium.Popup(popuptext, max_width=300)    
+          text=popuptext),
+      popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'
 
       ))
   elif (aq>=51) & (aq<=100):
@@ -699,8 +553,8 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
         ),
 
       tooltip = folium.Tooltip(
-          text=cty),
-       popup = folium.Popup(popuptext, max_width=300)    
+          text=popuptext),
+       popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'    
  
       ))
   elif(aq>=101) & (aq<=200):
@@ -711,8 +565,8 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
             icon = 'dot-circle-o'
         ),
       tooltip = folium.Tooltip(
-          text=cty),
-      popup = folium.Popup(popuptext, max_width=300)    
+          text=popuptext),
+       popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'  
  
        ))
   elif(aq>=201) & (aq<=300):
@@ -723,8 +577,8 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
             icon = 'dot-circle-o'
         ),
       tooltip = folium.Tooltip(
-          text=cty),
-      popup = folium.Popup(popuptext, max_width=300)    
+          text=popuptext),
+       popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'    
 
       ))
   elif(aq>=301) & (aq<=400):
@@ -734,9 +588,9 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
             color='red',
             icon = 'dot-circle-o'
         ),
-          tooltip = folium.Tooltip(
-          text=cty),
-      popup = folium.Popup(popuptext, max_width=300)    
+         tooltip = folium.Tooltip(
+          text=popuptext),
+       popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'  
 
       ))
   else:
@@ -748,8 +602,8 @@ for cty, lt, ln, aq, p25, p10, noxi, ndoxi, nou, nh, cbn, sdo, oz in zip(city, l
         ),
 
       tooltip = folium.Tooltip(
-          text=cty),
-      popup = folium.Popup(popuptext, max_width=300)    
+          text=popuptext),
+       popup = f'<a href=/cities/{cty}, target=_blank>{cty}</a>'
 
       ))
   
@@ -764,6 +618,8 @@ folium.TileLayer(tiles='Stamen Terrain', min_zoom=0, max_zoom=18, show=True, opa
 
 fg.add_child(folium.Choropleth(geo_data=(open(f'{rootDirectory}/india_states.json', 'r', encoding='utf-8-sig').read()), line_color='#665C67', fill_color='#9D7DA2'))
 map.add_child(fg)
+
+
 
 
 

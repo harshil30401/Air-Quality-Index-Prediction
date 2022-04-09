@@ -106,7 +106,7 @@ foo.layout = html.Div(className='mainLayout',children=[
             html.P("The dataset contains air quality data and AQI (Air Quality Index) at daily level of various stations across 26 major cities in India. Following are the specifications of the dataset:"),
             # dt.DataTable(dataset.to_dict('theDataset'), [{"name": i, "id": i} for i in dataset.columns])
            
-            html.H2("Completeness: Integrate as many air pollutants as possible"),
+            html.H2("Completeness: Integrating as many air pollutants as possible"),
             dbc.Row([
                 html.P("While performing the research it was also noticed that the majority of projects' AQI evaluate only a subset of:"),
                 html.Div(id='links', children=[

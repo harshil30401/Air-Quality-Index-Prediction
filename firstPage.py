@@ -22,7 +22,7 @@ navbar =    html.Div(className='container',children=[
                     ]),
 
                     html.Li(children=[
-                        html.A("GALLERY",href="")
+                        html.A("Data Analysis",href="/dataAnalysis/dataAnalysisFrontEnd")
                     ]),
 
                     html.Li(children=[
@@ -108,24 +108,26 @@ foo.layout = html.Div(className='mainLayout',children=[
            
             html.H2("Completeness: Integrating as many air pollutants as possible"),
             dbc.Row([
-                html.P("While performing the research it was also noticed that the majority of projects' AQI evaluate only a subset of:"),
-                html.Div(id='links', children=[
-                    dcc.Link(html.A(" Particulate Matter (PM), "), href="https://en.wikipedia.org/wiki/Particulates", target='__blank'),
-                    dcc.Link(html.A(" Nitric Oxide (NO), "), href="https://en.wikipedia.org/wiki/Nitric_oxide", target='__blank'),
-                    dcc.Link(html.A(" Nitrogen Dioxide (NO2), "), href="https://en.wikipedia.org/wiki/Nitrogen_dioxide", target='__blank'),
-                    dcc.Link(html.A(" Any Nitric Oxide (NOx), "), href="https://en.wikipedia.org/wiki/NOx", target='__blank'),
-                    dcc.Link(html.A(" Ammonia (NH3), "), href="https://en.wikipedia.org/wiki/Ammonia", target='__blank'),
-                    dcc.Link(html.A(" Carbon Monoxide (CO), "), href="https://en.wikipedia.org/wiki/Carbon_monoxide", target='__blank'),
-                    dcc.Link(html.A(" Sulfur Dioxide (SO2),"), href="https://en.wikipedia.org/wiki/Sulfur_dioxide", target='__blank'),
-                    dcc.Link(html.A(" ozone (O3)"), href="https://en.wikipedia.org/wiki/Ozone", target='__blank')
-                ]),
+                html.P(
+  
+                    ["While performing the research it was also noticed that the majority of projects' AQI evaluate only a subset of ",
+                    html.A(" Particulate Matter (PM), ", href="https://en.wikipedia.org/wiki/Particulates", target='__blank'),
+                    html.A(" Nitric Oxide (NO), ", href="https://en.wikipedia.org/wiki/Nitric_oxide", target='__blank'),
+                    html.A(" Nitrogen Dioxide (NO2), ", href="https://en.wikipedia.org/wiki/Nitrogen_dioxide", target='__blank'),
+                    html.A(" Any Nitric Oxide (NOx), ", href="https://en.wikipedia.org/wiki/NOx", target='__blank'),
+                    html.A(" Ammonia (NH3), ", href="https://en.wikipedia.org/wiki/Ammonia", target='__blank'),
+                    html.A(" Carbon Monoxide (CO), ", href="https://en.wikipedia.org/wiki/Carbon_monoxide", target='__blank'),
+                    html.A(" Sulfur Dioxide (SO2),", href="https://en.wikipedia.org/wiki/Sulfur_dioxide", target='__blank'),
+                    html.A(" ozone (O3)", href="https://en.wikipedia.org/wiki/Ozone", target='__blank')]
+                ),
                 html.P("our project covers them all, even adding ammonia (NH3) to the list.")
             ]),
             
             html.H2("Applicability: Evaluate air quality on all possible time scales"),
             html.Div([
-                html.P("Other air quality indexes evaluate air pollution concentrations on time scales of either 1 hour, 8 hours, or 24 hours (aggregating measurements and rating the respective averages). We have utilized all three common timeframes (the 8-hour timeframe is currently only used for the evaluation of carbon monoxide concentrations, please refer to the "),
-                html.A("dedicated paragraph below", href="#routeHere")
+                html.P(["Other air quality indexes evaluate air pollution concentrations on time scales of either 1 hour, 8 hours, or 24 hours (aggregating measurements and rating the respective averages). We have utilized all three common timeframes (the 8-hour timeframe is currently only used for the evaluation of carbon monoxide concentrations, please refer to the ",
+                html.A("dedicated paragraph below.", href="#routeHere")
+                ]),  
             ]),
             html.P("While it may be acceptable for individuals to be exposed to a higher concentration of certain pollutants for a short time, this may not be the case in the long run. Because of that pollution thresholds may vary between different time scales; the overall air quality index for a full day may be worse than each individual hourly air quality index. Average measurement benchmarks for 1-hour, 8-hour, and 24-hour intervals provide more accurate air quality data, which in turn allows individuals and governments to make better health and safety decisions."),
             html.P("Our air quality index is calculated based on averages of all pollutant concentrations measured in a full hour, a full 8 hours, or a full day. To calculate an hourly air quality index, we average at least 90 measured data points of pollution concentration from a full hour (e.g. between 09:00 AM and 10:00 AM). At least 18 hourly averages are used to form a daily average."),

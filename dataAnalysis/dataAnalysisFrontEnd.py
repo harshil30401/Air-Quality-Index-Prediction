@@ -13,7 +13,7 @@ import dash_daq as daq
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 from rootInformation import rootDirectory
-# from app import app
+from firstPage import foo
 
 indexPath = rootDirectory + '/assets/index.css'
 
@@ -22,7 +22,7 @@ meanData = meanData[['City','AQI','AQI_Bucket']]
 # .drop(columns=['Unnamed: 0', 'Lat', 'Lon', 'PM2.5', 'PM10', 'NO2', 'NOx', 'NH3', 'CO', 'SO2', 'O3',], axis=0, inplace=True)
 
 
-test = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+
 
 
 def cardLayout(classname, text, figure):
@@ -43,7 +43,7 @@ def cardLayout(classname, text, figure):
 
 
 
-test.layout = html.Div(id='dataAnalysisDiv', children=[
+layout = html.Div(id='dataAnalysisDiv', children=[
     html.H1(id='daTitle', children=["Data Analysis"]),
     html.Br(),
     dbc.Row(id='00', children=[
@@ -138,7 +138,7 @@ test.layout = html.Div(id='dataAnalysisDiv', children=[
 ], style={'overflow-x': 'hidden', 'padding': '40px'})
 
 
-@test.callback(
+@foo.callback(
     [Output(component_id='yearlyBoxPlot', component_property='figure'),
      Output(component_id='monthlyLineGraph', component_property='figure'),
      Output(component_id='ten', component_property='figure')],
@@ -238,5 +238,4 @@ def gasSelectorFun(value1, value2):
     return yearly, monthly, ten
 
 
-if __name__ == "__main__":
-    test.run_server(debug=True)
+

@@ -47,3 +47,7 @@ header::before {
     z-index: -1;
     min-height: 100vh;
 }
+
+.navigation-bar {
+    position: sticky;
+}

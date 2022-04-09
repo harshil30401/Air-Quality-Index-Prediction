@@ -9,41 +9,57 @@ from rootInformation import rootDirectory
 # dataset = pd.read_csv(r"C:\Users\DELL\Desktop\Air-Quality-Index-Prediction\datasets\datasetSpecifications.csv")
 # breakPointTable = pd.read_csv(r"C:\Users\DELL\Desktop\Air-Quality-Index-Prediction\datasets\breakPointTable.csv")
 
-navbar =    html.Div(className='container',children=[
-        html.Div(id='logo',children=["RETRO"]),
-        html.Div(className='navigation-wrapper', children=[
-            html.Div(className='navigation-button', children=[
-                html.Div(className='fa fa-bars', children=[])
-            ]),
-            html.Div(className='navigation-menu', children=[
-                html.Ul(children=[
-                    html.Li(children=[
-                        html.A("HOME",href="")
-                    ]),
-
-                    html.Li(children=[
-                        html.A("Data Analysis",href="/dataAnalysis/dataAnalysisFrontEnd")
-                    ]),
-
-                    html.Li(children=[
-                        html.A("CONTACT",href="")
-                    ]),
-
-                    html.Li(children=[
-                        html.A("LOCATION",href="")
-                    ]),
-
-                    html.Li(children=[
-                        html.A("ABOUT",href="")
-                    ]),
-
-                    html.Li(children=[
-                        html.A("PRICING",href="")
-                    ]),
-                ])
-            ])
-        ])
+def makeNavBar(title, listOfElements):
+    return html.Nav(className='navigation-bar', children=[
+    html.Label(className='header', children=[
+        title,   
+    ], style={
+        'color':'white',
+        'font-size':'40px',
+        'margin-left':'30px'
+        # 'margin-top':'30px'
+    }),
+    html.Ul(children=[
+        html.Li([
+            html.A(i, href='#')
+        ]for i in listOfElements),
+    ]),
+    html.Label(id='icon', children=[
+        html.I(className='fas fa-bars')
     ])
+])
+navbar = html.Nav(className='navigation-bar', children=[
+    html.Label(className='header', children=[
+        "Title",   
+    ], style={
+        'color':'white',
+        'font-size':'40px',
+        'margin-left':'30px',
+        'margin-top':'10px'
+    }),
+    html.Ul(children=[
+        html.Li(children=[
+            html.A("Home", href='#')
+        ]),
+        html.Li(children=[
+            html.A("ABout", href='#')
+        ]),
+        html.Li(children=[
+            html.A("Services", href='#')
+        ]),
+        html.Li(children=[
+            html.A("Contact", href='#')
+        ]),
+        html.Li(children=[
+            html.A("Portfolio", href='#')
+        ]),
+    ]),
+    html.Label(id='icon', children=[
+        html.I(className='fas fa-bars')
+    ])
+], style={
+    'position':'sticky'
+})
 
 # theImpactDictionary = {
 #     'AQI':'Associated Health Impacts',
@@ -70,6 +86,7 @@ foo.layout = html.Div(className='mainLayout',children=[
     html.Header(children=[
         html.H1("Analysis and Prediction of Air Quality in India")
     ]),
+    # navbar,
     html.Div(className='container', children=[
         # navbar,
         html.Div(className='firstComponent', children=[

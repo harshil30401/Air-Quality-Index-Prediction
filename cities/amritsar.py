@@ -81,7 +81,7 @@ layout = html.Div(id='amritsarParent', children=[
 
     html.Div(id='mainBody', children=[
 
-        navbar,
+        # navbar,
         html.Div(id="dropdown", children=[
             dcc.Dropdown(id="slct_gas",
                  options=[

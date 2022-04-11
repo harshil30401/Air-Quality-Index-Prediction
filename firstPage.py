@@ -4,62 +4,11 @@ import pandas as pd
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 from rootInformation import rootDirectory
+from app import app
 
 
 # dataset = pd.read_csv(r"C:\Users\DELL\Desktop\Air-Quality-Index-Prediction\datasets\datasetSpecifications.csv")
 # breakPointTable = pd.read_csv(r"C:\Users\DELL\Desktop\Air-Quality-Index-Prediction\datasets\breakPointTable.csv")
-
-def makeNavBar(title, listOfElements):
-    return html.Nav(className='navigation-bar', children=[
-    html.Label(className='header', children=[
-        title,   
-    ], style={
-        'color':'white',
-        'font-size':'40px',
-        'margin-left':'30px'
-        # 'margin-top':'30px'
-    }),
-    html.Ul(children=[
-        html.Li([
-            html.A(i, href='#')
-        ]for i in listOfElements),
-    ]),
-    html.Label(id='icon', children=[
-        html.I(className='fas fa-bars')
-    ])
-])
-navbar = html.Nav(className='navigation-bar', children=[
-    html.Label(className='header', children=[
-        "Title",   
-    ], style={
-        'color':'white',
-        'font-size':'40px',
-        'margin-left':'30px',
-        'margin-top':'10px'
-    }),
-    html.Ul(children=[
-        html.Li(children=[
-            html.A("Home", href='#')
-        ]),
-        html.Li(children=[
-            html.A("ABout", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Services", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Contact", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Portfolio", href='#')
-        ]),
-    ]),
-    html.Label(id='icon', children=[
-        html.I(className='fas fa-bars')
-    ])
-], style={
-    'position':'sticky'
-})
 
 # theImpactDictionary = {
 #     'AQI':'Associated Health Impacts',
@@ -73,27 +22,17 @@ navbar = html.Nav(className='navigation-bar', children=[
 
 theImpactDictionary = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/theImpactDictionary.csv")
 
-
-foo = dash.Dash(
-    external_scripts=[
-        "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/firstPage.css",
-        "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
-        ],
-    external_stylesheets=[dbc.themes.BOOTSTRAP]
-)
-
-foo.layout = html.Div(className='mainLayout',children=[
+layout = html.Div(className='mainLayout',children=[
     html.Header(children=[
         html.H1("Analysis and Prediction of Air Quality in India")
     ]),
-    # navbar,
     html.Div(className='container', children=[
-        # navbar,
         html.Div(className='firstComponent', children=[
             html.H2("How we calculate our Air Quality Index and why we need it", id="firstHeader"),
             html.Br(),
-            html.Img(id='theImage',src=foo.get_asset_url("photos/smog.jpg"), style={
+            html.Img(id='theImage',src=app.get_asset_url("photos/smog.jpg"), style={
                 'width':'500px',
+
                 'height':'500px'
             }),
             html.Br(),html.Br(),
@@ -152,13 +91,13 @@ foo.layout = html.Div(className='mainLayout',children=[
             
             html.H2("Transparency: Make the air quality rating understandable", id='routeHere'),
             html.P("It is important to be transparent in which pollution levels result in which air quality index rating. The table below shows an overview over the air quality index"),
-            html.Img(src=foo.get_asset_url("photos/breakPointTable.jpg"), style={
+            html.Img(src=app.get_asset_url("photos/breakPointTable.jpg"), style={
                 'width':'80vw', 
                 'height':'50vh',
                 'border-radius':'10px'
                 }),
             html.Br(),
-            # dt.DataTable(theImpactDictionary.to_dict('records'), 
+            # dt.DataTable(theImpatDictionary.to_dict('records'), 
             #    [{"name": i, "id": i} for i in theImpactDictionary.columns], style_table={'width':'2vw'}),
             # dt.DataTable(
             #    theImpactDictionary.to_dict('records'), 
@@ -178,4 +117,3 @@ foo.layout = html.Div(className='mainLayout',children=[
     ])
 ])
 
-foo.run_server(debug=True)

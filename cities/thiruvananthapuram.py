@@ -81,7 +81,7 @@ layout = html.Div(id='thiruvananthapuramParent', children=[
 
     html.Div(id='mainBody', children=[
 
-        navbar,
+        # navbar,
         html.Div(id="dropdown", children=[
             dcc.Dropdown(id=f"slct_gas{cityName}",
                  options=[

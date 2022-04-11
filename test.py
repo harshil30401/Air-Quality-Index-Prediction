@@ -4,7 +4,6 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 from cities.frontEndBluePrint import headerComponent
 from firstPage import makeNavBar
-
 testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/test.css"
 js = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
 

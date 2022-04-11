@@ -1,10 +1,11 @@
-from re import S
+import imp
+import pandas as pd
 from turtle import st
 from click import style
 from matplotlib.pyplot import title
 from numpy import mean
-from dataAnalysisBackend import *
-import dataAnalysisBackend
+from dataAnalysis import dataAnalysisBackend as da
+from dataAnalysis import dataAnalysisBackend
 from plotly.offline import init_notebook_mode, plot, iplot
 import plotly.graph_objects as go
 import plotly.express as px
@@ -13,11 +14,10 @@ import dash_daq as daq
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 from rootInformation import rootDirectory
-from firstPage import foo
-
+from app import app
 indexPath = rootDirectory + '/assets/index.css'
 
-meanData = pd.read_csv(f'{rootDirectory}/datasets/citiesMean.csv')
+meanData = pd.read_csv(f'{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv')
 meanData = meanData[['City','AQI','AQI_Bucket']]
 # .drop(columns=['Unnamed: 0', 'Lat', 'Lon', 'PM2.5', 'PM10', 'NO2', 'NOx', 'NH3', 'CO', 'SO2', 'O3',], axis=0, inplace=True)
 
@@ -105,7 +105,7 @@ layout = html.Div(id='dataAnalysisDiv', children=[
         dbc.Col([
            cardLayout(
            classname='template',text='Air Quality Index',
-           figure=html.Iframe(srcDoc=aqiLevel, style={
+           figure=html.Iframe(srcDoc=da.aqiLevel, style={
                 'height': '66vh',
                 'width': '60vw',
                 'overflow-x': 'hidden',
@@ -118,7 +118,7 @@ layout = html.Div(id='dataAnalysisDiv', children=[
     dbc.Row([
         cardLayout(
            classname='template',text='Effects of Lockdown on AQI',
-           figure=html.Iframe(srcDoc=aqiBeforeAndAfter, style={
+           figure=html.Iframe(srcDoc=da.aqiBeforeAndAfter, style={
                 'width': '90vw',
                 'height': '60vh',
             })
@@ -126,19 +126,18 @@ layout = html.Div(id='dataAnalysisDiv', children=[
     ],style={'margin': '2px'}),
     dbc.Row([
         cardLayout(classname='template',text='Situation Before and After the Lockdown',
-            figure=html.Iframe(srcDoc=m.get_root().render(), style={'width':'90vw', 'height':'65Vh'})
+            figure=html.Iframe(srcDoc=da.m.get_root().render(), style={'width':'90vw', 'height':'65Vh'})
         )
     ],style={'margin': ' 10px 2px'}),
     dbc.Row([
         cardLayout(classname='template',text='AQI Breakdown of India',
-            figure=html.Iframe(srcDoc=map.get_root().render(), style={'width':'90vw', 'height':'85vh'})
+            figure=html.Iframe(srcDoc=da.map.get_root().render(), style={'width':'90vw', 'height':'85vh'})
         )
     ],style={'margin': ' 10px 2px'})
 
 ], style={'overflow-x': 'hidden', 'padding': '40px'})
 
-
-@foo.callback(
+@app.callback(
     [Output(component_id='yearlyBoxPlot', component_property='figure'),
      Output(component_id='monthlyLineGraph', component_property='figure'),
      Output(component_id='ten', component_property='figure')],

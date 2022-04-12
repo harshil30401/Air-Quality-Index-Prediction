@@ -43,7 +43,7 @@ layout = html.Div(className='mainLayout',children=[
         html.Br(),
         html.Div(className='secondComponent', children=[
             html.H1("What is an air quality index?"),
-            html.P("An air quality index is a scale used to show how polluted the air is, along with the risks associated with each rating. An AQI is calculated using established standards based on medical research for the acceptable levels of major air pollutants."),
+            html.P("An air quality index is a unitless scale used to show how polluted the air is, along with the risks associated with each rating. An AQI is calculated using established standards based on medical research for the acceptable levels of major air pollutants."),
             html.P("Air quality indexes serve two main purposes:"),            
             html.Ul(children=[
                 html.Li("To inform the public about air quality in an comprehensible manner so that they may take action to protect their health"),

@@ -136,10 +136,7 @@ layout = html.Div(id='kolkataParent', children=[
                     ], width=5)
                 ]),
                 html.Br(), html.Br(),
-                html.P(
-                    'The emission of the gases and particulate matters in Kolkata has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Kolkata during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
-                ),
-                html.Br(), html.Br(),
+
 
 
                 dbc.Row(children=[

@@ -252,7 +252,6 @@ class CityMainElements():
     def accuracyArima(self):
         return theBluePrint.accuracyARIMA
 
-
     def comparativeAnalysisMAE(self):
         return theBluePrint.comparativeAnalysisMAE
 

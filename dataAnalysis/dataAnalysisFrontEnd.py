@@ -165,14 +165,14 @@ def gasSelectorFun(value1, value2):
             domain=dict(x=[0, 0.52], y=[0, 1.0]),
             header=dict(
                 values=["City", value1],
-                fill=dict(color="red"),
+                fill=dict(color="green"),
                 font=dict(color="white", size=14),
                 align=["center"],
                 height=30,
             ),
             cells=dict(
                 values=[x["City"].tail(10), x[value1].tail(10)],
-                fill=dict(color=["lightsalmon", "lightsalmon"]),
+                fill=dict(color=["lightgreen", "lightgreen"]),
                 align=["center"],
             ),
         )
@@ -182,7 +182,7 @@ def gasSelectorFun(value1, value2):
             y=x[value1].tail(10),
             xaxis="x1",
             yaxis="y1",
-            marker=dict(color="red"),
+            marker=dict(color="green"),
             opacity=0.60,
         )
         layout = dict(

@@ -1,4 +1,3 @@
-from turtle import color
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 import numpy as np
@@ -75,7 +74,8 @@ def headerComponent(city, startDate, aqi):
             ], style={
                 'background-color':color, 
                 'padding':"20px 50px 15px 50px", 
-                'font-weight':'bold'
+                'font-weight':'bold',
+                'border-radius':'10px'
                 })
 
             # navbar("black")

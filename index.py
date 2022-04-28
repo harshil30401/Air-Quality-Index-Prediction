@@ -5,18 +5,19 @@ from dash.dependencies import Input, Output
 from app import app
 from rootInformation import rootDirectory
 from assets import errorpage
-from cities import amritsar
+from cities import amritsar, chennai
 from dataAnalysis import dataAnalysisFrontEnd 
 import firstPage
 #from cities import amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
 
-cities = ["amritsar"]
+cities = ["amritsar", "chennai"]
 
 citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
 
 cityAQI = dict(zip(citiesMean.City, citiesMean.AQI))
 
-navbar = dbc.NavbarSimple(
+def makeNavigationBar():
+    return dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Home", href="/firstPage")),
         dbc.NavItem(dbc.NavLink("Cities", href="/")),
@@ -42,14 +43,15 @@ navbar = dbc.NavbarSimple(
         'top': '0',
         'box-shadow': '0 2px 2px -2px rgba(0,0,0,.2)',
         'border-radius':'5px',
-        'z-index': '1'
-    }
+        'z-index': '3',
+        'margin-top': '',
+    }, id='theNavbar'
 )
 
 
 app.layout = html.Div(id='mainDiv', className='cards', children=[
     dcc.Location(id='url', refresh=True),
-    navbar,
+    makeNavigationBar(),
     html.Div(id='page-content', children=[])
     ])
  
@@ -61,7 +63,7 @@ home_layout =  html.Div(id="home-page", children=[
     html.Div(className="container", children=[
         html.Div(className="card", children=[
             html.Div(className="content", children=[
-                html.H2(id="cardCity", children=[city.capitalize()]),
+                html.H5(id="cardCity", children=[city.capitalize()], style={'font-family':'bold'}),
                 html.P(id="cardAQI", children=[f"Average AQI: {cityAQI[city.capitalize()]}"]),
                 dbc.Button("Open Analysis", id=city, href=f'/cities/{city}', style={'color':'white'})
             ])
@@ -85,8 +87,8 @@ def display_page(pathname):
     elif pathname == '/dataAnalysis/dataAnalysisFrontEnd':
         return dataAnalysisFrontEnd.layout
 
-    # elif pathname == '/cities/chennai':
-    #     return chennai.layout
+    elif pathname == '/cities/chennai':
+        return chennai.layout
 
     # elif pathname == '/cities/delhi':
     #     return delhi.layout

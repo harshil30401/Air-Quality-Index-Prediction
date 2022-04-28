@@ -1,70 +1,68 @@
-import dash
-import pandas as pd
-from dash import dcc, html
+
+from bs4 import BeautifulSoup
+import requests, dash
 import dash_bootstrap_components as dbc
-from cities.frontEndBluePrint import headerComponent
-from firstPage import makeNavBar
-testPath = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/test.css"
-js = "C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/assets/index.js"
+from dash import Input, Output, html
 
-navbar = html.Nav(className='navigation-bar', children=[
-    html.Label(className='header', children=[
-        "Title",   
-    ], style={
-        'color':'white',
-        'font-size':'40px',
-        'margin-left':'30px'
-        # 'margin-top':'30px'
-    }),
-    html.Ul(children=[
-        html.Li(children=[
-            html.A("Home", href='#')
-        ]),
-        html.Li(children=[
-            html.A("ABout", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Services", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Contact", href='#')
-        ]),
-        html.Li(children=[
-            html.A("Portfolio", href='#')
-        ]),
-    ]),
-    html.Label(id='icon', children=[
-        html.I(className='fas fa-bars')
-    ])
-])
+weatherDictionary = {
+    "mumbai":204842,
+    "amritsar":205593,
+    "chennai":206671,
+    "delhi":202396,
+    "hyderabad":261159,
+    "jaipur":205617,
+    "kanpur":206679,
+    "kolkata":206690,
+    "nagpur":204844,
+    "patna":202349,
+    "thiruvananthapuram":204287,
+    "visakhapatnam":202192
+}
+
+city = "visakhapatnam" 
+
+URL = f"https://www.accuweather.com/en/in/{city.lower()}/{weatherDictionary[city.lower()]}/weather-forecast/{weatherDictionary[city.lower()]}" #throws keyerror
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"}
+page = requests.get(URL, headers=headers)
+soup = BeautifulSoup(page.content, 'html.parser')
+AQI = (soup.find(class_ = 'aq-number')).get_text()
+time = soup.find(class_='cur-con-weather-card__subtitle').get_text()
+current_time = time.strip()
+aqi = (AQI.strip())
+aqi_today =  str("Today's AQI is "+aqi)
+aqi_bucket = soup.find(class_ = 'category-text').get_text()
+temp = soup.find(class_ = 'temp').get_text()
+current_temp = (temp.strip())
+current_temperature = str("Temperature is "+current_temp)
+phrase = soup.find(class_ = 'phrase').get_text()
+weather_term = str(phrase.strip())
+asOfCurrentTime = ("As of "+current_time+",")
+weatherTerm = (weather_term)
+temperature = (current_temperature)
 
 
-thisIsTest = dash.Dash(
-    __name__,
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
-    external_scripts=[testPath, js]
-    )
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-thisIsTest.layout = html.Div(className='main',children=[
-    html.H1("Hello World"),
-    makeNavBar("Delhi", ["Home","About"])
-])
+text_input = html.Div(
+    [
+        dbc.Input(id="input", placeholder="Search for a city...", type="text", value=""),
+        html.Br(),
+        html.P(id="output"),
+    ]
+)
 
-if __name__ == "__main__":
-    thisIsTest.run_server(debug=True, port=1234)
+app.layout = text_input
 
-# theImpactDictionary = {
-#     'AQI':'Associated Health Impacts',
-#     'Good (0 to 50)':'Minimal impact',
-#     'Satisfactory (51 to 100)': 'May cause minor breathing discomfort to sensitive people.',
-#     'Moderately polluted (101 to 200)':'May cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.',
-#     'Poor (201 to 300)':'May cause breathing discomfort to people on prolonged exposure, and discomfort to people with heart disease.',
-#     'Very poor (301 to 400)':'May cause respiratory illness to the people on prolonged exposure. Effect may be more pronounced in people with lung and heart diseases.',
-#     'Severe (401 to 500)':'May cause respiratory impact even on healthy people, and serious health impacts on people with lung/heart disease. The health impacts may be experienced even during light physical activity.'
-# }
+@app.callback(Output("output", "children"), 
+[Input("input", "value")])
+def output_text(value):
+    return value
 
-# theImpactDictionary = pd.DataFrame.from_dict(theImpactDictionary)
-# theImpactDictionary.set_index('AQI', inplace=True)
+# app.run_server(debug=True)
 
-# theImpactDictionary.to_csv('C:/Users/DELL/Desktop/Air-Quality-Index-Prediction/datasets/'+theImpactDictionary+'.csv', index=False)
+cities = []
 
+for i in weatherDictionary.keys():
+    cities.append(i)
+
+print(cities)

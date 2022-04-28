@@ -136,10 +136,7 @@ layout = html.Div(id='chennaiParent', children=[
                     ], width=5)
                 ]),
                 html.Br(), html.Br(),
-                html.P(
-                    'The emission of the gases and particulate matters in Amritsar has been quite constant since past few years resulting to a stable AQI inspite of the Lockdown. It can be observed that the emission of the gases surge during winter (Dec, Jan, Feb) whereas the outflow of the particulate matters increase during summer (May, Jun). The release of these pollutants peak during Diwali (Oct, Nov) due to excessive burning of firecrackers. All of these result into a high AQI range in Amritsar during these months with an average of 118.51 which is considered moderately polluted according to the AQI category chart by Central Pollution Control Board. This might cause breathing discomfort to people with lung disease such as asthma, and discomfort to people with heart disease, children and older adults.'
-                ),
-                html.Br(), html.Br(),
+
 
 
                 dbc.Row(children=[
@@ -147,10 +144,6 @@ layout = html.Div(id='chennaiParent', children=[
                         'height': '500px',
                         'width': '1450px',
                     })),
-                    html.Br(), html.Br(),
-                    html.P(
-                        'Data of variable pollution concentrations have been taken from the official website of central pollution control board. The filtered format of the data has been used for the AQI calculation. From the above graph it can be observed that the AQI concentration since the year 2017 follows a seasonal format and has a constant trend. The graph is the result of ARIMA timeseries algorithm which has provided the best outcome. It shows that in the year 2022, the AQI of Amritsar would follow the same trend as before with an increase during Diwali and gradual decrease during the rainy season with a slight increase during the summer season.'
-                    ),
                     html.Br(), html.Br(),
                 ]),
 
@@ -201,10 +194,7 @@ layout = html.Div(id='chennaiParent', children=[
                                 'width': '1450px',
                             })
                         ),
-                        html.Br(), html.Br(),
-                        html.P(
-                            'After comparing four timeseries algorithms viz. ARIMA, Facebook Prophet, LSTM RNN, Exponential Smoothing, it can be observed that, ARIMAs Rolling Forecast gives the least amount of error. ETS and FB Probhet give compatible outputs whereas ast LSTM RNN has the least accuracy as Machine Learning algorithms require large series of data.'
-                        ),
+
                         html.Br(), html.Br(),
                     ])
                 ]),
@@ -214,10 +204,6 @@ layout = html.Div(id='chennaiParent', children=[
                         'height': '500px',
                         'width': '1450px',
                     })),
-                    html.Br(), html.Br(),
-                    html.P(
-                        'Due to the lockdown, there was a sudden decrease in the industrial and vehicular gas emissions which resulted a decrease in the AQI level In case the lockdown didnt exist, the emission wouldnt had tappered in the year 2020 and 2021. If the emmision of gas was not affected by anything, the AQI concentration would have followed the seasonal trend and there would be a slight increase in the AQI as compared to the current scenario'
-                    ),
                     html.Br(), html.Br(),
                 ])
             ])

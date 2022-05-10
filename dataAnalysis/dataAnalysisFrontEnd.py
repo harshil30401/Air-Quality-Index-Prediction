@@ -9,12 +9,12 @@ from dataAnalysis import dataAnalysisBackend
 from plotly.offline import init_notebook_mode, plot, iplot
 import plotly.graph_objects as go
 import plotly.express as px
-import dash
 import dash_daq as daq
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 from rootInformation import rootDirectory
 from app import app
+from weatherDash import weather
 indexPath = rootDirectory + '/assets/index.css'
 
 meanData = pd.read_csv(f'{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv')
@@ -133,7 +133,11 @@ layout = html.Div(id='dataAnalysisDiv', children=[
         cardLayout(classname='template',text='AQI Breakdown of India',
             figure=html.Iframe(srcDoc=da.map.get_root().render(), style={'width':'90vw', 'height':'85vh'})
         )
-    ],style={'margin': ' 10px 2px'})
+    ],style={'margin': ' 10px 2px'}),
+    dbc.Row([
+        html.H3("What's the weather like today?"),
+        weather
+    ])
 
 ], style={'overflow-x': 'hidden', 'padding': '40px'})
 

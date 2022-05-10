@@ -5,7 +5,6 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 from rootInformation import rootDirectory
 from app import app
-from weatherDash import weatherComponent
 
 
 # dataset = pd.read_csv(r"C:\Users\DELL\Desktop\Air-Quality-Index-Prediction\datasets\datasetSpecifications.csv")
@@ -98,14 +97,11 @@ layout = html.Div(className='mainLayout',children=[
                 'border-radius':'10px'
                 }),
             html.Br(),
+            html.Br(), 
             html.Br(),
             html.Br(),
-            dbc.Row(
-                html.H3("What's the weather like today?"),
-                dbc.Col(
-                    weatherComponent
-                )
-            )
+            html.Br(),
+            html.Br(),
             # dt.DataTable(theImpatDictionary.to_dict('records'), 
             #    [{"name": i, "id": i} for i in theImpactDictionary.columns], style_table={'width':'2vw'}),
             # dt.DataTable(

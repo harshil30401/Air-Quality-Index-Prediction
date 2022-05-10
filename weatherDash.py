@@ -61,7 +61,7 @@ weatherComponent = html.Div([dropdown,
 ], id='weatherComponent', style={'margin-left':'500px', 'margin-top':'50px'})
 
 
-# fb.layout = html.Div([weatherComponent])
+weather = html.Div([weatherComponent])
 
 @app.callback(
     Output(component_id='mainRow', component_property='children'),
@@ -108,9 +108,9 @@ def function(value):
             [
                 dbc.CardImg(
                     # imagePath = "photos/smog.jpg",
-                    src=app.get_asset_url(chooseImage(city)),
+                    src=app.get_asset_url("photos/smog.jpg"),
                     top=True,
-                    id='weatherTermIMage',
+                    id='weatherTermImage',
                     style={"opacity": 0.3},
                 ),
                 dbc.CardImgOverlay(
@@ -134,4 +134,4 @@ def function(value):
     else:
         return None
 
-# fb.run_server()
+# s

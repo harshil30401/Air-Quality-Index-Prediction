@@ -2,7 +2,7 @@ from datetime import datetime
 from backend.backendBluePrint import theBluePrint
 
 theBluePrint(
-    "Amravati",
+    "Amaravati",
     "2017-11-01",
     datetime(2017,11,1),
     (1,1,1),

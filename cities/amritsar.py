@@ -152,7 +152,7 @@ layout = html.Div(id='amritsarParent', children=[
                          html.Div(className='rotate', children=[
                             html.I(className="bi bi-chevron-down")
                          ])],
-                        id="collapse-button",
+                        id="amr_collapse-button",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
@@ -162,7 +162,7 @@ layout = html.Div(id='amritsarParent', children=[
                 ], style={"padding-left": "40%"}),
 
                 dbc.Row(children=[
-                    dbc.Collapse(id='collapse', is_open=False, children=[
+                    dbc.Collapse(id='amr_collapse', is_open=False, children=[
                         dcc.Dropdown(id="slct_metric",
                                      options=[
 
@@ -187,7 +187,7 @@ layout = html.Div(id='amritsarParent', children=[
                                      ),
 
                         cardLayout(
-                            html.Iframe(id="comp_analysis", srcDoc="", style={
+                            html.Iframe(id="amr_comp_analysis", srcDoc="", style={
                                 'height': '500px',
                                 'width': '1450px',
                             })
@@ -211,7 +211,7 @@ layout = html.Div(id='amritsarParent', children=[
 
 
 @app.callback(
-    Output(component_id='comp_analysis', component_property='srcDoc'),
+    Output(component_id='amr_comp_analysis', component_property='srcDoc'),
     Input(component_id='slct_metric', component_property='value')
 )
 def comparitiveAnalysis(value):
@@ -277,11 +277,11 @@ def dropdownGraphs(slct_gas):
 
 
 @app.callback(
-    Output("collapse", "is_open"),
-    [Input("collapse-button", "n_clicks")],
-    [State("collapse", "is_open")],
+    Output("amr_collapse", "is_open"),
+    [Input("amr_collapse-button", "n_clicks")],
+    [State("amr_collapse", "is_open")],
 )
-def toggle_collapse(n, is_open):
+def toggle_amr_collapse(n, is_open):
     if n:
         return not is_open
     return is_open

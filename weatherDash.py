@@ -5,7 +5,7 @@ from dash import html, dcc, Output, Input
 import dash_bootstrap_components as dbc
 from bs4 import BeautifulSoup
 
-# fb = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP])
+# fb = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP])
 
 def chooseImage(city):
     # if city == "amritsar":
@@ -31,16 +31,23 @@ def chooseImage(city):
     return "photos/smog.jpg"
 
 weatherDictionary = {
-    "mumbai":204842,
+    "ahmedabad":202438,
+    "amravati":189309,
     "amritsar":205593,
+    "bengaluru":204108,
     "chennai":206671,
     "delhi":202396,
+    "gandhinagar":188134,
     "hyderabad":261159,
     "jaipur":205617,
+    "jodhpur":205618,
     "kanpur":206679,
     "kolkata":206690,
+    "lucknow":206678,
+    "mumbai":204842,
     "nagpur":204844,
     "patna":202349,
+    "pune":204848,
     "thiruvananthapuram":204287,
     "visakhapatnam":202192
 }
@@ -50,18 +57,20 @@ for i in weatherDictionary.keys():
     cities.append(i)
 
 dropdown = html.Div([
-    dcc.Dropdown(options=cities, id='input', placeholder="Select a city..."),
+    dcc.Dropdown(options=cities, id='input', value="amritsar"),
 ], style={'width':'18rem'})
 
 
 weatherComponent = html.Div([dropdown, 
-
+    html.Br(),html.Br(),
     html.Div(id='mainRow', children="")
 
-], id='weatherComponent', style={'margin-left':'500px', 'margin-top':'50px'})
+], id='weatherComponent',
+ style={'margin-left':'10px'}
+)
 
 
-# fb.layout = html.Div([weatherComponent])
+layout = html.Div([weatherComponent])
 
 @app.callback(
     Output(component_id='mainRow', component_property='children'),
@@ -106,32 +115,38 @@ def function(value):
         
         card = dbc.Card(
             [
-                dbc.CardImg(
-                    # imagePath = "photos/smog.jpg",
-                    src=app.get_asset_url(chooseImage(city)),
-                    top=True,
-                    id='weatherTermIMage',
-                    style={"opacity": 0.3},
-                ),
-                dbc.CardImgOverlay(
-                    dbc.CardBody(
-                        children=[
-
-                            html.H1(current_temp, className="card-title", id='first', style={'text-align':'center'}),
-                            html.Hr(),
-                            html.H6(multipleOutputs, id='secondThird'),
-                            html.H6(aqiLine, id='fourth'),
-                            html.H5(aqiBucket, className="card-title", id='fifth')
-                        
-                        ], id='card-body'
-                    ),
+                # dbc.CardImg(
+                #     # imagePath = "photos/smog.jpg",
+                #     # src=app.get_asset_url(chooseImage("photos/smog.jpg")),
+                #     top=True,
+                #     id='weatherTermIMage',
+                #     style={"opacity": 0.3},
+                # ),
+                dbc.CardBody(
+                    children=[
+                        html.Br(),
+                        html.H1(current_temp, className="card-title", id='first', style={'text-align':'center'}),
+                        html.Br(),
+                        html.Hr(),
+                        html.Br(),
+                        html.H6(multipleOutputs, id='secondThird'),
+                        html.Br(),
+                        html.H6(aqiLine, id='fourth'),
+                        html.Br(),
+                        html.H5(aqiBucket, className="card-title", id='fifth'),
+                        html.Br()
+                    ], id='card-body'
                 ),
             ],
             id='weatherCard',
-            style={"width": "18rem"},
+            style={
+                "width": "18rem", 
+                'background-color':'lightgray'
+            },
         )
         return card 
     else:
         return None
 
-# fb.run_server()
+# if __name__ == "__main__":
+#     fb.run_server(debug=True)

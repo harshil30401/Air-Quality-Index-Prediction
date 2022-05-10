@@ -1,7 +1,7 @@
 from backend.backendBluePrint import theBluePrint
 from datetime import datetime
 
-theBluePrint(
+ah = theBluePrint(
     "Ahmedabad",
     "2017-11-01",
     datetime(2017,11,1),

@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(45deg,rgb(73, 100, 154) 50%, #95cfe0);
+    background: linear-gradient(45deg,rgb(115, 120, 129) 50%, #95cfe0);
     background-color: #71e274;
 }
 
@@ -128,13 +128,14 @@
 }
 
 .template {    
-    background-color: #355863;
+    background-color: #40acbf;
+
 }
 
 
 /* parallax */
-/* 
 
+/* 
 header {
     box-sizing: border-box;
     min-height: 100vh;

@@ -153,7 +153,7 @@ layout = html.Div(id='jaipurParent', children=[
                          html.Div(className='rotate', children=[
                             html.I(className="bi bi-chevron-down")
                          ])],
-                        id=f"collapse-button{cityName}",
+                        id=f"jai_collapse-button{cityName}",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
@@ -163,7 +163,7 @@ layout = html.Div(id='jaipurParent', children=[
                 ], style={"padding-left": "40%"}),
 
                 dbc.Row(children=[
-                    dbc.Collapse(id=f'collapse{cityName}', is_open=False, children=[
+                    dbc.Collapse(id=f'jai_collapse{cityName}', is_open=False, children=[
                         dcc.Dropdown(id=f"slct_metric{cityName}",
                                      options=[
 
@@ -188,7 +188,7 @@ layout = html.Div(id='jaipurParent', children=[
                                      ),
 
                         cardLayout(
-                            html.Iframe(id=f"comp_analysis{cityName}", srcDoc="", style={
+                            html.Iframe(id=f"jai_comp_analysis{cityName}", srcDoc="", style={
                                 'height': '500px',
                                 'width': '1450px',
                             })
@@ -217,7 +217,7 @@ layout = html.Div(id='jaipurParent', children=[
 
 
 @app.callback(
-    Output(component_id=f'comp_analysis{cityName}', component_property='srcDoc'),
+    Output(component_id=f'jai_comp_analysis{cityName}', component_property='srcDoc'),
     Input(component_id=f'slct_metric{cityName}', component_property='value')
 )
 def comparitiveAnalysis(value):
@@ -283,11 +283,11 @@ def dropdownGraphs(slct_gas):
 
 
 @app.callback(
-    Output(f"collapse{cityName}", "is_open"),
-    [Input(f"collapse-button{cityName}", "n_clicks")],
-    [State(f"collapse{cityName}", "is_open")],
+    Output(f"jai_collapse{cityName}", "is_open"),
+    [Input(f"jai_collapse-button{cityName}", "n_clicks")],
+    [State(f"jai_collapse{cityName}", "is_open")],
 )
-def toggle_collapse(n, is_open):
+def toggle_jai_collapse(n, is_open):
     if n:
         return not is_open
     return is_open

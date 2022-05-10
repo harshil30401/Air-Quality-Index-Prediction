@@ -309,7 +309,7 @@ aqiBeforeAndAfter.update_layout(
 aqiBeforeAndAfter.update_layout(plot_bgcolor="white")
 
 aqiBeforeAndAfter.update_layout(
-    width=1350,
+    width=950,
     height=8000,
     shapes=[
         dict(

@@ -5,12 +5,12 @@ from dash.dependencies import Input, Output
 from app import app
 from rootInformation import rootDirectory
 from assets import errorpage
-from cities import amritsar, chennai
+from cities import ahmedabad, amaravati, amritsar, bengaluru, gandhinagar, jaipur, jodhpur, kanpur, pune, patna, lucknow, kolkata, hyderabad, delhi, chennai, thiruvananthapuram, visakhapatnam, mumbai, nagpur
 from dataAnalysis import dataAnalysisFrontEnd 
 import firstPage
-#from cities import amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
+#from cities import ahmedabad, amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
 
-cities = ["amritsar", "chennai"]
+cities = ["ahmedabad", "amritsar", "amaravati", "bengaluru", "chennai", "delhi", "gandhinagar", "jaipur", "jodhpur", "kanpur", "kolkata", "lucknow", "mumbai", "nagpur", "patna", "pune", "thiruvananthapuram", "visakhapatnam"]
 
 citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
 
@@ -73,52 +73,77 @@ home_layout =  html.Div(id="home-page", children=[
 
 @app.callback(Output(component_id='page-content', component_property='children'),
             [Input(component_id='url', component_property='pathname')])
+
 def display_page(pathname):
 
     if pathname == '/' or pathname == '/index':
         return home_layout
         
+    elif pathname == '/cities/ahmedabad':
+        return ahmedabad.layout
+
+    elif pathname == '/cities/amaravati':
+        return amaravati.layout
+
     elif pathname == '/cities/amritsar':
         return amritsar.layout
+
+    elif pathname == '/cities/bengaluru':
+        return bengaluru.layout
+
+    elif pathname == '/cities/chennai':
+        return chennai.layout
+
+    elif pathname == '/cities/hyderabad':
+        return hyderabad.layout
+
+    elif pathname == '/cities/delhi':
+        return delhi.layout
+
+    elif pathname == '/cities/gandhinagar':
+        return gandhinagar.layout
+
+    elif pathname == '/cities/hyderabad':
+        return hyderabad.layout
+
+    elif pathname == '/cities/jaipur':
+        return jaipur.layout
+
+    elif pathname == '/cities/jodhpur':
+        return jodhpur.layout
+
+    elif pathname == '/cities/kanpur':
+        return kanpur.layout
+
+    elif pathname == '/cities/kolkata':
+        return kolkata.layout
+
+    elif pathname == '/cities/lucknow':
+        return lucknow.layout
+
+    elif pathname == '/cities/mumbai':
+        return mumbai.layout
+
+    elif pathname == '/cities/nagpur':
+        return nagpur.layout
+
+    elif pathname == '/cities/patna':
+        return patna.layout
+
+    elif pathname == '/cities/pune':
+        return pune.layout
+
+    elif pathname == '/cities/thiruvananthapuram':
+        return thiruvananthapuram.layout
+
+    elif pathname == '/cities/visakhapatnam':
+        return visakhapatnam.layout
 
     elif pathname == '/firstPage':
         return firstPage.layout
 
     elif pathname == '/dataAnalysis/dataAnalysisFrontEnd':
         return dataAnalysisFrontEnd.layout
-
-    elif pathname == '/cities/chennai':
-        return chennai.layout
-
-    # elif pathname == '/cities/delhi':
-    #     return delhi.layout
-
-    # elif pathname == '/cities/hyderabad':
-    #     return hyderabad.layout
-
-    # elif pathname == '/cities/jaipur':
-    #     return jaipur.layout
-
-    # elif pathname == '/cities/kanpur':
-    #     return kanpur.layout
-
-    # elif pathname == '/cities/kolkata':
-    #     return kolkata.layout
-
-    # elif pathname == '/cities/mumbai':
-    #     return mumbai.layout
-    
-    # elif pathname == '/cities/nagpur':
-    #     return nagpur.layout
-
-    # elif pathname == '/cities/patna':
-    #     return patna.layout
-    
-    # elif pathname == '/cities/thiruvananthapuram':
-    #     return thiruvananthapuram.layout
-
-    # elif pathname == '/cities/visakhapatnam':
-    #     return visakhapatnam.layout
 
     else:
         return errorpage.layout

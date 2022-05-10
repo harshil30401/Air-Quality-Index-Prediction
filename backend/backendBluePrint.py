@@ -50,7 +50,7 @@ def theBluePrint(cityNameCsv, trimData, startDate, myOrder, mySeasonalOrder, sta
 
     from pmdarima import auto_arima
 
-    auto_arima(y=lim_city,start_p=0,start_P=0,start_q=0,start_Q=0,seasonal=True, m=12).summary()
+    #auto_arima(y=lim_city,start_p=0,start_P=0,start_q=0,start_Q=0,seasonal=True, m=12).summary()
 
     train_end = datetime(2020,3,1)
     test_end = datetime(2021,8,1)

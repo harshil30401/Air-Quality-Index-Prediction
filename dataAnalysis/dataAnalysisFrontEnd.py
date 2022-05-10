@@ -15,6 +15,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 from rootInformation import rootDirectory
 from app import app
+from weatherDash import layout
 indexPath = rootDirectory + '/assets/index.css'
 
 meanData = pd.read_csv(f'{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv')
@@ -83,7 +84,9 @@ layout = html.Div(id='dataAnalysisDiv', children=[
                         'width': '88vw',
                         'margin-bottom': '10px'
                         })
-        ])
+        ], style={
+            'background-color': '#65a5b1'
+        })
     ], style={'margin': '40px 5px'}),
     dbc.Row(children=[
         dbc.Col([
@@ -116,13 +119,30 @@ layout = html.Div(id='dataAnalysisDiv', children=[
     ]),
     html.Br(),
     dbc.Row([
-        cardLayout(
-           classname='template',text='Effects of Lockdown on AQI',
-           figure=html.Iframe(srcDoc=da.aqiBeforeAndAfter, style={
-                'width': '90vw',
-                'height': '60vh',
-            })
-        ) 
+        dbc.Col([
+
+            dbc.Card(
+                dbc.CardBody([
+                    html.H3("Real-time Weather"),
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                    layout
+                ], style={
+            'background-color': '#40acbf'
+        })
+        )
+        ], width=3
+        ),
+        dbc.Col([
+            cardLayout(
+            classname='template',text='Effects of Lockdown on AQI',
+            figure=html.Iframe(srcDoc=da.aqiBeforeAndAfter, style={
+                    'width': '65vw',
+                    'height': '60vh',
+                })
+            )
+        ], width=9) 
     ],style={'margin': '2px'}),
     dbc.Row([
         cardLayout(classname='template',text='Situation Before and After the Lockdown',
@@ -135,7 +155,11 @@ layout = html.Div(id='dataAnalysisDiv', children=[
         )
     ],style={'margin': ' 10px 2px'})
 
-], style={'overflow-x': 'hidden', 'padding': '40px'})
+], style={
+    'overflow-x': 'hidden', 
+    'padding': '40px', 
+    'background': 'linear-gradient(45deg,rgb(115, 120, 129) 50%, #95cfe0)'
+    })
 
 @app.callback(
     [Output(component_id='yearlyBoxPlot', component_property='figure'),

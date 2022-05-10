@@ -96,7 +96,7 @@ layout = html.Div(className='mainLayout',children=[
                 'height':'50vh',
                 'border-radius':'10px'
                 }),
-            html.Br(),
+            html.Br(),html.Br()
             # dt.DataTable(theImpatDictionary.to_dict('records'), 
             #    [{"name": i, "id": i} for i in theImpactDictionary.columns], style_table={'width':'2vw'}),
             # dt.DataTable(

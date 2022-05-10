@@ -152,7 +152,7 @@ layout = html.Div(id='lucknowParent', children=[
                          html.Div(className='rotate', children=[
                             html.I(className="bi bi-chevron-down")
                          ])],
-                        id="collapse-button",
+                        id="luc_collapse-button",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
@@ -162,7 +162,7 @@ layout = html.Div(id='lucknowParent', children=[
                 ], style={"padding-left": "40%"}),
 
                 dbc.Row(children=[
-                    dbc.Collapse(id='collapse', is_open=False, children=[
+                    dbc.Collapse(id='luc_collapse', is_open=False, children=[
                         dcc.Dropdown(id="slct_metric",
                                      options=[
 
@@ -187,7 +187,7 @@ layout = html.Div(id='lucknowParent', children=[
                                      ),
 
                         cardLayout(
-                            html.Iframe(id="comp_analysis", srcDoc="", style={
+                            html.Iframe(id="luc_comp_analysis", srcDoc="", style={
                                 'height': '500px',
                                 'width': '1450px',
                             })
@@ -211,7 +211,7 @@ layout = html.Div(id='lucknowParent', children=[
 
 
 @app.callback(
-    Output(component_id='comp_analysis', component_property='srcDoc'),
+    Output(component_id='luc_comp_analysis', component_property='srcDoc'),
     Input(component_id='slct_metric', component_property='value')
 )
 def comparitiveAnalysis(value):
@@ -277,11 +277,11 @@ def dropdownGraphs(slct_gas):
 
 
 @app.callback(
-    Output("collapse", "is_open"),
-    [Input("collapse-button", "n_clicks")],
-    [State("collapse", "is_open")],
+    Output("luc_collapse", "is_open"),
+    [Input("luc_collapse-button", "n_clicks")],
+    [State("luc_collapse", "is_open")],
 )
-def toggle_collapse(n, is_open):
+def toggle_luc_collapse(n, is_open):
     if n:
         return not is_open
     return is_open

@@ -77,7 +77,7 @@ layout = html.Div(id='amritsarParent', children=[
     #     html.H1("Amritsar")
     #     # html.Img(id='displayImage',src=app.get_asset_url(f"{rootDirectory}/Air-Quality-Index-Prediction/photos/amritsar.jpg"))
     # ]),
-    headerComponent(cityName, "January 2018", math.floor(cityAQI[cityName])),
+    headerComponent(cityName, "February 2017", math.floor(cityAQI[cityName])),
 
     html.Div(id='mainBody', children=[
 

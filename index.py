@@ -22,17 +22,6 @@ def makeNavigationBar():
         dbc.NavItem(dbc.NavLink("Home", href="/firstPage")),
         dbc.NavItem(dbc.NavLink("Cities", href="/")),
         dbc.NavItem(dbc.NavLink("Data Analysis", href="/dataAnalysis/dataAnalysisFrontEnd")),
-
-        # dbc.DropdownMenu(
-        #     children=[
-        #         dbc.DropdownMenuItem("More pages", header=True),
-        #         dbc.DropdownMenuItem("Page 2", href="#"),
-        #         dbc.DropdownMenuItem("Page 3", href="#"),
-        #     ],
-        #     nav=True,
-        #     in_navbar=True,
-        #     label="More",
-        # ),
     ],
     brand="",
     brand_href="#",

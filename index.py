@@ -10,7 +10,7 @@ from dataAnalysis import dataAnalysisFrontEnd
 import firstPage
 #from cities import ahmedabad, amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
 
-cities = ["ahmedabad", "amritsar", "amaravati", "bengaluru", "chennai", "delhi", "gandhinagar", "jaipur", "jodhpur", "kanpur", "kolkata", "lucknow", "mumbai", "nagpur", "patna", "pune", "thiruvananthapuram", "visakhapatnam"]
+cities = ["ahmedabad", "amaravati", "amritsar", "bengaluru", "chennai", "delhi", "gandhinagar", "hyderabad", "jaipur", "jodhpur", "kanpur", "kolkata", "lucknow", "mumbai", "nagpur", "patna", "pune", "thiruvananthapuram", "visakhapatnam"]
 
 citiesMean = pd.read_csv(f"{rootDirectory}/Air-Quality-Index-Prediction/datasets/citiesMean.csv")
 

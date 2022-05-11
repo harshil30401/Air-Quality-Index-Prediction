@@ -8,7 +8,6 @@ from assets import errorpage
 from cities import ahmedabad, amaravati, amritsar, bengaluru, gandhinagar, jaipur, jodhpur, kanpur, pune, patna, lucknow, kolkata, hyderabad, delhi, chennai, thiruvananthapuram, visakhapatnam, mumbai, nagpur
 from dataAnalysis import dataAnalysisFrontEnd 
 import firstPage
-#from cities import ahmedabad, amritsar, chennai, delhi,  hyderabad, jaipur,  kanpur, kolkata,  mumbai, nagpur, patna, thiruvananthapuram, visakhapatnam
 
 cities = ["ahmedabad", "amaravati", "amritsar", "bengaluru", "chennai", "delhi", "gandhinagar", "hyderabad", "jaipur", "jodhpur", "kanpur", "kolkata", "lucknow", "mumbai", "nagpur", "patna", "pune", "thiruvananthapuram", "visakhapatnam"]
 

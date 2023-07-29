@@ -1,0 +1,66 @@
+.mainLayout {
+    background-color: gray;
+    overflow-x: hidden;
+    background: url("../assets/photos/first.jpg");
+    background-repeat: no-repeat;
+    /* background: linear-gradient(135deg, rgb(146, 172, 169), rgb(102, 178, 197)) */
+}
+
+.firstComponent {
+    border-radius: 5px; 
+    margin-left: 20%;
+    margin-right: 20%;
+    text-align: center;
+}
+
+header {
+    box-sizing: border-box;
+    min-height: 100vh;
+    position: relative;
+    transform-style: inherit;
+    width: 100vw;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+header h1 {
+    filter: drop-shadow(2px 12px 12px black);
+    color: rgb(67, 66, 66);
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%, -75%);
+}
+
+header,
+header:before {
+    background: 50% 50% / cover;
+}
+
+header::before {
+    content: "";
+    position: inherit;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background-size: cover;
+    transform-origin: center center 0;
+    transform: translateZ(-1px) scale(2);
+    z-index: -1;
+    min-height: 100vh;
+}
+
+.navigation-bar {
+    position: absolute;
+    top: 10;
+    position: sticky;
+}
+
+#theImage{
+    border-radius: 5px;
+    box-shadow: 2px 12px 12px 2px;
+}
+

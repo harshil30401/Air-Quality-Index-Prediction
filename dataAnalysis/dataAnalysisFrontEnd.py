@@ -1,6 +1,4 @@
-import imp
 import pandas as pd
-from turtle import st
 from click import style
 from matplotlib.pyplot import title
 from numpy import mean

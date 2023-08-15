@@ -1,5 +1,5 @@
 from datetime import datetime
-from backend.backendBluePrint import theBluePrint, CityMainElements
+from backend.backendBluePrint import theBluePrint
 
 theBluePrint(
     "Visakhapatnam",
